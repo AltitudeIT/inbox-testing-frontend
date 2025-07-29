@@ -1,0 +1,174 @@
+.rootDiv {
+  /* margin-bottom: calc(45px + 215px / 2); */
+  background-color: #ffffff;
+  border-radius: 4%;
+  padding: 70px;
+  width: 600px;
+  height: 500px;
+  box-sizing: border-box;
+  margin-right: 220px;
+}
+
+.topDiv {
+  margin-top: -30px;
+  margin-bottom: -40px;
+}
+
+.containerDiv {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.title {
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  font-weight: 600;
+  font-size: 38px;
+  text-align: left;
+  color: black;
+  margin: 20px 0px 20px 0px;
+}
+
+/* ===== FORM STYLES ===== */
+
+.form {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 45px;
+  padding-right: 50px;
+}
+
+.inputDiv {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.label {
+  text-align: left;
+  font-size: 20px;
+  font-weight: 500;
+  color: black;
+  cursor: auto;
+}
+
+.inputWrapper {
+  position: relative;
+  width: 460px;
+}
+
+.inputField {
+  all: unset;
+  width: 460px;
+  height: 50px;
+  border-radius: 6px;
+  background-color: white;
+  color: #333;
+  border: 1px solid rgb(148, 146, 146);
+  font-size: 22px;
+  margin-top: -6px;
+  box-sizing: border-box;
+  text-align: left;
+  padding: 0 15px;
+}
+
+.rememberMeDiv {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 460px;
+  margin-top: 28px;
+  margin-bottom: 15px;
+}
+
+.checkDiv {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.checkBox {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: white;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid rgb(148, 146, 146);
+}
+
+.checkBox:checked {
+  background-color: rgba(245, 245, 106, 0.911);
+  border-color: white;
+  position: relative;
+}
+
+.checkBox:checked::after {
+  content: "✓";
+  color: black;
+  font-size: 24px;
+  font-weight: normal;
+  font-family: "Times New Roman", Times, serif;
+}
+
+.rememberMeText {
+  font-weight: 400;
+  font-size: 16px;
+  margin: 0;
+}
+
+.passwordForgottenText {
+  font-weight: 300;
+  font-size: 16px;
+  color: var(--primary-text-color);
+  text-decoration: underline;
+  margin: 0;
+  cursor: pointer;
+}
+
+.loginButton {
+  all: unset;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 460px;
+  height: 70px;
+  background-color: #010021;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 24px;
+  font-weight: 500;
+  color: white;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.errorTextInside {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: red;
+  font-size: 14px;
+  margin: 0;
+  pointer-events: none;
+  white-space: nowrap;
+  font-weight: 400;
+}
+
+.inputError {
+  border-color: red;
+}
+
+.errorText {
+  color: red;
+  font-size: 20px;
+  margin: 5px 0 0 0;
+}

@@ -1,0 +1,19 @@
+.footerDiv {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  align-items: center;
+}
+
+.title {
+  color: white;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.title:not(:last-child)::after {
+  content: " ∣ ";
+  color: white;
+  margin-left: 20px;
+  pointer-events: none;
+}
