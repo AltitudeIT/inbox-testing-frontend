@@ -1,0 +1,4 @@
+.rootDiv {
+  display: flex;
+  overflow: auto;
+}

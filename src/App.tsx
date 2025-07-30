@@ -4,6 +4,8 @@ import LoginPage from "./pages/LoginPage";
 import { configureAxiosRequestInterceptors } from "./services/ServiceConfig";
 import LayoutLogin from "./components/Layout/Layout";
 import { ToastContainer } from "react-toastify";
+import LayoutDashboard from "./components/Layout/DashboardLayout/LayoutDashboard";
+import DashboardPage from "./pages/Dashboard/DashboardPage";
 
 function App() {
   configureAxiosRequestInterceptors();
@@ -14,6 +16,9 @@ function App() {
         <Routes>
           <Route element={<LayoutLogin />}>
             <Route index path="/" element={<LoginPage />} />
+          </Route>
+          <Route element={<LayoutDashboard />}>
+            <Route path="/dashboard" element={<DashboardPage />} />
           </Route>
         </Routes>
       </BrowserRouter>
