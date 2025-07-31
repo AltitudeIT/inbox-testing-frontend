@@ -2,31 +2,30 @@
   /* margin-bottom: calc(45px + 215px / 2); */
   background-color: #ffffff;
   border-radius: 4%;
-  padding: 70px;
-  width: 600px;
-  height: 500px;
+  padding: 50px;
+  width: 536px;
+  height: 456px;
   box-sizing: border-box;
   margin-right: 220px;
 }
 
 .topDiv {
   margin-top: -30px;
-  margin-bottom: -40px;
 }
 
 .containerDiv {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  width: 415px;
 }
 
 .title {
-  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
-  font-weight: 600;
-  font-size: 38px;
+  font-weight: 700;
+  font-size: 35px;
   text-align: left;
-  color: black;
-  margin: 20px 0px 20px 0px;
+  color: #050e21;
+  margin-top: 20px;
 }
 
 /* ===== FORM STYLES ===== */
@@ -36,8 +35,8 @@
   justify-content: flex-start;
   flex-direction: column;
   gap: 10px;
-  margin-top: 45px;
-  padding-right: 50px;
+  width: 415px;
+  margin-top: 30px;
 }
 
 .inputDiv {
@@ -48,21 +47,21 @@
 
 .label {
   text-align: left;
-  font-size: 20px;
-  font-weight: 500;
+  font-size: 18px;
+  font-weight: 700;
   color: black;
   cursor: auto;
 }
 
 .inputWrapper {
   position: relative;
-  width: 460px;
+  width: 415px;
 }
 
 .inputField {
   all: unset;
-  width: 460px;
-  height: 50px;
+  width: 415px;
+  height: 45px;
   border-radius: 6px;
   background-color: white;
   color: #333;
@@ -79,9 +78,9 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  width: 460px;
-  margin-top: 28px;
-  margin-bottom: 15px;
+  width: 415px;
+  margin-top: 26px;
+  margin-bottom: 6px;
 }
 
 .checkDiv {
@@ -91,8 +90,8 @@
 }
 
 .checkBox {
-  width: 26px;
-  height: 26px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   appearance: none;
   -webkit-appearance: none;
@@ -111,25 +110,29 @@
 }
 
 .checkBox:checked::after {
-  content: "✓";
-  color: black;
-  font-size: 24px;
-  font-weight: normal;
-  font-family: "Times New Roman", Times, serif;
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 9px;
+  height: 7px;
+  background-image: url("check-logo.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .rememberMeText {
   font-weight: 400;
-  font-size: 16px;
+  font-size: 15px;
   margin: 0;
 }
 
 .passwordForgottenText {
   font-weight: 300;
-  font-size: 16px;
-  color: var(--primary-text-color);
+  font-size: 15px;
   text-decoration: underline;
-  margin: 0;
   cursor: pointer;
 }
 
@@ -138,13 +141,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 460px;
-  height: 70px;
+  width: 415px;
+  height: 64px;
   background-color: #010021;
   border-radius: 50px;
   cursor: pointer;
-  font-size: 24px;
-  font-weight: 500;
+  font-size: 22px;
+  font-weight: 700;
   color: white;
   text-transform: uppercase;
   font-weight: 500;

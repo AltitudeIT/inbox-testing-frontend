@@ -6,14 +6,15 @@ const LayoutLogin = () => {
   return (
     <div className={styles.layout}>
       <main className={styles.main}>
-        <span className={styles.leftText}>
-          <h1>
+        <div className={styles.leftTextContainer}>
+          <img src="/logo.png" />
+          <p>
             Truly caring <br /> about your <br />
             <span className={styles.textDecoration}>
               digital <br /> relationship
             </span>
-          </h1>
-        </span>
+          </p>
+        </div>
         <Outlet />
       </main>
       <Footer />

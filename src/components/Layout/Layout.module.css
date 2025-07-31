@@ -13,24 +13,34 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
+  padding: 20px 100px 20px 20px;
   width: 100%;
   max-width: 100vw;
   box-sizing: border-box;
 }
 
-.leftText {
+.leftTextContainer {
+  width: 411px;
+  height: 359px;
+  margin-top: -200px;
+  margin-left: 150px;
   display: flex;
+  flex-direction: column;
   justify-content: flex-start;
+  align-items: flex-start;
   color: white;
   text-align: left;
-  margin-left: 150px;
-  font-size: 24px;
-  font-family: "Nunito Sans", sans-serif;
-  margin-top: 60px;
-  font-weight: 400;
+  font-size: 76px;
+  font-weight: 700;
+  line-height: 1.1;
 }
 
 .textDecoration {
-  color: rgba(245, 245, 106, 0.911);
+  color: #f5f95e;
+}
+
+.leftTextContainer img {
+  width: 242px;
+  height: 111px;
+  margin-bottom: 30px;
 }
