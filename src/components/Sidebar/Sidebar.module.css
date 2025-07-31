@@ -22,6 +22,10 @@ hr {
   margin-bottom: 42px;
 }
 
+.logoSidebar img {
+  width: 50%;
+}
+
 .ul {
   flex: 1;
 }
