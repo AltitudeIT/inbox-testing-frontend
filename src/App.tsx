@@ -19,6 +19,9 @@ function App() {
           </Route>
           <Route element={<LayoutDashboard />}>
             <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/inbox-testing" element={<DashboardPage />} />
+            <Route path="/test-group" element={<DashboardPage />} />
+            <Route path="/subscriber-breakdown" element={<DashboardPage />} />
           </Route>
         </Routes>
       </BrowserRouter>

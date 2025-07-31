@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "./Sidebar.module.css";
 import { NavLink, useLocation } from "react-router";
-import UnfoldMoreIcon from "@mui/icons-material/UnfoldMore";
 
 const Sidebar = () => {
   const [selectedMenuItem, setSelectedMenuItem] = useState("");
@@ -63,10 +62,9 @@ const Sidebar = () => {
   return (
     <aside className={styles.rootDiv}>
       <nav className={styles.nav}>
-        <div>
-          <img src="test" />
+        <div className={styles.logoSidebar}>
+          <img src="/logo.png" />
         </div>
-        <div className={styles.logo} />
         <ul className={styles.ul}>
           <NavLink
             to="dashboard"
@@ -77,8 +75,8 @@ const Sidebar = () => {
               className={styles.optionIcon}
               src={
                 selectedMenuItem === "dashboard"
-                  ? "/Dashboard/menu.png"
-                  : "/Dashboard/menu_white.png"
+                  ? "/dashboard-logo-dark.png"
+                  : "/dashboard-logo.png"
               }
             />
             <p className={styles.optionText}>Dashboard</p>
@@ -93,8 +91,8 @@ const Sidebar = () => {
               className={styles.optionIcon}
               src={
                 selectedMenuItem === "inbox-testing"
-                  ? "/Dashboard/letter.png"
-                  : "/Dashboard/letter_white.png"
+                  ? "/inbox-testing-logo-dark.png"
+                  : "/inbox-testing-logo.png"
               }
             />
             <p className={styles.optionText}>InboxTesting</p>
@@ -106,11 +104,11 @@ const Sidebar = () => {
             onClick={() => handleOnMenuItemPress("test-group")}
           >
             <img
-              className={styles.optionIcon}
+              className={`${styles.optionIcon}  ${styles.optionIconLarge1}`}
               src={
                 selectedMenuItem === "test-group"
-                  ? "/Dashboard/connect.png"
-                  : "/Dashboard/connect_white.png"
+                  ? "/testgroup-logo-dark.png"
+                  : "/testgroup-logo.png"
               }
             />
             <p className={styles.optionText}>Testgroup</p>
@@ -122,17 +120,19 @@ const Sidebar = () => {
             onClick={() => handleOnMenuItemPress("subscriber-breakdown")}
           >
             <img
-              className={styles.optionIcon}
+              className={`${styles.optionIcon}  ${styles.optionIconLarge2}`}
               src={
                 selectedMenuItem === "subscriber-breakdown"
-                  ? "/Dashboard/notification.png"
-                  : "/Dashboard/notification_white.png"
+                  ? "/subscriber-breakdown-logo-dark.png"
+                  : "/subscriber-breakdown-logo.png"
               }
             />
-            <p className={styles.optionText}>
-              Subscriber <br />
-              Breakdown
-            </p>
+            <div className={styles.divP}>
+              <p className={styles.optionText}>
+                Subscriber <br />
+                Breakdown
+              </p>
+            </div>
           </NavLink>
         </ul>
 
@@ -151,14 +151,8 @@ const Sidebar = () => {
               <p className={styles.profileName}>{currentUser.name}</p>
               <p className={styles.profileEmail}>{currentUser.email}</p>
             </div>
-            <UnfoldMoreIcon
-              className={styles.dropdownIcon}
-              sx={{
-                color: "white",
-                transition: "color 0.2s ease",
-                fontWeight: "100",
-              }}
-            />
+
+            <img src="/arrows-logo.png" />
           </div>
 
           {isMenuOpen && (

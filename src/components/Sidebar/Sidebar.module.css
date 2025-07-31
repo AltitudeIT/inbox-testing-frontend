@@ -2,8 +2,8 @@
   position: static;
   display: flex;
   height: 99vh;
-  background-color: #010021;
-  width: 276px;
+  background-color: #050e21;
+  width: 278px;
 }
 
 hr {
@@ -15,18 +15,11 @@ hr {
   display: flex;
   flex-direction: column;
   flex: 1;
-  overflow: hidden;
 }
 
-.logo {
-  background-image: url("/Dashboard/logo.png");
-  background-size: contain;
-  background-repeat: no-repeat;
-  height: 36px;
-  width: 48px;
-  margin-bottom: 86px;
-  margin-left: 38px;
-  transition: background-image 300ms ease, width 300ms ease, height 300ms ease;
+.logoSidebar {
+  margin-top: 61px;
+  margin-bottom: 42px;
 }
 
 .ul {
@@ -40,38 +33,56 @@ hr {
   margin-bottom: 25px;
 }
 
+.ul li:nth-child(3) .optionIcon {
+  height: 20px;
+  width: 20px;
+}
+
 .optionWrapper {
   flex: 1;
   display: flex;
   align-items: center;
-  padding: 4px 0px 4px 4px;
-  height: 45px;
-  gap: 10px;
+  padding: 4px 0px;
+  min-height: 45px;
+  width: 217px;
+  gap: 12px;
   cursor: pointer;
   position: relative;
-  margin: 10px 32px 20px 26px;
+  margin: 0px 0px 6px 28px;
 }
 
 .optionWrapper.selected {
-  background-color: rgba(245, 245, 106, 0.911);
+  background-color: #f5f95e;
   border-radius: 10px;
+  min-height: 45px;
 }
 
 .optionIcon {
-  height: 40px;
-  width: 40px;
+  height: 15px;
+  width: 15px;
+  margin-left: 16px;
   transition: transform 300ms ease;
 }
 
+.optionIconLarge1 {
+  height: 18px;
+  width: 14px;
+}
+
+.optionIconLarge2 {
+  height: 17px;
+  width: 17px;
+}
+
 .optionText {
-  white-space: nowrap;
   font-size: 20px;
   font-weight: 400;
   color: white;
+  text-align: left;
 }
 
 .optionWrapper.selected .optionText {
-  color: black;
+  color: #050e21;
 }
 
 /* user profile */
@@ -80,23 +91,22 @@ hr {
   display: flex;
   flex: 0;
   flex-direction: column;
-  margin: 0px 0px 25px 0px;
+  margin: 0px 0px 25px 39px;
 }
 
 .profileInfo {
   flex: 1;
+  margin-left: 4px;
   min-width: 0;
   text-align: left;
 }
 
 .profileName {
-  font-size: 18px;
-  font-weight: 500;
+  font-size: 20px;
+  font-weight: 400;
   color: white;
-  margin: 0;
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  margin-bottom: -4px;
 }
 
 .optionWrapper.selected .profileName,
@@ -104,25 +114,16 @@ hr {
   color: black;
 }
 
-.dropdownIcon {
-  width: 30px !important;
-  height: 40px !important;
-}
-
 .profileEmail {
   font-size: 12px;
   color: white;
-  margin: 2px 0 0 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  font-weight: 300;
 }
 
 .avatar {
-  height: 40px;
-  width: 40px;
+  height: 38px;
+  width: 38px;
   border-radius: 50%;
-  object-fit: cover;
 }
 
 /* menu expand */
@@ -153,7 +154,7 @@ hr {
 }
 
 .profileMenuItem:hover {
-  background-color: rgba(245, 245, 106, 0.911);
+  background-color: #f5f95e;
   border-radius: 10px;
 }
 
@@ -204,13 +205,12 @@ hr {
 }
 
 .profileOption {
-  flex: 1;
   display: flex;
   align-items: center;
-  padding: 4px 0px 4px 4px;
   height: 45px;
   gap: 10px;
   cursor: pointer;
   position: relative;
-  margin: 10px 32px 20px 26px;
+  margin: 10px 32px 20px 0px;
+  padding-right: 4px;
 }
