@@ -11,6 +11,12 @@ hr {
   border-top: 1px solid black;
 }
 
+.hrSidebar {
+  border: none;
+  border-top: 1px solid #ffffff;
+  margin: 0px 43px 10px 43px;
+}
+
 .nav {
   display: flex;
   flex-direction: column;
@@ -140,8 +146,8 @@ hr {
   border-radius: 20px;
   border: 1px solid rgb(148, 146, 146);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  width: 360px;
-  height: 390px;
+  width: 365px;
+  height: 399px;
   display: flex;
   flex-direction: column;
   padding: 0px 24px;
@@ -163,8 +169,8 @@ hr {
 }
 
 .profileMenuItem img {
-  width: 20px;
-  height: 20px;
+  width: 15px;
+  height: 15px;
 }
 
 .profileMenuItem span {
@@ -183,29 +189,28 @@ hr {
   min-height: 80px;
 }
 
-.profileHeader img {
-  width: 60px;
-  height: 60px;
+.profileHeaderImage {
+  width: 57px;
+  height: 57px;
   border-radius: 50%;
+  background-color: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
 
 .profileHeaderName {
   font-size: 22px;
   font-weight: 400;
   color: black;
-  margin: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .profileHeaderEmail {
-  font-size: 14px;
+  font-size: 15px;
   color: black;
   margin: 2px 0 0 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  font-weight: 300;
 }
 
 .profileOption {

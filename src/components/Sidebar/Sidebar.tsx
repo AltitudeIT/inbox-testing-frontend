@@ -136,6 +136,7 @@ const Sidebar = () => {
           </NavLink>
         </ul>
 
+        <hr className={styles.hrSidebar} />
         <div className={styles.profileWrapper}>
           <div
             className={`${styles.profileOption} ${
@@ -158,7 +159,9 @@ const Sidebar = () => {
           {isMenuOpen && (
             <div className={styles.profileMenu}>
               <div className={styles.profileHeader}>
-                <img src="/default-avatar.png" alt="Logout" />
+                <div className={styles.profileHeaderImage}>
+                  <img src="/profilemenu-logo.png" />
+                </div>
                 <div className={styles.profileHeaderInfo}>
                   <p className={styles.profileHeaderName}>{currentUser.name}</p>
                   <p className={styles.profileHeaderEmail}>
@@ -172,7 +175,7 @@ const Sidebar = () => {
                 className={styles.profileMenuItem}
                 onClick={() => handleOnMenuItemPress("profile")}
               >
-                <img src="/personal-icon.jpg" />
+                <img src="/personal-logo.png" />
                 <span>Personal</span>
               </NavLink>
 
@@ -181,7 +184,7 @@ const Sidebar = () => {
                 className={styles.profileMenuItem}
                 onClick={() => handleOnMenuItemPress("settings")}
               >
-                <img src="/Dashboard/settings.png" />
+                <img src="/organisation-logo.png" />
                 <span>Organisation</span>
               </NavLink>
 
@@ -190,7 +193,7 @@ const Sidebar = () => {
                 className={styles.profileMenuItem}
                 onClick={() => handleOnMenuItemPress("settings")}
               >
-                <img src="/Dashboard/settings.png" />
+                <img src="/integration-logo.png" />
                 <span>Integrations</span>
               </NavLink>
 
@@ -199,7 +202,7 @@ const Sidebar = () => {
                 className={styles.profileMenuItem}
                 onClick={() => handleOnMenuItemPress("settings")}
               >
-                <img src="/Dashboard/settings.png" />
+                <img src="/billing-logo.png" />
                 <span>Billing</span>
               </NavLink>
               <hr />
@@ -208,7 +211,7 @@ const Sidebar = () => {
                 className={styles.profileMenuItem}
                 onClick={() => handleOnMenuItemPress("logout")}
               >
-                <img src="/logout.png" />
+                <img src="/logout-logo.png" />
                 <span>Logout</span>
               </div>
             </div>
