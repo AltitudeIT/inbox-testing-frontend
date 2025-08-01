@@ -6,6 +6,9 @@ import LayoutLogin from "./components/Layout/Layout";
 import { ToastContainer } from "react-toastify";
 import LayoutDashboard from "./components/Layout/DashboardLayout/LayoutDashboard";
 import DashboardPage from "./pages/Dashboard/DashboardPage";
+import TestgroupPage from "./pages/TestgroupPage/TestgroupPage";
+import InboxTestingPage from "./pages/InboxTesting/InboxTesting";
+import SubscriberBreakdown from "./pages/SubscriberBreakdown/SubscriberBreakdown";
 
 function App() {
   configureAxiosRequestInterceptors();
@@ -19,9 +22,12 @@ function App() {
           </Route>
           <Route element={<LayoutDashboard />}>
             <Route path="/dashboard" element={<DashboardPage />} />
-            <Route path="/inbox-testing" element={<DashboardPage />} />
-            <Route path="/test-group" element={<DashboardPage />} />
-            <Route path="/subscriber-breakdown" element={<DashboardPage />} />
+            <Route path="/inbox-testing" element={<InboxTestingPage />} />
+            <Route path="/test-group" element={<TestgroupPage />} />
+            <Route
+              path="/subscriber-breakdown"
+              element={<SubscriberBreakdown />}
+            />
           </Route>
         </Routes>
       </BrowserRouter>
