@@ -1,5 +1,6 @@
 .rootDiv {
   display: flex;
-  justify-content: left;
+  flex-direction: column;
+  justify-content: flex-start;
   margin-left: 80px;
 }
