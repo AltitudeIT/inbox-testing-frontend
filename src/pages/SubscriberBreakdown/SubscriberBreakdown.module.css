@@ -1,5 +1,31 @@
 .rootDiv {
   display: flex;
-  justify-content: left;
+  flex-direction: column;
+  justify-content: flex-start;
   margin-left: 80px;
+  margin-right: 20px;
+}
+
+.headerSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 20px;
+}
+
+.buttonTop {
+  all: unset;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 276px;
+  height: 47px;
+  background-color: #050e21;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 700;
+  color: white;
+  text-transform: uppercase;
+  margin-right: 140px;
 }

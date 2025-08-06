@@ -6,7 +6,7 @@ const LayoutDashboard = () => {
   return (
     <div className={styles.rootDiv}>
       <Sidebar />
-      <main style={{ flex: 1 }}>
+      <main className={styles.main}>
         <Outlet />
       </main>
     </div>

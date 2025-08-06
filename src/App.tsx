@@ -8,7 +8,7 @@ import LayoutDashboard from "./components/Layout/DashboardLayout/LayoutDashboard
 import DashboardPage from "./pages/Dashboard/DashboardPage";
 import TestgroupPage from "./pages/TestgroupPage/TestgroupPage";
 import InboxTestingPage from "./pages/InboxTesting/InboxTesting";
-import SubscriberBreakdown from "./pages/SubscriberBreakdown/SubscriberBreakdown";
+import SubscriberBreakdownPage from "./pages/SubscriberBreakdown/SubscriberBreakdown";
 
 function App() {
   configureAxiosRequestInterceptors();
@@ -26,7 +26,7 @@ function App() {
             <Route path="/test-group" element={<TestgroupPage />} />
             <Route
               path="/subscriber-breakdown"
-              element={<SubscriberBreakdown />}
+              element={<SubscriberBreakdownPage />}
             />
           </Route>
         </Routes>

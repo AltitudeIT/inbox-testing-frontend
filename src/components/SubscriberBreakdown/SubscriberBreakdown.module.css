@@ -1,0 +1,27 @@
+.rootDiv {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  border-radius: 20px;
+  width: 1402px;
+  margin-top: 35px;
+  text-align: left;
+}
+
+.titleDiv {
+  margin-top: 40px;
+  text-align: left;
+}
+
+.title {
+  font-size: 25px;
+  font-weight: 700;
+  color: #050e21;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  font-size: 20px;
+  font-weight: 400;
+  color: #050e21;
+}
