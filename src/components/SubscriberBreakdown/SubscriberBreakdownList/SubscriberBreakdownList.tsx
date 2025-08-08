@@ -8,10 +8,9 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import Paper from "@mui/material/Paper";
 import styles from "./SubscriberBreakdownList.module.css";
 import SubscriberBreakdownItem from "./SubscriberBreakdownItem";
-import type { ReactNode } from "react";
+import { type ReactNode } from "react";
 
 interface SubscriberResponse {
   id: number;
@@ -68,6 +67,8 @@ interface SubscriberBreakdownListProps {
   rowsPerPage?: number;
   setPage?: (newPage: number) => void;
   setRowsPerPage?: (newRowsPerPage: number) => void;
+  onSubscriberSelect?: (subscriber: SubscriberResponse) => void;
+  selectedSubscriberId?: number | null;
 }
 
 const SubscriberBreakdownList = (props: SubscriberBreakdownListProps) => {
@@ -111,6 +112,8 @@ const SubscriberBreakdownList = (props: SubscriberBreakdownListProps) => {
             key={subscriber.id}
             subscriber={subscriber}
             onDelete={handleDelete}
+            onSelect={props.onSubscriberSelect}
+            isSelected={props.selectedSubscriberId === subscriber.id}
           />
         ))}
       </TableBody>
@@ -118,7 +121,7 @@ const SubscriberBreakdownList = (props: SubscriberBreakdownListProps) => {
   }
 
   return (
-    <Paper>
+    <Box>
       <TableContainer className={styles.tableContainer}>
         <Table>
           <TableHead className={styles.tableHeader}>
@@ -139,12 +142,12 @@ const SubscriberBreakdownList = (props: SubscriberBreakdownListProps) => {
         p={2}
       >
         <Typography
-          sx={{ fontWeight: "300", fontSize: "15px" }}
+          sx={{ fontWeight: "300", fontSize: "15px", opacity: 0.7 }}
           variant="body2"
         >{`1-5 of 20`}</Typography>
-        <p>ssssss</p>
+        <p style={{ opacity: 0.7 }}>ssssss</p>
       </Box>
-    </Paper>
+    </Box>
   );
 };
 

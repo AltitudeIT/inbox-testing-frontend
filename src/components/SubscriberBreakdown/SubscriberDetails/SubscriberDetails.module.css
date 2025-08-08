@@ -1,0 +1,15 @@
+.headerItem {
+  color: #ffffff !important;
+  font-weight: 400 !important;
+  font-size: 15px !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+}
+
+.rowItem {
+  color: "#211E1BE5" !important;
+  opacity: 0.9 !important;
+  font-weight: 400 !important;
+  font-size: 18px !important;
+  padding: 8px 20px !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+}

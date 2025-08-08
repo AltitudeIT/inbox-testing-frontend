@@ -73,8 +73,9 @@ button:focus-visible {
 
 @media (prefers-color-scheme: light) {
   :root {
-    color: #213547;
+    color: #050e21;
     background-color: #ffffff;
+    font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif;
   }
   a:hover {
     color: #747bff;
