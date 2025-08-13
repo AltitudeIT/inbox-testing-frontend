@@ -350,6 +350,9 @@ const SubscriberDetails: React.FC<SubscriberDetailsProps> = () => {
             PaperProps={{
               sx: {
                 minWidth: 342,
+                borderRadius: "0 0 18px 18px",
+                border: "1px solid #050E21",
+                borderTop: "none",
               },
             }}
           >
@@ -357,6 +360,14 @@ const SubscriberDetails: React.FC<SubscriberDetailsProps> = () => {
               <MenuItem
                 key={index}
                 onClick={() => handleSelect(`diesisteinemusterseite.de`)}
+                sx={{
+                  "&:hover": {
+                    backgroundColor: "#f5f5f5",
+                  },
+                  fontSize: "15px",
+                  fontWeight: 400,
+                  color: "#211E1BE5",
+                }}
               >
                 diesisteinemusterseite.de
               </MenuItem>

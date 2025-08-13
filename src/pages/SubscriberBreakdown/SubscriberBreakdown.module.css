@@ -11,6 +11,7 @@
   justify-content: space-between;
   align-items: baseline;
   margin-bottom: 20px;
+  width: 1400px;
 }
 
 .buttonTop {
@@ -27,5 +28,4 @@
   font-weight: 700;
   color: white;
   text-transform: uppercase;
-  margin-right: 140px;
 }

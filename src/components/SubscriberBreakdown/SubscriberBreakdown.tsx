@@ -38,6 +38,7 @@ const SubscriberBreakdown = () => {
           margin: "0px 60px 0px 0px",
           borderColor: "#707070",
           opacity: "0.4",
+          width: 1400,
         }}
       />
       <div className={styles.titleDiv}>
