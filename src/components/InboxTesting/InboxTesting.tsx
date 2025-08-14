@@ -15,6 +15,8 @@ import {
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { useState, type MouseEvent } from "react";
+import ProgressBar from "../ProgressBar/ProgressBar";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 const InboxTesting = () => {
   const [periodAnchorEl, setPeriodAnchorEl] = useState<HTMLElement | null>(
@@ -135,87 +137,125 @@ const InboxTesting = () => {
         flex: 1,
         borderRadius: "20px",
         width: "1402px",
-        marginTop: "35px",
+        marginTop: "30px",
         textAlign: "left",
       }}
     >
       <Box sx={{ display: "flex", gap: 4 }}>
-        <TextField
-          placeholder="Search Test"
-          variant="outlined"
-          size="small"
-          sx={{
-            width: "267px",
-            height: "38px",
-            marginBottom: "16px",
-            "& .MuiOutlinedInput-root": {
-              borderRadius: "18px",
-              backgroundColor: "#F5F5F5",
-              "& fieldset": {
-                borderColor: "transparent",
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+          <Typography
+            sx={{
+              fontFamily:
+                '"Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif',
+              fontSize: 14,
+              fontWeight: 400,
+              color: "transparent",
+              marginBottom: "4px",
+            }}
+          >
+            Search
+          </Typography>
+          <TextField
+            placeholder="Search Test"
+            variant="outlined"
+            size="small"
+            sx={{
+              width: "267px",
+              height: "38px",
+              "& .MuiOutlinedInput-root": {
+                borderRadius: "18px",
+                backgroundColor: "#F5F5F5",
+                "& fieldset": {
+                  borderColor: "transparent",
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: "#050e21",
+                },
               },
-              "&.Mui-focused fieldset": {
-                borderColor: "#050e21",
+              "& .MuiInputBase-input": {
+                fontSize: "15px",
               },
-            },
-            "& .MuiInputBase-input": {
-              fontSize: "15px",
-            },
-            "& .MuiInputBase-input::placeholder": {
-              color: "#211E1BE5",
-              opacity: 0.9,
-            },
-          }}
-          slotProps={{
-            input: {
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon sx={{ color: "#050E21" }} fontSize="medium" />
-                </InputAdornment>
-              ),
-            },
-          }}
-        />
+              "& .MuiInputBase-input::placeholder": {
+                color: "#211E1BE5",
+                opacity: 0.9,
+              },
+            }}
+            slotProps={{
+              input: {
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon sx={{ color: "#050E21" }} fontSize="medium" />
+                  </InputAdornment>
+                ),
+              },
+            }}
+          />
+        </Box>
 
         <Box
           sx={{
-            backgroundColor: "#F5F5F5",
-            width: 162,
-            height: 38,
-            borderRadius: "50px",
-            border: "none",
-            padding: "12px 20px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            cursor: "pointer",
-            "&:hover": {
-              backgroundColor: "#EEEEEE",
-            },
+            width: "1px",
+            height: "25px",
+            backgroundColor: "#050E21",
+            alignSelf: "end",
+            marginBottom: 0.7,
           }}
-          onClick={handlePeriodClick}
-        >
+        />
+
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
           <Typography
             sx={{
               fontFamily:
                 '"Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif',
               fontSize: 15,
-              fontWeight: 400,
+              fontWeight: 300,
               color: "#211E1BE5",
+              marginBottom: "4px",
             }}
           >
-            {selectedPeriod}
+            Period of Time
           </Typography>
+
           <Box
             sx={{
-              width: 0,
-              height: 0,
-              borderLeft: "6px solid transparent",
-              borderRight: "6px solid transparent",
-              borderTop: "6px solid #666",
-              transform: "rotate(270deg)",
+              backgroundColor: "#F5F5F5",
+              width: 162,
+              height: 38,
+              borderRadius: "50px",
+              border: "none",
+              padding: "12px 20px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              cursor: "pointer",
+              "&:hover": {
+                backgroundColor: "#EEEEEE",
+              },
             }}
-          />
+            onClick={handlePeriodClick}
+          >
+            <Typography
+              sx={{
+                fontFamily:
+                  '"Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif',
+                fontSize: 15,
+                fontWeight: 400,
+                color: "#211E1BE5",
+              }}
+            >
+              {selectedPeriod}
+            </Typography>
+            <Box
+              sx={{
+                width: 0,
+                height: 0,
+                borderLeft: "6px solid transparent",
+                borderRight: "6px solid transparent",
+                borderTop: "6px solid #666",
+                transform: "rotate(270deg)",
+              }}
+            />
+          </Box>
         </Box>
 
         <Menu
@@ -254,46 +294,69 @@ const InboxTesting = () => {
             </MenuItem>
           ))}
         </Menu>
-
         <Box
           sx={{
-            backgroundColor: "#F5F5F5",
-            width: 342,
-            height: 38,
-            borderRadius: "50px",
-            border: "none",
-            padding: "12px 20px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            cursor: "pointer",
-            "&:hover": {
-              backgroundColor: "#EEEEEE",
-            },
+            width: "1px",
+            height: "25px",
+            backgroundColor: "#050E21",
+            alignSelf: "end",
+            marginBottom: 0.7,
           }}
-          onClick={handleDomainClick}
-        >
+        />
+
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
           <Typography
             sx={{
               fontFamily:
                 '"Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif',
               fontSize: 15,
-              fontWeight: 400,
+              fontWeight: 300,
               color: "#211E1BE5",
+              marginBottom: "4px",
             }}
           >
-            {selectedDomain}
+            Domain
           </Typography>
           <Box
             sx={{
-              width: 0,
-              height: 0,
-              borderLeft: "6px solid transparent",
-              borderRight: "6px solid transparent",
-              borderTop: "6px solid #666",
-              transform: "rotate(270deg)",
+              backgroundColor: "#F5F5F5",
+              width: 342,
+              height: 38,
+              borderRadius: "50px",
+              border: "none",
+              padding: "12px 20px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              cursor: "pointer",
+              "&:hover": {
+                backgroundColor: "#EEEEEE",
+              },
             }}
-          />
+            onClick={handleDomainClick}
+          >
+            <Typography
+              sx={{
+                fontFamily:
+                  '"Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif',
+                fontSize: 15,
+                fontWeight: 400,
+                color: "#211E1BE5",
+              }}
+            >
+              {selectedDomain}
+            </Typography>
+            <Box
+              sx={{
+                width: 0,
+                height: 0,
+                borderLeft: "6px solid transparent",
+                borderRight: "6px solid transparent",
+                borderTop: "6px solid #666",
+                transform: "rotate(270deg)",
+              }}
+            />
+          </Box>
         </Box>
 
         <Menu
@@ -384,16 +447,18 @@ const InboxTesting = () => {
           ))}
         </Menu>
       </Box>
-      {/* <TableContainer sx={{ borderRadius: "15px", width: 1404, marginTop: 3 }}>
+      <TableContainer sx={{ borderRadius: "15px", width: 1404, marginTop: 5 }}>
         <Table>
-          <TableHead sx={{ backgroundColor: "#050E21" }}>
+          <TableHead sx={{ backgroundColor: "#050E21", height: 62 }}>
             <TableRow>
               <TableCell
                 sx={{
-                  minWidth: 180,
                   color: "#FFFFFF",
                   fontSize: 15,
                   fontWeight: 400,
+                  fontFamily:
+                    '"Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif',
+                  paddingLeft: 3,
                 }}
               >
                 CAMPAIGN
@@ -401,10 +466,11 @@ const InboxTesting = () => {
               <TableCell
                 align="left"
                 sx={{
-                  minWidth: 150,
                   color: "#FFFFFF",
                   fontSize: 15,
                   fontWeight: 400,
+                  fontFamily:
+                    '"Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif',
                 }}
               >
                 OVERVIEW
@@ -414,6 +480,8 @@ const InboxTesting = () => {
                   color: "#FFFFFF",
                   fontSize: 15,
                   fontWeight: 400,
+                  fontFamily:
+                    '"Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif',
                 }}
                 align="left"
               >
@@ -447,23 +515,114 @@ const InboxTesting = () => {
               <TableRow
                 key={index}
                 sx={{
+                  height: 110,
                   "&:last-child td, &:last-child th": { border: 0 },
                   backgroundColor: "#F5F5F5",
                 }}
               >
-                <TableCell component="th" scope="row">
-                  Hier steht die Subjectline lorem ipsum
+                <TableCell component="th" scope="row" sx={{ paddingLeft: 3 }}>
+                  <Box
+                    sx={{ display: "flex", flexDirection: "column", gap: 0.5 }}
+                  >
+                    <Typography
+                      sx={{
+                        fontSize: 18,
+                        fontWeight: 700,
+                        color: "#050E21",
+                        fontFamily:
+                          '"Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif',
+                      }}
+                    >
+                      Hier steht die Subjectline lorem ipsum
+                    </Typography>
+                    <Typography
+                      sx={{
+                        fontSize: 15,
+                        color: "#211E1BE5",
+                        fontWeight: 300,
+                        opacity: 0.8,
+
+                        fontFamily:
+                          '"Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif',
+                      }}
+                    >
+                      March, 13th, 2024 4:57pm
+                    </Typography>
+                    <Typography
+                      sx={{
+                        fontSize: 15,
+                        color: "#211E1BE5",
+                        fontWeight: 300,
+                        opacity: 0.8,
+                        fontFamily:
+                          '"Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif',
+                      }}
+                    >
+                      Talesandtails.de
+                    </Typography>
+                  </Box>
                 </TableCell>
-                <TableCell align="left">4,697</TableCell>
-                <TableCell align="left">88%</TableCell>
-                <TableCell align="left">6%</TableCell>
-                <TableCell align="left">6%</TableCell>
-                <TableCell align="left">35</TableCell>
+                <TableCell align="left">
+                  <ProgressBar inbox={88} spam={6} blocked={6} />
+                </TableCell>
+                <TableCell
+                  sx={{
+                    color: "#649F21",
+                    fontFamily:
+                      '"Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif',
+                    fontWeight: 700,
+                    fontSize: 18,
+                  }}
+                  align="left"
+                >
+                  88%
+                </TableCell>
+                <TableCell
+                  sx={{
+                    color: "#F5770B",
+                    fontFamily:
+                      '"Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif',
+                    fontWeight: 700,
+                    fontSize: 18,
+                  }}
+                  align="left"
+                >
+                  6%
+                </TableCell>
+                <TableCell
+                  sx={{
+                    color: "#FC0003",
+                    fontFamily:
+                      '"Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif',
+                    fontWeight: 700,
+                    fontSize: 18,
+                  }}
+                  align="left"
+                >
+                  6%
+                </TableCell>
+                <TableCell>
+                  <IconButton size="small">
+                    <MoreVertIcon />
+                  </IconButton>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
-      </TableContainer> */}
+      </TableContainer>
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        p={2}
+      >
+        <Typography
+          sx={{ fontWeight: "300", fontSize: "15px", opacity: 0.7 }}
+          variant="body2"
+        >{`1-25 of 50`}</Typography>
+        <p style={{ opacity: 0.7 }}>ssssss</p>
+      </Box>
     </Box>
   );
 };
