@@ -1,4 +1,5 @@
 import { Box } from "@mui/material";
+import styles from "./ProgressBar.module.css";
 
 const ProgressBar = ({ inbox, spam, blocked }: any) => {
   const inboxWidth = (inbox / 100) * 100;
@@ -6,37 +7,12 @@ const ProgressBar = ({ inbox, spam, blocked }: any) => {
   const blockedWidth = (blocked / 100) * 100;
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        width: 370,
-        height: 23,
-        borderRadius: 10,
-        overflow: "hidden",
-        backgroundColor: "transparent",
-        gap: 0.5,
-      }}
-    >
+    <Box className={styles.progressBarContainer}>
+      <Box className={styles.inboxSegment} sx={{ width: `${inboxWidth}%` }} />
+      <Box className={styles.spamSegment} sx={{ width: `${spamWidth}%` }} />
       <Box
-        sx={{
-          width: `${inboxWidth}%`,
-          backgroundColor: "#649F21",
-          height: "100%",
-        }}
-      />
-      <Box
-        sx={{
-          width: `${spamWidth}%`,
-          backgroundColor: "#F5770B",
-          height: "100%",
-        }}
-      />
-      <Box
-        sx={{
-          width: `${blockedWidth}%`,
-          backgroundColor: "#FC0003",
-          height: "100%",
-        }}
+        className={styles.blockedSegment}
+        sx={{ width: `${blockedWidth}%` }}
       />
     </Box>
   );

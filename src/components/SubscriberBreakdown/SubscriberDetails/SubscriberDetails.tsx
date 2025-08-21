@@ -88,7 +88,7 @@ const SubscriberDetails: React.FC<SubscriberDetailsProps> = () => {
             input: {
               startAdornment: (
                 <InputAdornment position="start">
-                  <SearchIcon sx={{ color: "#050E21" }} fontSize="medium" />
+                  <SearchIcon className={styles.searchIcon} fontSize="medium" />
                 </InputAdornment>
               ),
             },

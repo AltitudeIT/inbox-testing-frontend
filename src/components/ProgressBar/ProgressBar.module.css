@@ -1,0 +1,24 @@
+.progressBarContainer {
+  display: flex !important;
+  width: 370px !important;
+  height: 23px !important;
+  border-radius: 15px !important;
+  overflow: hidden !important;
+  background-color: transparent !important;
+  gap: 4px !important;
+}
+
+.inboxSegment {
+  background-color: #649f21 !important;
+  height: 100% !important;
+}
+
+.spamSegment {
+  background-color: #f5770b !important;
+  height: 100% !important;
+}
+
+.blockedSegment {
+  background-color: #fc0003 !important;
+  height: 100% !important;
+}

@@ -102,6 +102,7 @@
   align-items: center !important;
   justify-content: space-between !important;
   cursor: pointer !important;
+  z-index: 10000 !important;
 }
 
 .periosSelectBox:hover {
@@ -118,10 +119,12 @@
 }
 
 .periodDropdownMenu :global(.MuiPaper-root) {
-  min-width: 162px !important;
+  width: 162px !important;
   border-radius: 0 0 18px 18px !important;
   border: 1px solid #050e21 !important;
   border-top: none !important;
+  position: relative !important;
+  margin-top: -20px !important;
 }
 
 .periodMenuItem {
@@ -164,6 +167,7 @@
   align-items: center !important;
   justify-content: space-between !important;
   cursor: pointer !important;
+  z-index: 10000 !important;
 }
 
 .domainSelectBox:hover {
@@ -171,10 +175,12 @@
 }
 
 .domainDropdownMenu :global(.MuiPaper-root) {
-  min-width: 342px !important;
+  width: 342px !important;
   border-radius: 0 0 18px 18px !important;
   border: 1px solid #050e21 !important;
   border-top: none !important;
+  position: relative !important;
+  margin-top: -20px !important;
 }
 
 .checkboxMenuItem {
@@ -338,4 +344,44 @@
 
 .rightText {
   opacity: 0.7 !important;
+}
+
+.noOption {
+  height: 20px !important;
+}
+
+/* ===== vert menu ===== */
+
+.actionMenu :global(.MuiPaper-root) {
+  width: 127px !important;
+  height: 86px !important;
+  border-radius: 8px !important;
+  border: 1px solid #050e2180 !important;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1) !important;
+  overflow-y: hidden;
+  padding: 0px 7px;
+}
+
+.actionMenuItem {
+  font-size: 15px !important;
+  font-weight: 400 !important;
+  color: #211e1be5 !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+}
+
+.actionMenuItem:hover {
+  background-color: #f0f050 !important;
+  border-radius: 60px !important;
+}
+
+.actionMenuButton {
+  outline: none !important;
+}
+
+.actionMenuButton:focus {
+  outline: none !important;
+}
+
+.actionMenuButton:focus-visible {
+  outline: none !important;
 }

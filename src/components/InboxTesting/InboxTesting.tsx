@@ -26,14 +26,15 @@ const InboxTesting = () => {
   const [domainAnchorEl, setDomainAnchorEl] = useState<HTMLElement | null>(
     null
   );
-
   const periodOpen = Boolean(periodAnchorEl);
   const domainOpen = Boolean(domainAnchorEl);
-
   const [selectedDomain, setSelectedDomain] = useState("All domains");
   const [selectedPeriod, setSelectedPeriod] = useState("Custom");
-
   const [selectedDomains, setSelectedDomains] = useState<string[]>([]);
+  const [actionMenuAnchorEl, setActionMenuAnchorEl] =
+    useState<HTMLElement | null>(null);
+
+  const actionMenuOpen = Boolean(actionMenuAnchorEl);
 
   const menuItems = [
     "Last 7 days",
@@ -55,8 +56,29 @@ const InboxTesting = () => {
     "diesisteinnemusterseite6.de",
   ];
 
+  const handleActionMenuClick = (event: MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
+    setActionMenuAnchorEl(event.currentTarget);
+  };
+
+  const handleActionMenuClose = () => {
+    setActionMenuAnchorEl(null);
+  };
+
+  const handleViewClick = () => {
+    handleActionMenuClose();
+  };
+
+  const handleDeleteClick = () => {
+    handleActionMenuClose();
+  };
+
   const handlePeriodClick = (event: MouseEvent<HTMLElement>) => {
-    setPeriodAnchorEl(event.currentTarget);
+    if (periodOpen) {
+      setPeriodAnchorEl(null);
+    } else {
+      setPeriodAnchorEl(event.currentTarget);
+    }
   };
 
   const handlePeriodClose = () => {
@@ -72,7 +94,11 @@ const InboxTesting = () => {
   };
 
   const handleDomainClick = (event: MouseEvent<HTMLElement>) => {
-    setDomainAnchorEl(event.currentTarget);
+    if (domainOpen) {
+      setDomainAnchorEl(null);
+    } else {
+      setDomainAnchorEl(event.currentTarget);
+    }
   };
 
   const handleDomainClose = () => {
@@ -177,6 +203,7 @@ const InboxTesting = () => {
           disableRestoreFocus
           className={styles.periodDropdownMenu}
         >
+          <div className={styles.noOption} />
           {menuItems.map((item, index) => (
             <MenuItem
               key={index}
@@ -208,6 +235,8 @@ const InboxTesting = () => {
           disableRestoreFocus
           className={styles.domainDropdownMenu}
         >
+          <div className={styles.noOption} />
+
           {domainItems.map((item, index) => (
             <MenuItem
               key={index}
@@ -294,13 +323,44 @@ const InboxTesting = () => {
                   6%
                 </TableCell>
                 <TableCell>
-                  <IconButton size="small">
+                  <IconButton
+                    size="small"
+                    onClick={(e) => handleActionMenuClick(e)}
+                    className={styles.actionMenuButton}
+                  >
                     <MoreVertIcon />
                   </IconButton>
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
+          <Menu
+            anchorEl={actionMenuAnchorEl}
+            open={actionMenuOpen}
+            onClose={handleActionMenuClose}
+            className={styles.actionMenu}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "right",
+            }}
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+          >
+            <MenuItem
+              onClick={handleViewClick}
+              className={`${styles.actionMenuItem}`}
+            >
+              View
+            </MenuItem>
+            <MenuItem
+              onClick={handleDeleteClick}
+              className={`${styles.actionMenuItem} `}
+            >
+              Delete
+            </MenuItem>
+          </Menu>
         </Table>
       </TableContainer>
       <Box className={styles.tablePagination}>
