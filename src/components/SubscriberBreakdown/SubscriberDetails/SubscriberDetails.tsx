@@ -1,4 +1,3 @@
-// components/SubscriberBreakdown/DetailsExpanded/DetailsExpanded.tsx
 import React, { useState, type MouseEvent } from "react";
 import {
   Typography,
@@ -52,118 +51,39 @@ const SubscriberDetails: React.FC<SubscriberDetailsProps> = () => {
   };
 
   return (
-    <div className={styles.detailsExpanded}>
-      <Box
-        sx={{
-          display: "flex",
-          gap: "30px",
-          margin: "32px 0",
-        }}
-      >
-        <Box
-          sx={{
-            width: "259px",
-            height: "113px",
-            backgroundColor: "#F5F5F5",
-            borderRadius: "14px",
-            position: "relative",
-            padding: "0px 0 10px 24px",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-          }}
-        >
-          <Typography
-            sx={{ fontWeight: "700", fontSize: "32px", color: "#050E21" }}
-          >
-            24.685
-          </Typography>
-          <Box className={styles.statLabel}>
-            <Typography
-              sx={{ fontSize: "15px", fontWeight: "400", color: "#211E1BE5" }}
-            >
+    <Box>
+      <Box className={styles.detailsContainer}>
+        <Box className={styles.detailsBox}>
+          <Typography className={styles.detailsCount}>24.685</Typography>
+          <Box>
+            <Typography className={styles.detailsText}>
               Total subscribers
             </Typography>
           </Box>
-          <IconButton
-            size="small"
-            sx={{
-              position: "absolute",
-              top: "12px",
-              right: "12px",
-              color: "#050E21",
-            }}
-          >
+          <IconButton size="small" className={styles.detailsIcon}>
             <InfoOutlineIcon fontSize="small" />
           </IconButton>
         </Box>
 
-        <Box
-          sx={{
-            width: "259px",
-            height: "113px",
-            backgroundColor: "#F5F5F5",
-            borderRadius: "14px",
-            position: "relative",
-            padding: "0px 0 10px 24px",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-          }}
-        >
-          <Typography
-            sx={{ fontWeight: "700", fontSize: "32px", color: "#050E21" }}
-          >
-            200
-          </Typography>
+        <Box className={styles.detailsBox}>
+          <Typography className={styles.detailsCount}>200</Typography>
           <Box className={styles.statLabel}>
-            <Typography
-              sx={{ fontSize: "15px", fontWeight: "400", color: "#211E1BE5" }}
-            >
+            <Typography className={styles.detailsText}>
               Unique Domains
             </Typography>
           </Box>
-          <IconButton
-            size="small"
-            sx={{
-              position: "absolute",
-              top: "12px",
-              right: "12px",
-              color: "#050E21",
-            }}
-          >
+          <IconButton size="small" className={styles.detailsIcon}>
             <InfoOutlineIcon fontSize="small" />
           </IconButton>
         </Box>
       </Box>
 
-      <Box sx={{ marginTop: "70px" }}>
+      <Box className={styles.searchBox}>
         <TextField
           placeholder="Search Domain"
           variant="outlined"
           size="small"
-          sx={{
-            width: "267px",
-            height: "38px",
-            marginBottom: "16px",
-            "& .MuiOutlinedInput-root": {
-              borderRadius: "18px",
-              backgroundColor: "#F5F5F5",
-              "& fieldset": {
-                borderColor: "transparent",
-              },
-              "&.Mui-focused fieldset": {
-                borderColor: "#050e21",
-              },
-            },
-            "& .MuiInputBase-input": {
-              fontSize: "15px",
-            },
-            "& .MuiInputBase-input::placeholder": {
-              color: "#211E1BE5",
-              opacity: 0.9,
-            },
-          }}
+          className={styles.searchInput}
           slotProps={{
             input: {
               startAdornment: (
@@ -175,21 +95,19 @@ const SubscriberDetails: React.FC<SubscriberDetailsProps> = () => {
           }}
         />
 
-        <Box sx={{ width: 1155 }}>
-          <TableContainer sx={{ borderRadius: "15px" }}>
+        <Box className={styles.subscribersBox}>
+          <TableContainer className={styles.tableContainer}>
             <Table>
-              <TableHead sx={{ backgroundColor: "#050E21" }}>
+              <TableHead className={styles.tableHead}>
                 <TableRow>
                   <TableCell
-                    className={styles.headerItem}
-                    sx={{ minWidth: 180 }}
+                    className={`${styles.headerItem} ${styles.headerCell}`}
                   >
                     ISP
                   </TableCell>
                   <TableCell
-                    className={styles.headerItem}
+                    className={`${styles.headerItem} ${styles.subscribersHeaderCell}`}
                     align="left"
-                    sx={{ minWidth: 150 }}
                   >
                     SUBSCRIBERS
                   </TableCell>
@@ -204,13 +122,7 @@ const SubscriberDetails: React.FC<SubscriberDetailsProps> = () => {
               </TableHead>
               <TableBody>
                 {[...Array(6)].map((_, index) => (
-                  <TableRow
-                    key={index}
-                    sx={{
-                      "&:last-child td, &:last-child th": { border: 0 },
-                      backgroundColor: "#F5F5F5",
-                    }}
-                  >
+                  <TableRow key={index} className={styles.tableRow}>
                     <TableCell
                       className={styles.rowItem}
                       component="th"
@@ -230,7 +142,7 @@ const SubscriberDetails: React.FC<SubscriberDetailsProps> = () => {
                     <TableCell className={styles.rowItem} align="center">
                       <IconButton>
                         <SearchIcon
-                          sx={{ color: "#050E21" }}
+                          className={styles.searchIconButton}
                           fontSize="medium"
                         />
                       </IconButton>
@@ -240,178 +152,62 @@ const SubscriberDetails: React.FC<SubscriberDetailsProps> = () => {
               </TableBody>
             </Table>
           </TableContainer>
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-            p={2}
-          >
+          <Box className={styles.tablePagination}>
             <Typography
-              sx={{ fontWeight: "300", fontSize: "15px", opacity: 0.7 }}
+              className={styles.paginationText}
               variant="body2"
             >{`1-5 of 20`}</Typography>
-            <p style={{ opacity: 0.7 }}>ssssss</p>
+            <p className={styles.rightText}>ssssss</p>
           </Box>
         </Box>
       </Box>
 
-      <Divider
-        sx={{
-          margin: "20px 60px 20px 0px",
-          borderColor: "#707070",
-          opacity: "0.4",
-        }}
-      />
+      <Divider className={styles.divider} />
 
-      <Box paddingLeft={2}>
-        <Typography
-          sx={{
-            fontWeight: 700,
-            fontSize: 25,
-            color: "#050E21",
-            fontFamily:
-              '"Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif',
-          }}
-        >
-          List Binding
-        </Typography>
-        <Typography
-          sx={{
-            fontWeight: 300,
-            fontSize: 15,
-            fontFamily:
-              '"Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif',
-            marginTop: 1,
-          }}
-        >
+      <Box className={styles.bindingBox}>
+        <Typography className={styles.bindingTitle}>List Binding</Typography>
+        <Typography className={styles.instructionText}>
           Please select a sending domain that you would like to bind the
           Subscriber Breakdown to.
         </Typography>
 
-        <Typography
-          sx={{
-            fontWeight: 300,
-            fontSize: 15,
-            fontFamily:
-              '"Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif',
-            opacity: 0.8,
-            marginTop: 2,
-            marginBottom: 1,
-          }}
-        >
-          Domain
-        </Typography>
-        <Box sx={{ display: "flex", gap: 4 }}>
-          <Box
-            sx={{
-              backgroundColor: "#F5F5F5",
-              width: 342,
-              height: 38,
-              borderRadius: "50px",
-              border: "none",
-              padding: "12px 20px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              cursor: "pointer",
-              "&:hover": {
-                backgroundColor: "#EEEEEE",
-              },
-            }}
-            onClick={handleClick}
-          >
-            <Typography
-              sx={{
-                fontFamily:
-                  '"Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif',
-                fontSize: 15,
-                fontWeight: 400,
-                color: "#211E1BE5",
-              }}
-            >
+        <Typography className={styles.domainText}>Domain</Typography>
+        <Box className={styles.domainBox}>
+          <Box className={styles.domainMenuBox} onClick={handleClick}>
+            <Typography className={styles.selectedDomain}>
               {selectedDomain}
             </Typography>
-            <Box
-              sx={{
-                width: 0,
-                height: 0,
-                borderLeft: "6px solid transparent",
-                borderRight: "6px solid transparent",
-                borderTop: "6px solid #666",
-                transform: "rotate(270deg)",
-              }}
-            />
+            <Box className={styles.arrow} />
           </Box>
 
           <Menu
             anchorEl={anchorEl}
             open={open}
             onClose={handleClose}
-            PaperProps={{
-              sx: {
-                minWidth: 342,
-                borderRadius: "0 0 18px 18px",
-                border: "1px solid #050E21",
-                borderTop: "none",
-              },
-            }}
+            className={styles.dropdownMenu}
           >
             {[...Array(6)].map((_, index) => (
               <MenuItem
                 key={index}
                 onClick={() => handleSelect(`diesisteinemusterseite.de`)}
-                sx={{
-                  "&:hover": {
-                    backgroundColor: "#f5f5f5",
-                  },
-                  fontSize: "15px",
-                  fontWeight: 400,
-                  color: "#211E1BE5",
-                }}
+                className={styles.menuItem}
               >
                 diesisteinemusterseite.de
               </MenuItem>
             ))}
           </Menu>
 
-          <Button
-            sx={{
-              width: 177,
-              height: 47,
-              backgroundColor: "#050E21",
-              color: "#FFFFFF",
-              fontSize: 15,
-              fontWeight: 700,
-              borderRadius: 50,
-              fontFamily:
-                '"Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif',
-            }}
-          >
-            ADD DOMAIN
-          </Button>
+          <Button className={styles.addDomainButton}>ADD DOMAIN</Button>
         </Box>
 
-        <Box sx={{ marginTop: 3 }}>
-          <Typography
-            sx={{
-              fontWeight: 700,
-              fontSize: 18,
-              fontFamily:
-                '"Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif',
-            }}
-          >
-            Binded List:
-          </Typography>
-          <Box className={styles.bindedItem}></Box>
-        </Box>
-        <Box sx={{ width: 1155, marginTop: 4, marginBottom: 14 }}>
-          <TableContainer sx={{ borderRadius: "15px" }}>
+        <Typography className={styles.bindedListTitle}>Binded List:</Typography>
+        <Box className={styles.domainListBox}>
+          <TableContainer className={styles.domainTableContainer}>
             <Table>
-              <TableHead sx={{ backgroundColor: "#050E21" }}>
+              <TableHead className={styles.domainTableHead}>
                 <TableRow>
                   <TableCell
-                    className={styles.headerItem}
-                    sx={{ paddingLeft: 3 }}
+                    className={`${styles.headerItem} ${styles.domainHeaderCell}`}
                   >
                     DOMAIN
                   </TableCell>
@@ -419,12 +215,7 @@ const SubscriberDetails: React.FC<SubscriberDetailsProps> = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                <TableRow
-                  sx={{
-                    "&:last-child td, &:last-child th": { border: 0 },
-                    backgroundColor: "#F5F5F5",
-                  }}
-                >
+                <TableRow className={styles.domainTableRow}>
                   <TableCell
                     className={styles.rowItem}
                     component="th"
@@ -433,18 +224,7 @@ const SubscriberDetails: React.FC<SubscriberDetailsProps> = () => {
                     loremipsum.de
                   </TableCell>
                   <TableCell className={styles.rowItem} align="right">
-                    <Typography
-                      sx={{
-                        color: "#FC0003",
-                        marginRight: 3,
-                        fontWeight: 400,
-                        fontSize: 18,
-                        fontFamily:
-                          '"Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif',
-                        cursor: "pointer",
-                        padding: 1,
-                      }}
-                    >
+                    <Typography className={styles.removeText}>
                       Remove
                     </Typography>
                   </TableCell>
@@ -454,7 +234,7 @@ const SubscriberDetails: React.FC<SubscriberDetailsProps> = () => {
           </TableContainer>
         </Box>
       </Box>
-    </div>
+    </Box>
   );
 };
 
