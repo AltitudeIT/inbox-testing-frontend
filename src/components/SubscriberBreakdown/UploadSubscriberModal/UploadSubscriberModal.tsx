@@ -21,25 +21,15 @@ interface UploadSubscriberModalProps {
 const UploadSubscriberModal: React.FC<UploadSubscriberModalProps> = ({
   open,
   onClose,
-  onSubmit,
 }) => {
   const [listName, setListName] = useState("");
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0] || null;
-    setSelectedFile(file);
-  };
-
   const handleSubmit = () => {
     setListName("");
-    setSelectedFile(null);
     onClose();
   };
 
   const handleCancel = () => {
     setListName("");
-    setSelectedFile(null);
     onClose();
   };
 
@@ -75,7 +65,6 @@ const UploadSubscriberModal: React.FC<UploadSubscriberModalProps> = ({
             className={styles.hiddenFileInput}
             id="file-upload"
             type="file"
-            onChange={handleFileChange}
           />
           <label htmlFor="file-upload">
             <Button className={styles.uploadButton}>Upload file</Button>
