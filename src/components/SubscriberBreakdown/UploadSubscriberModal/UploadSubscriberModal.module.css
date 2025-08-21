@@ -1,0 +1,107 @@
+.customDialog :global(.MuiDialog-paper) {
+  width: 845px !important;
+  height: 498px !important;
+  max-width: none !important;
+  max-height: none !important;
+  border-radius: 18px !important;
+  padding: 30px 46px 24px 26px !important;
+}
+
+.dialogTitle {
+  font-weight: 700 !important;
+  font-size: 25px !important;
+  color: #050e21 !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+}
+
+.dialogSubtitle {
+  font-weight: 400 !important;
+  color: #050e21 !important;
+  font-size: 20px !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+  margin-top: -4px !important;
+}
+
+.textLink {
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+  font-weight: 400 !important;
+  font-size: 20px !important;
+  color: #050e21 !important;
+  text-decoration: underline !important;
+  margin-top: 6px !important;
+}
+
+.textLink:hover {
+  cursor: pointer !important;
+}
+
+.box {
+  margin-top: 10px !important;
+}
+
+.inputLabel {
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  color: #050e21 !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+}
+
+.input {
+  margin-bottom: 16px !important;
+  width: 454px !important;
+  height: 44px !important;
+}
+
+.input .MuiOutlinedInput-root fieldset {
+  border-color: #050e21 !important;
+}
+
+.instructionText {
+  font-size: 15px !important;
+  font-weight: 300 !important;
+  color: #050e21 !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+}
+
+.hiddenFileInput {
+  display: none !important;
+}
+
+.uploadButton {
+  color: #ffffff !important;
+  width: 226px !important;
+  height: 47px !important;
+  border-radius: 50px !important;
+  background: #050e21 !important;
+  font-weight: 700 !important;
+  font-size: 15px !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+  text-transform: uppercase !important;
+  margin-top: 18px !important;
+}
+
+.divider {
+  margin: 0px 10px 20px 26px !important;
+}
+
+.cancelButton {
+  color: #050e21 !important;
+  width: 154px !important;
+  height: 47px !important;
+  border-radius: 50px !important;
+  border-color: #050e21 !important;
+  font-weight: 700 !important;
+  font-size: 15px !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+}
+
+.submitButton {
+  color: #ffffff !important;
+  width: 185px !important;
+  height: 47px !important;
+  border-radius: 50px !important;
+  background-color: #050e21 !important;
+  font-weight: 700 !important;
+  font-size: 15px !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+}
