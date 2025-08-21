@@ -25,13 +25,11 @@ const SubscriberBreakdownItem = (props: SubscriberBreakdownItemProps) => {
 
   return (
     <TableRow
-      sx={{ backgroundColor: props.isSelected ? "#F5F95E" : "#F5F5F5" }}
+      className={`${styles.tableRow} ${
+        props.isSelected ? styles.tableRowSelected : ""
+      }`}
     >
-      <TableCell
-        onClick={handleRowClick}
-        sx={{ cursor: "pointer" }}
-        className={styles.itemName}
-      >
+      <TableCell onClick={handleRowClick} className={styles.itemName}>
         {props.subscriber.name}
       </TableCell>
       <TableCell className={styles.item}>{props.subscriber.date}</TableCell>

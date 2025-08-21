@@ -23,16 +23,53 @@
   height: 62px;
 }
 
-.item {
-  font-weight: 400 !important;
-  font-size: 18px !important;
-  color: #211e1be5 !important;
+.box {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 16px !important;
+}
+
+.typography {
+  font-weight: 300 !important;
+  font-size: 15px !important;
+  opacity: 0.7 !important;
+}
+
+.p_pagination {
+  opacity: 0.7 !important;
+}
+
+.element {
+  text-align: center !important;
+}
+
+.typographyElement {
+  text-align: center !important;
+  margin-bottom: 16px !important;
+}
+
+/* ===== breakdown item component ===== */
+
+.tableRow {
+  background-color: #f5f5f5 !important;
+}
+
+.tableRowSelected {
+  background-color: #f5f95e !important;
 }
 
 .itemName {
   font-weight: 300 !important;
   font-size: 18px !important;
   color: #050e21 !important;
+  cursor: pointer !important;
+}
+
+.item {
+  font-weight: 400 !important;
+  font-size: 18px !important;
+  color: #211e1be5 !important;
 }
 
 .actionsCell {

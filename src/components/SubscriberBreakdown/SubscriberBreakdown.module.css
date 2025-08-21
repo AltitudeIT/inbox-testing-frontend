@@ -25,3 +25,10 @@
   font-weight: 400;
   color: #050e21;
 }
+
+.divider {
+  margin: 0px 60px 0px 0px !important;
+  border-color: #707070 !important;
+  opacity: 0.4 !important;
+  width: 1400px !important;
+}

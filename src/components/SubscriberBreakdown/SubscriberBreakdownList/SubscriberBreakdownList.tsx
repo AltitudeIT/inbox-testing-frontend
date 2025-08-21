@@ -88,12 +88,8 @@ const SubscriberBreakdownList = (props: SubscriberBreakdownListProps) => {
     content = (
       <TableBody>
         <TableRow>
-          <TableCell align="center" colSpan={4}>
-            <Typography
-              variant="body2"
-              align="center"
-              style={{ marginBottom: "16px" }}
-            >
+          <TableCell className={styles.element} colSpan={4}>
+            <Typography variant="body2" className={styles.typographyElement}>
               There are no subscribers available.
             </Typography>
           </TableCell>
@@ -135,17 +131,12 @@ const SubscriberBreakdownList = (props: SubscriberBreakdownListProps) => {
           {content}
         </Table>
       </TableContainer>
-      <Box
-        display="flex"
-        justifyContent="space-between"
-        alignItems="center"
-        p={2}
-      >
+      <Box className={styles.box}>
         <Typography
-          sx={{ fontWeight: "300", fontSize: "15px", opacity: 0.7 }}
+          className={styles.typography}
           variant="body2"
         >{`1-5 of 20`}</Typography>
-        <p style={{ opacity: 0.7 }}>ssssss</p>
+        <p className={styles.p_pagination}>ssssss</p>
       </Box>
     </Box>
   );

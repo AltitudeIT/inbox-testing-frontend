@@ -33,14 +33,7 @@ const SubscriberBreakdown = () => {
           selectedSubscriberId={selectedSubscriber?.id || null}
         />
       </div>
-      <Divider
-        sx={{
-          margin: "0px 60px 0px 0px",
-          borderColor: "#707070",
-          opacity: "0.4",
-          width: 1400,
-        }}
-      />
+      <Divider className={styles.divider} />
       <div className={styles.titleDiv}>
         <p className={styles.title}>Details</p>
         <p className={styles.subtitle}>
