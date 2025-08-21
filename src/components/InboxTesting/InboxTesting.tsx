@@ -17,6 +17,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useState, type MouseEvent } from "react";
 import ProgressBar from "../ProgressBar/ProgressBar";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import styles from "./InboxTesting.module.css";
 
 const InboxTesting = () => {
   const [periodAnchorEl, setPeriodAnchorEl] = useState<HTMLElement | null>(
@@ -130,61 +131,23 @@ const InboxTesting = () => {
   };
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        flex: 1,
-        borderRadius: "20px",
-        width: "1402px",
-        marginTop: "30px",
-        textAlign: "left",
-      }}
-    >
-      <Box sx={{ display: "flex", gap: 4 }}>
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-          <Typography
-            sx={{
-              fontFamily:
-                '"Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif',
-              fontSize: 14,
-              fontWeight: 400,
-              color: "transparent",
-              marginBottom: "4px",
-            }}
-          >
-            Search
-          </Typography>
+    <Box className={styles.rootBox}>
+      <Box className={styles.headerBox}>
+        <Box className={styles.searchBox}>
+          <Typography className={styles.hiddenText}>Search</Typography>
           <TextField
             placeholder="Search Test"
             variant="outlined"
             size="small"
-            sx={{
-              width: "267px",
-              height: "38px",
-              "& .MuiOutlinedInput-root": {
-                borderRadius: "18px",
-                backgroundColor: "#F5F5F5",
-                "& fieldset": {
-                  borderColor: "transparent",
-                },
-                "&.Mui-focused fieldset": {
-                  borderColor: "#050e21",
-                },
-              },
-              "& .MuiInputBase-input": {
-                fontSize: "15px",
-              },
-              "& .MuiInputBase-input::placeholder": {
-                color: "#211E1BE5",
-                opacity: 0.9,
-              },
-            }}
+            className={styles.searchTestInput}
             slotProps={{
               input: {
                 startAdornment: (
                   <InputAdornment position="start">
-                    <SearchIcon sx={{ color: "#050E21" }} fontSize="medium" />
+                    <SearchIcon
+                      className={styles.searchTestIcon}
+                      fontSize="medium"
+                    />
                   </InputAdornment>
                 ),
               },
@@ -192,69 +155,16 @@ const InboxTesting = () => {
           />
         </Box>
 
-        <Box
-          sx={{
-            width: "1px",
-            height: "25px",
-            backgroundColor: "#050E21",
-            alignSelf: "end",
-            marginBottom: 0.7,
-          }}
-        />
+        <Box className={styles.verticalDivider} />
 
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-          <Typography
-            sx={{
-              fontFamily:
-                '"Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif',
-              fontSize: 15,
-              fontWeight: 300,
-              color: "#211E1BE5",
-              marginBottom: "4px",
-            }}
-          >
-            Period of Time
-          </Typography>
+        <Box className={styles.periodBox}>
+          <Typography className={styles.headerTitle}>Period of Time</Typography>
 
-          <Box
-            sx={{
-              backgroundColor: "#F5F5F5",
-              width: 162,
-              height: 38,
-              borderRadius: "50px",
-              border: "none",
-              padding: "12px 20px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              cursor: "pointer",
-              "&:hover": {
-                backgroundColor: "#EEEEEE",
-              },
-            }}
-            onClick={handlePeriodClick}
-          >
-            <Typography
-              sx={{
-                fontFamily:
-                  '"Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif',
-                fontSize: 15,
-                fontWeight: 400,
-                color: "#211E1BE5",
-              }}
-            >
+          <Box className={styles.periosSelectBox} onClick={handlePeriodClick}>
+            <Typography className={styles.headerSelectedText}>
               {selectedPeriod}
             </Typography>
-            <Box
-              sx={{
-                width: 0,
-                height: 0,
-                borderLeft: "6px solid transparent",
-                borderRight: "6px solid transparent",
-                borderTop: "6px solid #666",
-                transform: "rotate(270deg)",
-              }}
-            />
+            <Box className={styles.arrow} />
           </Box>
         </Box>
 
@@ -265,97 +175,27 @@ const InboxTesting = () => {
           disableAutoFocus
           disableEnforceFocus
           disableRestoreFocus
-          PaperProps={{
-            sx: {
-              minWidth: 162,
-              borderRadius: "0 0 18px 18px",
-              border: "1px solid #050E21",
-              borderTop: "none",
-            },
-          }}
+          className={styles.periodDropdownMenu}
         >
           {menuItems.map((item, index) => (
             <MenuItem
               key={index}
               onClick={() => handlePeriodSelect(item)}
-              sx={{
-                "&:hover": {
-                  backgroundColor: "#F5F95E",
-                  borderRadius: 50,
-                },
-                fontSize: "15px",
-                fontWeight: 400,
-                color: "#211E1BE5",
-                opacity: 0.9,
-                margin: "0 10px",
-              }}
+              className={styles.periodMenuItem}
             >
               {item}
             </MenuItem>
           ))}
         </Menu>
-        <Box
-          sx={{
-            width: "1px",
-            height: "25px",
-            backgroundColor: "#050E21",
-            alignSelf: "end",
-            marginBottom: 0.7,
-          }}
-        />
+        <Box className={styles.verticalDivider} />
 
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-          <Typography
-            sx={{
-              fontFamily:
-                '"Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif',
-              fontSize: 15,
-              fontWeight: 300,
-              color: "#211E1BE5",
-              marginBottom: "4px",
-            }}
-          >
-            Domain
-          </Typography>
-          <Box
-            sx={{
-              backgroundColor: "#F5F5F5",
-              width: 342,
-              height: 38,
-              borderRadius: "50px",
-              border: "none",
-              padding: "12px 20px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              cursor: "pointer",
-              "&:hover": {
-                backgroundColor: "#EEEEEE",
-              },
-            }}
-            onClick={handleDomainClick}
-          >
-            <Typography
-              sx={{
-                fontFamily:
-                  '"Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif',
-                fontSize: 15,
-                fontWeight: 400,
-                color: "#211E1BE5",
-              }}
-            >
+        <Box className={styles.domainBox}>
+          <Typography className={styles.headerTitle}>Domain</Typography>
+          <Box className={styles.domainSelectBox} onClick={handleDomainClick}>
+            <Typography className={styles.headerSelectedText}>
               {selectedDomain}
             </Typography>
-            <Box
-              sx={{
-                width: 0,
-                height: 0,
-                borderLeft: "6px solid transparent",
-                borderRight: "6px solid transparent",
-                borderTop: "6px solid #666",
-                transform: "rotate(270deg)",
-              }}
-            />
+            <Box className={styles.arrow} />
           </Box>
         </Box>
 
@@ -366,14 +206,7 @@ const InboxTesting = () => {
           disableAutoFocus
           disableEnforceFocus
           disableRestoreFocus
-          PaperProps={{
-            sx: {
-              minWidth: 342,
-              borderRadius: "0 0 18px 18px",
-              border: "1px solid #050E21",
-              borderTop: "none",
-            },
-          }}
+          className={styles.domainDropdownMenu}
         >
           {domainItems.map((item, index) => (
             <MenuItem
@@ -382,129 +215,47 @@ const InboxTesting = () => {
                 e.preventDefault();
                 handleDomainCheckboxChange(item);
               }}
-              sx={{
-                "&:hover": {
-                  backgroundColor: "transparent",
-                },
-                fontSize: "15px",
-                fontWeight: 400,
-                color: "#211E1BE5",
-                opacity: 0.9,
-                margin: "0 10px",
-                display: "flex",
-                alignItems: "center",
-                gap: 1,
-              }}
+              className={styles.checkboxMenuItem}
             >
               <Box
                 onClick={(e) => {
                   e.stopPropagation();
                   handleDomainCheckboxChange(item);
                 }}
-                sx={{
-                  width: 24,
-                  height: 24,
-                  borderRadius: "50%",
-                  backgroundColor: selectedDomains.includes(item)
-                    ? "#F5F95E"
-                    : "#E0E0E0",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  cursor: "pointer",
-                  border: "none",
-                  "&:hover": {
-                    backgroundColor: selectedDomains.includes(item)
-                      ? "#F0F05E"
-                      : "#D0D0D0",
-                  },
-                }}
+                className={`${styles.customCheckbox} ${
+                  selectedDomains.includes(item)
+                    ? styles.customCheckboxChecked
+                    : styles.customCheckboxUnchecked
+                }`}
               >
                 {selectedDomains.includes(item) && (
-                  <Box
-                    sx={{
-                      width: 9,
-                      height: 7,
-                      borderLeft: "2px solid #000",
-                      borderBottom: "2px solid #000",
-                      transform: "rotate(-50deg)",
-                      marginTop: "-2px",
-                    }}
-                  />
+                  <Box className={styles.checkmark} />
                 )}
               </Box>
-              <Typography
-                sx={{
-                  fontSize: "15px",
-                  fontWeight: 400,
-                  color: "#211E1BE5",
-                  opacity: 0.9,
-                }}
-              >
-                {item}
-              </Typography>
+              <Typography className={styles.checkboxLabel}>{item}</Typography>
             </MenuItem>
           ))}
         </Menu>
       </Box>
-      <TableContainer sx={{ borderRadius: "15px", width: 1404, marginTop: 5 }}>
+      <TableContainer className={styles.campaignTableContainer}>
         <Table>
-          <TableHead sx={{ backgroundColor: "#050E21", height: 62 }}>
+          <TableHead className={styles.campaignTableHead}>
             <TableRow>
               <TableCell
-                sx={{
-                  color: "#FFFFFF",
-                  fontSize: 15,
-                  fontWeight: 400,
-                  fontFamily:
-                    '"Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif',
-                  paddingLeft: 3,
-                }}
+                className={`${styles.campaignHeaderCell} ${styles.campaignHeaderCellWithPadding}`}
               >
                 CAMPAIGN
               </TableCell>
-              <TableCell
-                align="left"
-                sx={{
-                  color: "#FFFFFF",
-                  fontSize: 15,
-                  fontWeight: 400,
-                  fontFamily:
-                    '"Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif',
-                }}
-              >
+              <TableCell align="left" className={styles.campaignHeaderCell}>
                 OVERVIEW
               </TableCell>
-              <TableCell
-                sx={{
-                  color: "#FFFFFF",
-                  fontSize: 15,
-                  fontWeight: 400,
-                  fontFamily:
-                    '"Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif',
-                }}
-                align="left"
-              >
+              <TableCell className={styles.campaignHeaderCell} align="left">
                 INBOX
               </TableCell>
-              <TableCell
-                sx={{
-                  color: "#FFFFFF",
-                  fontSize: 15,
-                  fontWeight: 400,
-                }}
-                align="left"
-              >
+              <TableCell className={styles.campaignHeaderCell} align="left">
                 SPAM
               </TableCell>
-              <TableCell
-                sx={{
-                  color: "#FFFFFF",
-                  fontSize: 15,
-                  fontWeight: 400,
-                }}
-                align="left"
-              >
+              <TableCell className={styles.campaignHeaderCell} align="left">
                 BLOCKED
               </TableCell>
               <TableCell></TableCell>
@@ -512,52 +263,20 @@ const InboxTesting = () => {
           </TableHead>
           <TableBody>
             {[...Array(25)].map((_, index) => (
-              <TableRow
-                key={index}
-                sx={{
-                  height: 110,
-                  "&:last-child td, &:last-child th": { border: 0 },
-                  backgroundColor: "#F5F5F5",
-                }}
-              >
-                <TableCell component="th" scope="row" sx={{ paddingLeft: 3 }}>
-                  <Box
-                    sx={{ display: "flex", flexDirection: "column", gap: 0.5 }}
-                  >
-                    <Typography
-                      sx={{
-                        fontSize: 18,
-                        fontWeight: 700,
-                        color: "#050E21",
-                        fontFamily:
-                          '"Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif',
-                      }}
-                    >
+              <TableRow key={index} className={styles.campaignTableRow}>
+                <TableCell
+                  component="th"
+                  scope="row"
+                  className={styles.campaignCellWithPadding}
+                >
+                  <Box className={styles.campaignInfoColumn}>
+                    <Typography className={styles.campaignSubjectLine}>
                       Hier steht die Subjectline lorem ipsum
                     </Typography>
-                    <Typography
-                      sx={{
-                        fontSize: 15,
-                        color: "#211E1BE5",
-                        fontWeight: 300,
-                        opacity: 0.8,
-
-                        fontFamily:
-                          '"Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif',
-                      }}
-                    >
+                    <Typography className={styles.campaignDateTime}>
                       March, 13th, 2024 4:57pm
                     </Typography>
-                    <Typography
-                      sx={{
-                        fontSize: 15,
-                        color: "#211E1BE5",
-                        fontWeight: 300,
-                        opacity: 0.8,
-                        fontFamily:
-                          '"Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif',
-                      }}
-                    >
+                    <Typography className={styles.campaignDomain}>
                       Talesandtails.de
                     </Typography>
                   </Box>
@@ -565,40 +284,13 @@ const InboxTesting = () => {
                 <TableCell align="left">
                   <ProgressBar inbox={88} spam={6} blocked={6} />
                 </TableCell>
-                <TableCell
-                  sx={{
-                    color: "#649F21",
-                    fontFamily:
-                      '"Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif',
-                    fontWeight: 700,
-                    fontSize: 18,
-                  }}
-                  align="left"
-                >
+                <TableCell className={styles.inboxPercentage} align="left">
                   88%
                 </TableCell>
-                <TableCell
-                  sx={{
-                    color: "#F5770B",
-                    fontFamily:
-                      '"Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif',
-                    fontWeight: 700,
-                    fontSize: 18,
-                  }}
-                  align="left"
-                >
+                <TableCell className={styles.spamPercentage} align="left">
                   6%
                 </TableCell>
-                <TableCell
-                  sx={{
-                    color: "#FC0003",
-                    fontFamily:
-                      '"Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif',
-                    fontWeight: 700,
-                    fontSize: 18,
-                  }}
-                  align="left"
-                >
+                <TableCell className={styles.blockedPercentage} align="left">
                   6%
                 </TableCell>
                 <TableCell>
@@ -611,17 +303,12 @@ const InboxTesting = () => {
           </TableBody>
         </Table>
       </TableContainer>
-      <Box
-        display="flex"
-        justifyContent="space-between"
-        alignItems="center"
-        p={2}
-      >
+      <Box className={styles.tablePagination}>
         <Typography
-          sx={{ fontWeight: "300", fontSize: "15px", opacity: 0.7 }}
+          className={styles.paginationText}
           variant="body2"
         >{`1-25 of 50`}</Typography>
-        <p style={{ opacity: 0.7 }}>ssssss</p>
+        <p className={styles.rightText}>ssssss</p>
       </Box>
     </Box>
   );
