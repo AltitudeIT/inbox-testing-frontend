@@ -1,0 +1,300 @@
+.headerBox {
+  display: flex !important;
+  justify-content: space-between !important;
+  margin-top: 40px !important;
+}
+
+.infoBox {
+  display: flex !important;
+  flex-direction: column !important;
+  text-align: left !important;
+  gap: 4px !important;
+}
+
+.subjectLine {
+  font-size: 25px !important;
+  font-weight: 700 !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+}
+
+.info {
+  font-size: 20px !important;
+  font-weight: 300 !important;
+  opacity: 0.7 !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+}
+
+.shareButton {
+  border: 1px solid #050e21 !important;
+  width: 168px !important;
+  height: 46px !important;
+  background-color: transparent !important;
+  color: #050e21 !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  border-radius: 50px !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+}
+
+/* Main layout structure */
+.sectionGrid {
+  display: flex !important;
+  gap: 40px !important;
+  margin: 40px 0 !important;
+  align-items: flex-start !important;
+}
+
+.leftColumn {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 40px !important;
+}
+
+.rightColumn {
+  width: 657px !important;
+  flex-shrink: 0 !important;
+}
+
+/* ===== stats box ===== */
+.statsContainer {
+  display: flex !important;
+  gap: 40px !important;
+  align-items: flex-start !important;
+}
+
+.chartSection {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 20px !important;
+  background-color: #f5f5f5 !important;
+  position: relative !important;
+  width: 320px !important;
+  height: 327px !important;
+  border-radius: 16px !important;
+}
+
+.sectionTitle {
+  font-size: 21px !important;
+  font-weight: 700 !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+  color: #050e21 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.chartSectionHeader {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  width: 100% !important;
+}
+
+.chartSectionTitle {
+  font-size: 21px !important;
+  font-weight: 700 !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+  color: #050e21 !important;
+  margin: 20px 0 0 30px !important;
+}
+
+/* Donut Charts */
+.donutChart {
+  width: 214px !important;
+  height: 214px !important;
+  border-radius: 50% !important;
+  background: conic-gradient(
+    #649f21 0% 38%,
+    #f5f5f5 38% 39%,
+    #fc0003 39% 43%,
+    #f5f5f5 43% 44%,
+    #f5770b 44% 49%,
+    #f5f5f5 49% 50%,
+    #649f21 50% 100%
+  ) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: relative !important;
+}
+
+.donutChart::after {
+  content: "" !important;
+  width: 130px !important;
+  height: 130px !important;
+  background: white !important;
+  border-radius: 50% !important;
+  position: absolute !important;
+}
+
+.donutChartGreen {
+  width: 214px !important;
+  height: 214px !important;
+  border-radius: 50% !important;
+  background: #649f21 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: relative !important;
+}
+
+.donutChartGreen::after {
+  content: "" !important;
+  width: 140px !important;
+  height: 140px !important;
+  background: white !important;
+  border-radius: 50% !important;
+  position: absolute !important;
+}
+
+.chartLabel {
+  position: absolute !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+}
+
+.chartLabelText {
+  font-weight: 300 !important;
+  font-size: 12px !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+  color: #211e1be5 !important;
+  opacity: 0.9 !important;
+}
+
+.chartLabel91 {
+  top: 0px !important;
+  right: -20px !important;
+}
+
+.chartLabel5 {
+  bottom: -5px !important;
+  right: 5px !important;
+}
+
+.chartLabel4 {
+  bottom: -30px !important;
+  right: 60px !important;
+}
+
+.chartLabel100 {
+  top: 0px !important;
+  right: -20px !important;
+}
+
+/* Dots */
+.greenDot,
+.orangeDot,
+.redDot {
+  width: 10px !important;
+  height: 10px !important;
+  border-radius: 50% !important;
+}
+
+.greenDot {
+  background-color: #649f21 !important;
+}
+.orangeDot {
+  background-color: #f5770b !important;
+}
+.redDot {
+  background-color: #fc0003 !important;
+}
+
+/* ===== content section ===== */
+.contentSection {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  background-color: #f5f5f5 !important;
+  width: 657px !important;
+  height: 958px !important;
+  border-radius: 16px !important;
+  padding: 24px 20px 20px 20px !important;
+}
+
+.contentTitle {
+  font-size: 21px !important;
+  font-weight: 700 !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+  color: #050e21 !important;
+  margin: 0 0 0 30px !important;
+}
+
+.contentSectionContent {
+  border: 1px solid #707070 !important;
+  opacity: 0.3 !important;
+  margin: 40px 0px 15px 0px !important;
+  width: 549px !important;
+  height: 816px !important;
+}
+
+/* ===== spam score section ===== */
+.spamScoreSection {
+  background-color: #f5f5f5 !important;
+  width: 100% !important;
+  max-width: 675px !important;
+  height: 156px !important;
+  border-radius: 16px !important;
+  padding: 26px 24px 0px 30px !important;
+  position: relative !important;
+}
+
+.scoreGrid {
+  display: grid !important;
+  grid-template-columns: 1fr 3fr !important;
+  gap: 8px !important;
+  margin-top: 20px !important;
+}
+
+.scoreItem {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.scoreText {
+  font-size: 12px !important;
+  font-weight: 400 !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+  color: #211e1be5 !important;
+  opacity: 0.9 !important;
+}
+
+.infoIcon {
+  position: absolute !important;
+  top: 6px !important;
+  right: 0px !important;
+  width: 44px !important;
+  height: 44px !important;
+}
+
+.spamInfoIcon {
+  position: absolute !important;
+  top: 6px !important;
+  right: 0px !important;
+  width: 44px !important;
+  height: 44px !important;
+}
+
+/* ===== recommendations section ===== */
+.recommendationsSection {
+  background-color: #f5f5f5 !important;
+  width: 100% !important;
+  max-width: 675px !important;
+  height: 397px !important;
+  padding: 26px 24px 0px 30px !important;
+  text-align: left !important;
+  border-radius: 16px !important;
+}
+
+.recommendationText {
+  font-weight: 400 !important;
+  font-size: 12px !important;
+  color: #211e1be5 !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+  line-height: 1.7 !important;
+  margin-top: 20px !important;
+}

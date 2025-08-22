@@ -1,0 +1,34 @@
+.rootBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin: 52px 104px 0 83px;
+}
+
+.box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.navText {
+  font-size: 15px !important;
+  font-weight: 400 !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+}
+
+.navTextClickable {
+  font-size: 15px !important;
+  font-weight: 400 !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+}
+
+.navTextClickable:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.arrow {
+  color: #050e21;
+  opacity: 0.5;
+}

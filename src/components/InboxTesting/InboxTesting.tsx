@@ -18,6 +18,7 @@ import { useState, type MouseEvent } from "react";
 import ProgressBar from "../ProgressBar/ProgressBar";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import styles from "./InboxTesting.module.css";
+import { useNavigate } from "react-router";
 
 const InboxTesting = () => {
   const [periodAnchorEl, setPeriodAnchorEl] = useState<HTMLElement | null>(
@@ -35,6 +36,8 @@ const InboxTesting = () => {
     useState<HTMLElement | null>(null);
 
   const actionMenuOpen = Boolean(actionMenuAnchorEl);
+
+  const navigate = useNavigate();
 
   const menuItems = [
     "Last 7 days",
@@ -66,6 +69,7 @@ const InboxTesting = () => {
   };
 
   const handleViewClick = () => {
+    navigate(`/inbox-testing/details/1`);
     handleActionMenuClose();
   };
 
@@ -299,7 +303,10 @@ const InboxTesting = () => {
                   className={styles.campaignCellWithPadding}
                 >
                   <Box className={styles.campaignInfoColumn}>
-                    <Typography className={styles.campaignSubjectLine}>
+                    <Typography
+                      className={styles.campaignSubjectLine}
+                      onClick={handleViewClick}
+                    >
                       Hier steht die Subjectline lorem ipsum
                     </Typography>
                     <Typography className={styles.campaignDateTime}>
