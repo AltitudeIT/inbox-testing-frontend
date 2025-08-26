@@ -5,6 +5,7 @@ import { useState } from "react";
 import SubscriberInsights from "../SubscriberInsights/SubscriberInsights";
 import FolderPlacement from "../FolderPlacement/FolderPlacement";
 import IPRecords from "../IPRecords/IPRecords";
+import DomainRecords from "../DomainRecords/DomainRecords";
 
 interface ExpandedSections {
   [key: string]: boolean;
@@ -277,7 +278,7 @@ const InboxTestingDetails = () => {
             />
           </Box>
         </Box>
-        {isExpanded("domainRecords") && <Typography>Test</Typography>}
+        {isExpanded("domainRecords") && <DomainRecords />}
 
         <Box className={styles.subscriberInsightsBox}>
           <Box className={styles.titleContainer}>
