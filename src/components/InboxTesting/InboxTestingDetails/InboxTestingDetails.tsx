@@ -2,6 +2,7 @@ import { Box, Button, Switch, Typography } from "@mui/material";
 import styles from "./InboxTestingDetails.module.css";
 import { ChevronRight } from "@mui/icons-material";
 import { useState } from "react";
+import SubscriberInsights from "../SubscriberInsights/SubscriberInsights";
 
 interface ExpandedSections {
   [key: string]: boolean;
@@ -170,7 +171,7 @@ const InboxTestingDetails = () => {
             />
           </Box>
         </Box>
-        {isExpanded("subscriberInsights") && <Typography>Test</Typography>}
+        {isExpanded("subscriberInsights") && <SubscriberInsights />}
 
         <Box className={styles.subscriberInsightsBox}>
           <Box className={styles.titleContainer}>
