@@ -1,9 +1,28 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Switch, Typography } from "@mui/material";
 import styles from "./InboxTestingDetails.module.css";
+import { ChevronRight } from "@mui/icons-material";
+import { useState } from "react";
+
+interface ExpandedSections {
+  [key: string]: boolean;
+}
 
 const InboxTestingDetails = () => {
+  const [expandedSections, setExpandedSections] = useState<ExpandedSections>(
+    {}
+  );
+
+  const handleIncludeClick = (sectionKey: string) => {
+    setExpandedSections((prev) => ({
+      ...prev,
+      [sectionKey]: !prev[sectionKey],
+    }));
+  };
+
+  const isExpanded = (sectionKey: string) => !!expandedSections[sectionKey];
+
   return (
-    <Box>
+    <Box className={styles.rootBox}>
       <Box className={styles.headerBox}>
         <Box className={styles.infoBox}>
           <Typography className={styles.subjectLine}>
@@ -124,6 +143,210 @@ const InboxTestingDetails = () => {
             <Box className={styles.contentSectionContent}></Box>
           </Box>
         </Box>
+      </Box>
+
+      <Box className={styles.secondBox}>
+        <Box className={styles.subscriberInsightsBox}>
+          <Box className={styles.titleContainer}>
+            <Typography className={styles.sectionTitle}>
+              Subscriber Insights
+            </Typography>
+            <img
+              src="/InboxTesting/info.png"
+              className={styles.infoIconHeader}
+            />
+          </Box>
+          <Box className={styles.includeBox}>
+            <Switch className={styles.antSwitch} />
+            <Typography className={styles.includeText}>Include</Typography>
+            <ChevronRight
+              onClick={() => handleIncludeClick("subscriberInsights")}
+              className={styles.chevronRight}
+              sx={{
+                transform: isExpanded("subscriberInsights")
+                  ? "rotate(90deg)"
+                  : "rotate(0deg)",
+              }}
+            />
+          </Box>
+        </Box>
+        {isExpanded("subscriberInsights") && <Typography>Test</Typography>}
+
+        <Box className={styles.subscriberInsightsBox}>
+          <Box className={styles.titleContainer}>
+            <Typography className={styles.sectionTitle}>
+              Folder Placement Analysis
+            </Typography>
+            <img
+              src="/InboxTesting/info.png"
+              className={styles.infoIconHeader}
+            />
+          </Box>
+          <Box className={styles.includeBox}>
+            <Switch className={styles.antSwitch} />
+            <Typography className={styles.includeText}>Include</Typography>
+            <ChevronRight
+              onClick={() => handleIncludeClick("folderPlacement")}
+              className={styles.chevronRight}
+              sx={{
+                transform: isExpanded("folderPlacement")
+                  ? "rotate(90deg)"
+                  : "rotate(0deg)",
+              }}
+            />
+          </Box>
+        </Box>
+        {isExpanded("folderPlacement") && <Typography>Test</Typography>}
+
+        <Box className={styles.subscriberInsightsBox}>
+          <Box className={styles.titleContainer}>
+            <Typography className={styles.sectionTitle}>
+              Inbox Placement Analysis
+            </Typography>
+            <img
+              src="/InboxTesting/info.png"
+              className={styles.infoIconHeader}
+            />
+          </Box>
+          <Box className={styles.includeBox}>
+            <Switch className={styles.antSwitch} />
+            <Typography className={styles.includeText}>Include</Typography>
+            <ChevronRight
+              onClick={() => handleIncludeClick("inboxPlacementAnalysis")}
+              className={styles.chevronRight}
+              sx={{
+                transform: isExpanded("inboxPlacementAnalysis")
+                  ? "rotate(90deg)"
+                  : "rotate(0deg)",
+              }}
+            />
+          </Box>
+        </Box>
+        {isExpanded("inboxPlacementAnalysis") && <Typography>Test</Typography>}
+
+        <Box className={styles.subscriberInsightsBox}>
+          <Box className={styles.titleContainer}>
+            <Typography className={styles.sectionTitle}>
+              Inbox Placement - Domain Trend
+            </Typography>
+            <img
+              src="/InboxTesting/info.png"
+              className={styles.infoIconHeader}
+            />
+          </Box>
+          <Box className={styles.includeBox}>
+            <Switch className={styles.antSwitch} />
+            <Typography className={styles.includeText}>Include</Typography>
+            <ChevronRight
+              onClick={() => handleIncludeClick("inboxPlacementDomain")}
+              className={styles.chevronRight}
+              sx={{
+                transform: isExpanded("inboxPlacementDomain")
+                  ? "rotate(90deg)"
+                  : "rotate(0deg)",
+              }}
+            />
+          </Box>
+        </Box>
+        {isExpanded("inboxPlacementDomain") && <Typography>Test</Typography>}
+
+        <Box className={styles.subscriberInsightsBox}>
+          <Box className={styles.titleContainer}>
+            <Typography className={styles.sectionTitle}>
+              Domain Records
+            </Typography>
+            <img
+              src="/InboxTesting/info.png"
+              className={styles.infoIconHeader}
+            />
+          </Box>
+          <Box className={styles.includeBox}>
+            <Switch className={styles.antSwitch} />
+            <Typography className={styles.includeText}>Include</Typography>
+            <ChevronRight
+              onClick={() => handleIncludeClick("domainRecords")}
+              className={styles.chevronRight}
+              sx={{
+                transform: isExpanded("domainRecords")
+                  ? "rotate(90deg)"
+                  : "rotate(0deg)",
+              }}
+            />
+          </Box>
+        </Box>
+        {isExpanded("domainRecords") && <Typography>Test</Typography>}
+
+        <Box className={styles.subscriberInsightsBox}>
+          <Box className={styles.titleContainer}>
+            <Typography className={styles.sectionTitle}>IP Records</Typography>
+            <img
+              src="/InboxTesting/info.png"
+              className={styles.infoIconHeader}
+            />
+          </Box>
+          <Box className={styles.includeBox}>
+            <Switch className={styles.antSwitch} />
+            <Typography className={styles.includeText}>Include</Typography>
+            <ChevronRight
+              onClick={() => handleIncludeClick("ipRecords")}
+              className={styles.chevronRight}
+              sx={{
+                transform: isExpanded("ipRecords")
+                  ? "rotate(90deg)"
+                  : "rotate(0deg)",
+              }}
+            />
+          </Box>
+        </Box>
+        {isExpanded("ipRecords") && <Typography>Test</Typography>}
+
+        <Box className={styles.subscriberInsightsBox}>
+          <Box className={styles.titleContainer}>
+            <Typography className={styles.sectionTitle}>
+              Reputation Analysis
+            </Typography>
+            <img
+              src="/InboxTesting/info.png"
+              className={styles.infoIconHeader}
+            />
+          </Box>
+          <Box className={styles.includeBox}>
+            <Switch className={styles.antSwitch} />
+            <Typography className={styles.includeText}>Include</Typography>
+            <ChevronRight
+              onClick={() => handleIncludeClick("reputationAnalysis")}
+              className={styles.chevronRight}
+              sx={{
+                transform: isExpanded("reputationAnalysis")
+                  ? "rotate(90deg)"
+                  : "rotate(0deg)",
+              }}
+            />
+          </Box>
+        </Box>
+        {isExpanded("reputationAnalysis") && <Typography>Test</Typography>}
+
+        <Box className={styles.subscriberInsightsBox}>
+          <Box className={styles.titleContainer}>
+            <Typography className={styles.sectionTitle}>FAQ</Typography>
+            <img
+              src="/InboxTesting/info.png"
+              className={styles.infoIconHeader}
+            />
+          </Box>
+          <Box className={styles.includeBox}>
+            <Switch className={styles.antSwitch} />
+            <Typography className={styles.includeText}>Include</Typography>
+            <ChevronRight
+              onClick={() => handleIncludeClick("faq")}
+              className={styles.chevronRight}
+              sx={{
+                transform: isExpanded("faq") ? "rotate(90deg)" : "rotate(0deg)",
+              }}
+            />
+          </Box>
+        </Box>
+        {isExpanded("faq") && <Typography>Test</Typography>}
       </Box>
     </Box>
   );

@@ -1,3 +1,7 @@
+.rootBox {
+  margin-bottom: 168px;
+}
+
 .headerBox {
   display: flex !important;
   justify-content: space-between !important;
@@ -297,4 +301,108 @@
   font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
   line-height: 1.7 !important;
   margin-top: 20px !important;
+}
+
+.secondBox {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+/* ===== subrscriber insights section ===== */
+
+.subscriberInsightsBox {
+  background-color: #f5f5f5;
+  height: 77px !important;
+  border-radius: 16px !important;
+  display: flex !important;
+  align-items: center !important;
+  padding: 0 30px !important;
+  justify-content: space-between !important;
+}
+
+.titleContainer {
+  display: flex !important;
+  align-items: center !important;
+}
+
+.infoIconHeader {
+  width: 19px !important;
+  height: 19px !important;
+  margin-left: 19px !important;
+}
+
+.includeBox {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+}
+
+.includeText {
+  font-weight: 400 !important;
+  font-size: 21px !important;
+  color: #050e21 !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+}
+
+/* ===== switch ===== */
+
+.antSwitch {
+  width: 41px !important;
+  height: 21px !important;
+  padding: 0 !important;
+}
+
+.antSwitch :global(.MuiSwitch-switchBase) {
+  padding: 2px !important;
+}
+
+.antSwitch :global(.MuiSwitch-switchBase.Mui-checked) {
+  transform: translateX(20px) !important;
+  color: #fff !important;
+}
+
+.antSwitch :global(.MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track) {
+  opacity: 1 !important;
+  background-color: #050e21 !important;
+}
+
+.antSwitch :global(.MuiSwitch-thumb) {
+  box-shadow: 0 2px 4px 0 rgb(0 35 11 / 20%) !important;
+  width: 17px !important;
+  height: 17px !important;
+  border-radius: 8.5px !important;
+  background-color: #050e21 !important;
+  transition: all 200ms !important;
+}
+
+.antSwitch :global(.MuiSwitch-track) {
+  border-radius: 10.5px !important;
+  opacity: 1 !important;
+  background-color: transparent !important;
+  border: 1px solid #050e21 !important;
+  box-sizing: border-box !important;
+}
+
+.antSwitch :global(.MuiSwitch-switchBase.Mui-checked .MuiSwitch-thumb) {
+  background-color: #ffffff !important;
+}
+
+.antSwitch:active :global(.MuiSwitch-thumb) {
+  width: 17px !important;
+}
+
+.antSwitch:active :global(.MuiSwitch-switchBase.Mui-checked) {
+  transform: translateX(18px) !important;
+}
+
+.chevronRight {
+  font-size: 16px !important;
+  color: #050e21 !important;
+  margin-left: 4px !important;
+  transition: "transform 0.2 ease" !important;
+}
+
+.chevronRight:hover {
+  cursor: pointer;
 }
