@@ -3,6 +3,7 @@ import styles from "./InboxTestingDetails.module.css";
 import { ChevronRight } from "@mui/icons-material";
 import { useState } from "react";
 import SubscriberInsights from "../SubscriberInsights/SubscriberInsights";
+import FolderPlacement from "../FolderPlacement/FolderPlacement";
 
 interface ExpandedSections {
   [key: string]: boolean;
@@ -197,7 +198,7 @@ const InboxTestingDetails = () => {
             />
           </Box>
         </Box>
-        {isExpanded("folderPlacement") && <Typography>Test</Typography>}
+        {isExpanded("folderPlacement") && <FolderPlacement />}
 
         <Box className={styles.subscriberInsightsBox}>
           <Box className={styles.titleContainer}>

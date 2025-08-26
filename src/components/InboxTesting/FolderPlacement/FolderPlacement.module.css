@@ -8,21 +8,16 @@
   padding: 10px 30px !important;
 }
 
-.countBox {
+.folderPlacementBox {
   background-color: #ffffff !important;
-  width: 314px !important;
-  height: 104px !important;
+  width: 432px !important;
+  height: 96px !important;
   border-radius: 10px !important;
   display: flex !important;
   align-items: center;
   gap: 26px;
   padding-left: 20px;
-}
-
-.contentBox {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  position: relative !important;
 }
 
 .imageBox {
@@ -37,7 +32,7 @@
   padding-bottom: 2px;
 }
 
-.inboxText {
+.placementText {
   font-size: 15px !important;
   font-weight: 400 !important;
   color: #050e21 !important;
@@ -45,21 +40,23 @@
   opacity: 0.9 !important;
 }
 
-.countText {
+.contentBox {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.text {
   font-size: 20px !important;
   font-weight: 700 !important;
   color: #050e21 !important;
   font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
 }
 
-.percentageText {
-  font-size: 12px !important;
-  font-weight: 400 !important;
-  color: #050e21 !important;
-  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
-}
-
-.bulkImage {
-  width: 42px !important;
-  height: 42px !important;
+.infoIcon {
+  width: 19px !important;
+  height: 19px !important;
+  position: absolute !important;
+  top: 15px !important;
+  right: 20px !important;
 }
