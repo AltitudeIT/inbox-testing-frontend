@@ -7,3 +7,40 @@
   gap: 30px !important;
   padding: 10px 30px !important;
 }
+
+.tooltip {
+  background: white;
+  border: 1px solid #050e21;
+  border-radius: 10px;
+  padding: 5px 12px;
+  width: 98px;
+  height: 83px;
+}
+
+.tooltipLabel {
+  font-weight: 700;
+  font-size: 12px;
+  text-align: left;
+  margin: 0;
+}
+
+.tooltipEntry {
+  font-size: 12px;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+.tooltipDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  margin-right: 6px;
+  display: inline-block;
+}
+
+.legendText {
+  color: #050e21e5;
+  opacity: 0.9;
+}

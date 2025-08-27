@@ -8,6 +8,7 @@ import IPRecords from "../IPRecords/IPRecords";
 import DomainRecords from "../DomainRecords/DomainRecords";
 import InboxPlacement from "../InboxPlacement/InboxPlacement";
 import DomainTrends from "../DomainTrend/DomainTrend";
+import FAQ from "../FAQ/FAQ";
 
 interface ExpandedSections {
   [key: string]: boolean;
@@ -352,7 +353,7 @@ const InboxTestingDetails = () => {
             />
           </Box>
         </Box>
-        {isExpanded("faq") && <Typography>Test</Typography>}
+        {isExpanded("faq") && <FAQ />}
       </Box>
     </Box>
   );

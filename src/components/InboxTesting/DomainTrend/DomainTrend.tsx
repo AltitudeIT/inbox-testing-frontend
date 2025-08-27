@@ -47,44 +47,13 @@ const DomainTrends = () => {
             content={({ active, payload, label }) => {
               if (active && payload && payload.length) {
                 return (
-                  <div
-                    style={{
-                      background: "white",
-                      border: "1px solid #050E21",
-                      borderRadius: "10px",
-                      padding: "5px 12px",
-                      width: "98px",
-                      height: "83px",
-                    }}
-                  >
-                    <p
-                      style={{
-                        fontWeight: 700,
-                        fontSize: "12px",
-                        textAlign: "left",
-                      }}
-                    >
-                      {label}
-                    </p>
+                  <div className={styles.tooltip}>
+                    <p className={styles.tooltipLabel}>{label}</p>
                     {payload.map((entry, index) => (
-                      <p
-                        key={index}
-                        style={{
-                          fontSize: "12px",
-                          fontWeight: 400,
-                          display: "flex",
-                          alignItems: "center",
-                        }}
-                      >
+                      <p key={index} className={styles.tooltipEntry}>
                         <span
-                          style={{
-                            width: "7px",
-                            height: "7px",
-                            borderRadius: "50%",
-                            backgroundColor: entry.color,
-                            marginRight: "6px",
-                            display: "inline-block",
-                          }}
+                          className={styles.tooltipDot}
+                          style={{ backgroundColor: entry.color }}
                         ></span>
                         {entry.name}: {entry.value}
                       </p>
@@ -105,7 +74,7 @@ const DomainTrends = () => {
             }}
             iconType="circle"
             formatter={(value) => (
-              <span style={{ color: "#050E21E5", opacity: 0.9 }}>{value}</span>
+              <span className={styles.legendText}>{value}</span>
             )}
           />
           <Line
