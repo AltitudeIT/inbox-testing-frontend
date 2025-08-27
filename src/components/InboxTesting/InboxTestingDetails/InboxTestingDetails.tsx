@@ -6,6 +6,7 @@ import SubscriberInsights from "../SubscriberInsights/SubscriberInsights";
 import FolderPlacement from "../FolderPlacement/FolderPlacement";
 import IPRecords from "../IPRecords/IPRecords";
 import DomainRecords from "../DomainRecords/DomainRecords";
+import InboxPlacement from "../InboxPlacement/InboxPlacement";
 
 interface ExpandedSections {
   [key: string]: boolean;
@@ -226,7 +227,7 @@ const InboxTestingDetails = () => {
             />
           </Box>
         </Box>
-        {isExpanded("inboxPlacementAnalysis") && <Typography>Test</Typography>}
+        {isExpanded("inboxPlacementAnalysis") && <InboxPlacement />}
 
         <Box className={styles.subscriberInsightsBox}>
           <Box className={styles.titleContainer}>
