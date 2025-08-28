@@ -9,6 +9,7 @@ import DomainRecords from "../DomainRecords/DomainRecords";
 import InboxPlacement from "../InboxPlacement/InboxPlacement";
 import DomainTrends from "../DomainTrend/DomainTrend";
 import FAQ from "../FAQ/FAQ";
+import ReputationAnalysis from "../ReputationAnalysis/ReputationAnalysis";
 
 interface ExpandedSections {
   [key: string]: boolean;
@@ -331,7 +332,7 @@ const InboxTestingDetails = () => {
             />
           </Box>
         </Box>
-        {isExpanded("reputationAnalysis") && <Typography>Test</Typography>}
+        {isExpanded("reputationAnalysis") && <ReputationAnalysis />}
 
         <Box className={styles.subscriberInsightsBox}>
           <Box className={styles.titleContainer}>
