@@ -10,6 +10,8 @@ import TestgroupPage from "./pages/TestgroupPage/TestgroupPage";
 import InboxTestingPage from "./pages/InboxTesting/InboxTesting";
 import SubscriberBreakdownPage from "./pages/SubscriberBreakdown/SubscriberBreakdown";
 import InboxTestingDetailsPage from "./pages/InboxTesting/InboxTestingDetails/InboxTestingDetailsPage";
+import ProfileDetailsPage from "./pages/ProfileDetails/ProfileDetailsPage";
+import ProfileLayout from "./components/Layout/ProfileLayout/ProfileLayout";
 
 function App() {
   configureAxiosRequestInterceptors();
@@ -33,6 +35,9 @@ function App() {
               path="/inbox-testing/details/1"
               element={<InboxTestingDetailsPage />}
             />
+            <Route element={<ProfileLayout />}>
+              <Route path="/profile" element={<ProfileDetailsPage />} />
+            </Route>
           </Route>
         </Routes>
       </BrowserRouter>

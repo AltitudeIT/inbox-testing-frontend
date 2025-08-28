@@ -1,0 +1,6 @@
+.rootBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin: 0px 104px 0 83px;
+}

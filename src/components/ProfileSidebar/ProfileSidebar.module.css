@@ -1,0 +1,60 @@
+.rootDiv {
+  position: static;
+  display: flex;
+  background-color: #050e21;
+  width: 229px;
+  border-radius: 16px 0px 0px 16px;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid black;
+}
+
+.hrSidebar {
+  border: none;
+  border-top: 1px solid #ffffff;
+  margin: 0px 43px 10px 43px;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.ul {
+  flex: 1;
+  margin-top: 30px;
+}
+
+.optionWrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  min-height: 45px;
+  width: 217px;
+  gap: 12px;
+  cursor: pointer;
+  position: relative;
+  margin: 0px 0px 6px 14px;
+}
+
+.optionWrapper.selected {
+  background-color: #f5f95e;
+  border-radius: 10px;
+  width: 200px;
+}
+
+.optionText {
+  font-size: 20px;
+  font-weight: 400;
+  color: white;
+  text-align: left;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
+.optionWrapper.selected .optionText {
+  color: #050e21;
+}
