@@ -1,0 +1,138 @@
+.rootBox {
+  padding: 34px 40px 30px 30px !important;
+}
+
+.headerBox {
+  display: flex !important;
+  justify-content: space-between !important;
+}
+
+.titleBox {
+  text-align: left !important;
+}
+
+.title {
+  font-size: 25px !important;
+  font-weight: 700 !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+}
+
+.subtitle {
+  font-size: 15px !important;
+  font-weight: 300 !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+}
+
+.addButton {
+  all: unset !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 203px !important;
+  height: 47px !important;
+  background-color: #050e21 !important;
+  border-radius: 50px !important;
+  cursor: pointer !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  color: white !important;
+  text-transform: uppercase !important;
+}
+
+.tableContainer {
+  border-radius: 15px !important;
+  margin-top: 30px !important;
+}
+
+.tableHead {
+  background-color: #050e21 !important;
+}
+
+.headerItem {
+  color: #ffffff !important;
+  font-weight: 400 !important;
+  font-size: 15px !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+}
+
+.headerCell {
+  min-width: 120px !important;
+}
+
+.tableRow {
+  background-color: #f5f5f5 !important;
+}
+
+.tableRow:last-child td,
+.tableRow:last-child th {
+  border: 0 !important;
+}
+
+.integrationName {
+  color: #050e21 !important;
+  font-weight: 400 !important;
+  font-size: 18px !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+}
+
+.statusButton {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  background-color: #ffffff;
+  border-radius: 50px;
+  width: 98px;
+  height: 28px;
+  padding-left: 4px;
+}
+
+.enabledIcon {
+  color: #649f21 !important;
+  font-size: 20px !important;
+}
+
+.disabledIcon {
+  color: #fc0003 !important;
+  font-size: 20px !important;
+}
+
+.statusText {
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  opacity: 0.9;
+}
+
+.actionMenu :global(.MuiPaper-root) {
+  width: 184px !important;
+  height: 84px !important;
+  border-radius: 8px !important;
+  border: 1px solid #050e2180 !important;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1) !important;
+  overflow-y: hidden;
+  padding: 0px 7px;
+}
+
+.actionMenuItem {
+  font-size: 15px !important;
+  font-weight: 400 !important;
+  color: #211e1be5 !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+}
+
+.actionMenuItem:hover {
+  background-color: #f0f050 !important;
+  border-radius: 60px !important;
+}
+
+.actionMenuButton {
+  outline: none !important;
+}
+
+.actionMenuButton:focus {
+  outline: none !important;
+}
+
+.actionMenuButton:focus-visible {
+  outline: none !important;
+}

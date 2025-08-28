@@ -1,5 +1,4 @@
 import { Box } from "@mui/material";
-import PageTitle from "../../components/PageTitle/PageTitle";
 import ProfileDetails from "../../components/ProfileDetails/ProfileDetails";
 import styles from "./ProfileDetailsPage.module.css";
 
