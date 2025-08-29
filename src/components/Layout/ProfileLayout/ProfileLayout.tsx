@@ -1,5 +1,5 @@
 import { Outlet } from "react-router";
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import styles from "./ProfileLayout.module.css";
 import ProfileSidebar from "../../ProfileSidebar/ProfileSidebar";
 import PageTitle from "../../PageTitle/PageTitle";

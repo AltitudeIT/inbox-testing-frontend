@@ -28,6 +28,25 @@
   color: #211e1be5 !important;
 }
 
+.customBox {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.timeBox {
+  width: 126px !important;
+  height: 38px !important;
+  border-radius: 50px !important;
+  background-color: #f5f5f5 !important;
+  border: none !important;
+  align-items: center !important;
+  display: flex !important;
+  justify-content: center;
+  padding: 12px 20px !important;
+  cursor: pointer !important;
+}
+
 .verticalDivider {
   width: 1px !important;
   height: 25px !important;

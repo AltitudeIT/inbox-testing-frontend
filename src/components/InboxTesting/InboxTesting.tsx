@@ -30,7 +30,8 @@ const InboxTesting = () => {
   const periodOpen = Boolean(periodAnchorEl);
   const domainOpen = Boolean(domainAnchorEl);
   const [selectedDomain, setSelectedDomain] = useState("All domains");
-  const [selectedPeriod, setSelectedPeriod] = useState("Custom");
+  const [selectedPeriod, setSelectedPeriod] = useState("Last 7 days");
+
   const [selectedDomains, setSelectedDomains] = useState<string[]>([]);
   const [actionMenuAnchorEl, setActionMenuAnchorEl] =
     useState<HTMLElement | null>(null);
@@ -218,6 +219,31 @@ const InboxTesting = () => {
             </MenuItem>
           ))}
         </Menu>
+
+        {selectedPeriod === "Custom" && (
+          <>
+            <Box className={styles.verticalDivider} />
+            <Box className={styles.domainBox}>
+              <Typography className={styles.headerTitle}>
+                Custom Time
+              </Typography>
+              <Box className={styles.customBox}>
+                <Box className={styles.timeBox}>
+                  <Typography className={styles.headerSelectedText}>
+                    Start Date
+                  </Typography>
+                </Box>
+                <Typography>-</Typography>
+                <Box className={styles.timeBox}>
+                  <Typography className={styles.headerSelectedText}>
+                    End Date
+                  </Typography>
+                </Box>
+              </Box>
+            </Box>
+          </>
+        )}
+
         <Box className={styles.verticalDivider} />
 
         <Box className={styles.domainBox}>

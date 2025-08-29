@@ -13,6 +13,16 @@ const Sidebar = () => {
     if (pathname.includes("/test-group")) return "test-group";
     if (pathname.includes("/subscriber-breakdown"))
       return "subscriber-breakdown";
+
+    if (
+      pathname.includes("/profile") ||
+      pathname.includes("/integrations") ||
+      pathname.includes("/domain-ip") ||
+      pathname.includes("/add-integration")
+    ) {
+      return "profile";
+    }
+
     return "";
   }
 
@@ -37,12 +47,17 @@ const Sidebar = () => {
   const getLinkDestination = (itemName: string) => {
     switch (itemName) {
       case "inbox-testing":
-        return `inbox-testing`;
+        return "inbox-testing";
       case "test-group":
-        return `test-group`;
+        return "test-group";
       case "subscriber-breakdown":
-        return `subscriber-breakdown`;
-
+        return "subscriber-breakdown";
+      case "profile":
+        return "profile";
+      case "integrations":
+        return "integrations";
+      case "domain-ip":
+        return "domain-ip";
       default:
         return itemName;
     }
@@ -147,14 +162,24 @@ const Sidebar = () => {
           >
             <img
               className={styles.avatar}
-              src={currentUser.avatar || "/default-avatar.png"}
+              src={
+                selectedMenuItem === "profile"
+                  ? "/default-avatar-dark.png"
+                  : currentUser.avatar || "/default-avatar.png"
+              }
             />
             <div className={styles.profileInfo}>
               <p className={styles.profileName}>{currentUser.name}</p>
               <p className={styles.profileEmail}>{currentUser.email}</p>
             </div>
 
-            <img src="/arrows-logo.png" />
+            <img
+              src={
+                selectedMenuItem === "profile"
+                  ? "/arrows-logo-dark.png"
+                  : "/arrows-logo.png"
+              }
+            />
           </div>
 
           {isMenuOpen && (
@@ -181,9 +206,9 @@ const Sidebar = () => {
               </NavLink>
 
               <NavLink
-                to={getLinkDestination("settings")}
+                to={getLinkDestination("organisation")}
                 className={styles.profileMenuItem}
-                onClick={() => handleOnMenuItemPress("settings")}
+                onClick={() => handleOnMenuItemPress("organisation")}
               >
                 <img src="/organisation-logo.png" />
                 <span>Organisation</span>
@@ -199,9 +224,9 @@ const Sidebar = () => {
               </NavLink>
 
               <NavLink
-                to={getLinkDestination("settings")}
+                to={getLinkDestination("billing")}
                 className={styles.profileMenuItem}
-                onClick={() => handleOnMenuItemPress("settings")}
+                onClick={() => handleOnMenuItemPress("billing")}
               >
                 <img src="/billing-logo.png" />
                 <span>Billing</span>
