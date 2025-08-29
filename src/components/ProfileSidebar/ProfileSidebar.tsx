@@ -85,7 +85,7 @@ const ProfileSidebar = () => {
             className={getMenuItemClassName("domain-ip")}
             onClick={() => handleOnMenuItemPress("domain-ip")}
           >
-            <p className={styles.optionText}>Domaing & IP</p>
+            <p className={styles.optionText}>Domain & IP</p>
           </NavLink>
         </ul>
       </nav>
