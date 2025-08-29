@@ -23,6 +23,7 @@ const Sidebar = () => {
 
   const handleOnMenuItemPress = (clickedItem: string) => {
     setSelectedMenuItem(clickedItem);
+    setIsMenuOpen(false);
     if (clickedItem === "logout") {
       handleLogout();
     }
@@ -189,9 +190,9 @@ const Sidebar = () => {
               </NavLink>
 
               <NavLink
-                to={getLinkDestination("settings")}
+                to={getLinkDestination("integrations")}
                 className={styles.profileMenuItem}
-                onClick={() => handleOnMenuItemPress("settings")}
+                onClick={() => handleOnMenuItemPress("integrations")}
               >
                 <img src="/integration-logo.png" />
                 <span>Integrations</span>

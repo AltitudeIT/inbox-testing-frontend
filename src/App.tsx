@@ -14,6 +14,7 @@ import ProfileDetailsPage from "./pages/ProfileDetails/ProfileDetailsPage";
 import ProfileLayout from "./components/Layout/ProfileLayout/ProfileLayout";
 import IntegrationsPage from "./pages/ProfileDetails/Integrations/IntegrationsPage";
 import DomainAndIpPage from "./pages/ProfileDetails/DomainAndIp/DomainAndIpPage";
+import AddIntegrationPage from "./pages/ProfileDetails/AddIntegration/AddIntegrationPage";
 
 function App() {
   configureAxiosRequestInterceptors();
@@ -40,6 +41,7 @@ function App() {
             <Route element={<ProfileLayout />}>
               <Route path="/profile" element={<ProfileDetailsPage />} />
               <Route path="/integrations" element={<IntegrationsPage />} />
+              <Route path="/add-integration" element={<AddIntegrationPage />} />
               <Route path="/domain-ip" element={<DomainAndIpPage />} />
             </Route>
           </Route>

@@ -17,11 +17,13 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useState, type MouseEvent } from "react";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
+import { useNavigate } from "react-router";
 
 const Integration = () => {
   const [actionMenuAnchorEl, setActionMenuAnchorEl] =
     useState<HTMLElement | null>(null);
   const actionMenuOpen = Boolean(actionMenuAnchorEl);
+  const navigator = useNavigate();
 
   const integrations = [
     { name: "Google Postmaster", status: "enabled" },
@@ -64,6 +66,10 @@ const Integration = () => {
     handleActionMenuClose();
   };
 
+  const handleAddIntegrationClick = () => {
+    navigator("/add-integration");
+  };
+
   return (
     <Box className={styles.rootBox}>
       <Box className={styles.headerBox}>
@@ -73,7 +79,12 @@ const Integration = () => {
             Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
           </Typography>
         </Box>
-        <Button className={styles.addButton}>Add integration</Button>
+        <Button
+          className={styles.addButton}
+          onClick={handleAddIntegrationClick}
+        >
+          Add integration
+        </Button>
       </Box>
 
       <TableContainer className={styles.tableContainer}>
