@@ -6,17 +6,17 @@ const DomainAndIp = () => {
   const [allChecked, setAllChecked] = useState(true);
   const [ispStates, setIspStates] = useState<{ [key: string]: boolean }>({
     Gmail: true,
-    AOL: false,
+    AOL: true,
     Yahoo: true,
-    Outlook: false,
+    Outlook: true,
     iCloud: true,
     "gmx.de": true,
     "gmx.at": true,
-    "gmx.ch": false,
+    "gmx.ch": true,
     "web.de": true,
     "Outlook.de": true,
     "T-Online.de": true,
-    "Freenet.de": false,
+    "Freenet.de": true,
   });
 
   const handleAllToggle = () => {
