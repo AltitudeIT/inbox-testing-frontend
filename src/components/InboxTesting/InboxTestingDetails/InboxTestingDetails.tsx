@@ -19,6 +19,8 @@ const InboxTestingDetails = () => {
   const [expandedSections, setExpandedSections] = useState<ExpandedSections>(
     {}
   );
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [copiedItem, setCopiedItem] = useState<string | null>(null);
 
   const handleIncludeClick = (sectionKey: string) => {
     setExpandedSections((prev) => ({
@@ -27,7 +29,21 @@ const InboxTestingDetails = () => {
     }));
   };
 
+  const handleShareReportClick = () => {
+    setIsModalOpen(true);
+  };
+
   const isExpanded = (sectionKey: string) => !!expandedSections[sectionKey];
+
+  const copyToClipboard = async (text: string, type: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopiedItem(type);
+      setTimeout(() => setCopiedItem(null), 500);
+    } catch (err) {
+      console.error("Failed to copy text: ", err);
+    }
+  };
 
   return (
     <Box className={styles.rootBox}>
@@ -41,7 +57,55 @@ const InboxTestingDetails = () => {
           </Typography>
           <Typography className={styles.info}>Talesandtails.de</Typography>
         </Box>
-        <Button className={styles.shareButton}>Share Report</Button>
+        {isModalOpen ? (
+          <Box className={styles.modalBox}>
+            <Typography className={styles.modalTitle}>Share Report</Typography>
+            <Typography className={styles.modalDescription}>
+              You can scroll down and customize your report with the toggle
+              buttons. (include/exclude specific sections)
+            </Typography>
+
+            <Box className={styles.inputContainer}>
+              <input
+                type="text"
+                className={styles.linkInput}
+                value="Lorem ipsum dolor sit amet, consetetur ..."
+                readOnly
+              />
+              <Box className={styles.copyBox}>
+                <img
+                  src="/InboxTesting/copy-icon.png"
+                  className={styles.copyIcon}
+                  onClick={() =>
+                    copyToClipboard(
+                      "Lorem ipsum dolor sit amet, consetetur ...",
+                      "link"
+                    )
+                  }
+                  alt="Copy subject line"
+                />
+                <Typography className={styles.copyText}>Copy Link</Typography>
+                {copiedItem === "link" && (
+                  <span className={styles.copiedTooltip}>Copied!</span>
+                )}
+              </Box>
+            </Box>
+
+            <Button
+              className={styles.pdfButton}
+              onClick={() => setIsModalOpen(false)}
+            >
+              Download PDF
+            </Button>
+          </Box>
+        ) : (
+          <Button
+            className={styles.shareButton}
+            onClick={handleShareReportClick}
+          >
+            Share Report
+          </Button>
+        )}
       </Box>
 
       <Box className={styles.sectionGrid}>
