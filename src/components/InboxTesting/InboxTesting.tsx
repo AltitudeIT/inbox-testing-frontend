@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   IconButton,
   InputAdornment,
   Menu,
@@ -14,11 +15,21 @@ import {
   Typography,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import { useState, type MouseEvent } from "react";
+import { useEffect, useState, type MouseEvent } from "react";
 import ProgressBar from "../ProgressBar/ProgressBar";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import styles from "./InboxTesting.module.css";
 import { useNavigate } from "react-router";
+import { GetAllTests } from "../../services/InboxTesting/InboxTesting";
+import type {
+  InboxTestingResponse,
+  Pagination,
+} from "../../models/InboxTestingModels";
+import { isAxiosError } from "axios";
+import { toast } from "react-toastify";
+import { CircularProgress } from "@mui/material";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 
 const InboxTesting = () => {
   const [periodAnchorEl, setPeriodAnchorEl] = useState<HTMLElement | null>(
@@ -37,6 +48,12 @@ const InboxTesting = () => {
     useState<HTMLElement | null>(null);
 
   const actionMenuOpen = Boolean(actionMenuAnchorEl);
+
+  const [tests, setTests] = useState<InboxTestingResponse[]>();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageLimit] = useState(25);
+  const [pagination, setPagination] = useState<Pagination | null>(null);
 
   const navigate = useNavigate();
 
@@ -158,6 +175,53 @@ const InboxTesting = () => {
       } else {
         setSelectedDomain(`${newSelectedDomains.length} domains selected`);
       }
+    }
+  };
+
+  useEffect(() => {
+    fetchTests(currentPage, pageLimit);
+  }, [currentPage]);
+
+  const fetchTests = async (page = 1, limit = 25) => {
+    try {
+      setIsLoading(true);
+      const response = await GetAllTests(page, limit);
+      setTests(response.data.results);
+      setPagination(response.data.pagination);
+    } catch (error) {
+      if (isAxiosError(error)) {
+        if (error.response?.status === 404) {
+          //@ts-ignore
+          toast.error(error.response?.data?.message);
+        } else {
+          toast.error(error.response?.data?.message);
+        }
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (pagination?.hasPrev && !isLoading) {
+      const newPage = currentPage - 1;
+      setCurrentPage(newPage);
+      fetchTests(newPage, pageLimit);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (pagination?.hasNext && !isLoading) {
+      const newPage = currentPage + 1;
+      setCurrentPage(newPage);
+      fetchTests(newPage, pageLimit);
+    }
+  };
+
+  const handlePageClick = (pageNumber: number) => {
+    if (pageNumber !== currentPage && !isLoading) {
+      setCurrentPage(pageNumber);
+      fetchTests(pageNumber, pageLimit);
     }
   };
 
@@ -321,51 +385,75 @@ const InboxTesting = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {[...Array(25)].map((_, index) => (
-              <TableRow key={index} className={styles.campaignTableRow}>
+            {isLoading ? (
+              <TableRow>
                 <TableCell
-                  component="th"
-                  scope="row"
-                  className={styles.campaignCellWithPadding}
+                  colSpan={6}
+                  align="center"
+                  style={{ padding: "40px" }}
                 >
-                  <Box className={styles.campaignInfoColumn}>
-                    <Typography
-                      className={styles.campaignSubjectLine}
-                      onClick={handleViewClick}
-                    >
-                      Hier steht die Subjectline lorem ipsum
-                    </Typography>
-                    <Typography className={styles.campaignDateTime}>
-                      March, 13th, 2024 4:57pm
-                    </Typography>
-                    <Typography className={styles.campaignDomain}>
-                      Talesandtails.de
-                    </Typography>
-                  </Box>
-                </TableCell>
-                <TableCell align="left">
-                  <ProgressBar inbox={88} spam={6} blocked={6} />
-                </TableCell>
-                <TableCell className={styles.inboxPercentage} align="left">
-                  88%
-                </TableCell>
-                <TableCell className={styles.spamPercentage} align="left">
-                  6%
-                </TableCell>
-                <TableCell className={styles.blockedPercentage} align="left">
-                  6%
-                </TableCell>
-                <TableCell>
-                  <IconButton
-                    size="small"
-                    onClick={(e) => handleActionMenuClick(e)}
-                    className={styles.actionMenuButton}
-                  >
-                    <MoreVertIcon />
-                  </IconButton>
+                  <CircularProgress size={40} />
                 </TableCell>
               </TableRow>
-            ))}
+            ) : tests && tests.length > 0 ? (
+              tests.map((test, index) => (
+                <TableRow key={index} className={styles.campaignTableRow}>
+                  <TableCell
+                    component="th"
+                    scope="row"
+                    className={styles.campaignCellWithPadding}
+                  >
+                    <Box className={styles.campaignInfoColumn}>
+                      <Typography
+                        className={styles.campaignSubjectLine}
+                        onClick={handleViewClick}
+                      >
+                        {test.subject}
+                      </Typography>
+                      <Typography className={styles.campaignDateTime}>
+                        {test.created
+                          ? new Date(test.created).toLocaleString()
+                          : "Date not available"}
+                      </Typography>
+                      <Typography className={styles.campaignDomain}>
+                        {test.domain}
+                      </Typography>
+                    </Box>
+                  </TableCell>
+                  <TableCell align="left">
+                    <ProgressBar
+                      inbox={test.inbox}
+                      spam={test.spam}
+                      blocked={test.blocked}
+                    />
+                  </TableCell>
+                  <TableCell className={styles.inboxPercentage} align="left">
+                    {test.inbox}%
+                  </TableCell>
+                  <TableCell className={styles.spamPercentage} align="left">
+                    {test.spam}%
+                  </TableCell>
+                  <TableCell className={styles.blockedPercentage} align="left">
+                    {test.blocked}%
+                  </TableCell>
+                  <TableCell>
+                    <IconButton
+                      size="small"
+                      onClick={(e) => handleActionMenuClick(e)}
+                      className={styles.actionMenuButton}
+                    >
+                      <MoreVertIcon />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={6} align="center">
+                  <Typography>No tests available</Typography>
+                </TableCell>
+              </TableRow>
+            )}
           </TableBody>
           <Menu
             anchorEl={actionMenuAnchorEl}
@@ -396,12 +484,65 @@ const InboxTesting = () => {
           </Menu>
         </Table>
       </TableContainer>
+
       <Box className={styles.tablePagination}>
-        <Typography
-          className={styles.paginationText}
-          variant="body2"
-        >{`1-25 of 50`}</Typography>
-        <p className={styles.rightText}>ssssss</p>
+        <Typography className={styles.paginationText} variant="body2">
+          {pagination
+            ? `${
+                (pagination.currentPage - 1) * pagination.perPage + 1
+              }-${Math.min(
+                pagination.currentPage * pagination.perPage,
+                pagination.total
+              )} of ${pagination.total}`
+            : "1-25 of 50"}
+        </Typography>
+
+        <Box className={styles.paginationControls}>
+          <Button
+            className={styles.paginationButton}
+            disabled={!pagination?.hasPrev || isLoading}
+            onClick={handlePreviousPage}
+            startIcon={<ChevronLeftIcon />}
+          >
+            Prev
+          </Button>
+
+          <Box className={styles.pageNumbers}>
+            {pagination && pagination.currentPage > 1 && (
+              <Typography
+                className={styles.pageNumber}
+                onClick={() => handlePageClick(pagination.currentPage - 1)}
+              >
+                {pagination.currentPage - 1}
+              </Typography>
+            )}
+
+            <Typography
+              className={`${styles.pageNumber} ${styles.currentPage}`}
+              onClick={() => handlePageClick(pagination?.currentPage || 1)}
+            >
+              {pagination?.currentPage || 1}
+            </Typography>
+
+            {pagination && pagination.currentPage < pagination.totalPages && (
+              <Typography
+                className={styles.pageNumber}
+                onClick={() => handlePageClick(pagination.currentPage + 1)}
+              >
+                {pagination.currentPage + 1}
+              </Typography>
+            )}
+          </Box>
+
+          <Button
+            className={styles.paginationButton}
+            disabled={!pagination?.hasNext || isLoading}
+            onClick={handleNextPage}
+            endIcon={<ChevronRightIcon />}
+          >
+            Next
+          </Button>
+        </Box>
       </Box>
     </Box>
   );
