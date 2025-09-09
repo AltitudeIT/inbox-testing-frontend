@@ -110,13 +110,12 @@
   height: 214px !important;
   border-radius: 50% !important;
   background: conic-gradient(
-    #649f21 0% 38%,
-    #f5f5f5 38% 39%,
-    #fc0003 39% 43%,
-    #f5f5f5 43% 44%,
-    #f5770b 44% 49%,
-    #f5f5f5 49% 50%,
-    #649f21 50% 100%
+    #649f21 0% var(--inbox-end),
+    #f5f5f5 var(--inbox-end) var(--gap-after-inbox),
+    #fc0003 var(--blocked-start) var(--blocked-end),
+    #f5f5f5 var(--blocked-end) var(--gap-after-blocked),
+    #f5770b var(--spam-start) var(--spam-end),
+    #f5f5f5 var(--spam-end) 100%
   ) !important;
   display: flex !important;
   align-items: center !important;
@@ -229,10 +228,10 @@
 
 .contentSectionContent {
   border: 1px solid #707070 !important;
-  opacity: 0.3 !important;
   margin: 40px 0px 15px 0px !important;
   width: 549px !important;
   height: 816px !important;
+  padding: 40px;
 }
 
 /* ===== spam score section ===== */

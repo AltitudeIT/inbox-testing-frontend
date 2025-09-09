@@ -35,7 +35,7 @@ function App() {
               element={<SubscriberBreakdownPage />}
             />
             <Route
-              path="/inbox-testing/details/1"
+              path="/inbox-testing/details/:testId"
               element={<InboxTestingDetailsPage />}
             />
             <Route element={<ProfileLayout />}>

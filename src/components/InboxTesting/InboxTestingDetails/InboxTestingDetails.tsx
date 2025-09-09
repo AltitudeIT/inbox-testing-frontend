@@ -1,7 +1,13 @@
-import { Box, Button, Switch, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Switch,
+  Typography,
+} from "@mui/material";
 import styles from "./InboxTestingDetails.module.css";
 import { ChevronRight } from "@mui/icons-material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SubscriberInsights from "../SubscriberInsights/SubscriberInsights";
 import FolderPlacement from "../FolderPlacement/FolderPlacement";
 import IPRecords from "../IPRecords/IPRecords";
@@ -10,17 +16,49 @@ import InboxPlacement from "../InboxPlacement/InboxPlacement";
 import DomainTrends from "../DomainTrend/DomainTrend";
 import FAQ from "../FAQ/FAQ";
 import ReputationAnalysis from "../ReputationAnalysis/ReputationAnalysis";
+import { isAxiosError } from "axios";
+import { toast } from "react-toastify";
+import { useParams } from "react-router";
+import { GetTestDetails } from "../../../services/InboxTesting/InboxTesting";
+import type { InboxTestDetailsResponse } from "../../../models/InboxTestingModels";
 
 interface ExpandedSections {
   [key: string]: boolean;
 }
 
 const InboxTestingDetails = () => {
+  const { testId } = useParams();
+  const [testDetails, setTestDetails] =
+    useState<InboxTestDetailsResponse | null>(null);
   const [expandedSections, setExpandedSections] = useState<ExpandedSections>(
     {}
   );
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [copiedItem, setCopiedItem] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    fetchTestDetails();
+  }, []);
+
+  const fetchTestDetails = async () => {
+    try {
+      setIsLoading(true);
+      const response = await GetTestDetails(testId!);
+      setTestDetails(response.data.result);
+    } catch (error) {
+      if (isAxiosError(error)) {
+        if (error.response?.status === 404) {
+          //@ts-ignore
+          toast.error(error.response?.data?.message);
+        } else {
+          toast.error(error.response?.data?.message);
+        }
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleIncludeClick = (sectionKey: string) => {
     setExpandedSections((prev) => ({
@@ -45,17 +83,78 @@ const InboxTestingDetails = () => {
     }
   };
 
+  const calculateGradientStops = (
+    inbox: number,
+    blocked: number,
+    spam: number
+  ) => {
+    const gap = 0.3;
+    const totalGaps = 3;
+    const totalGapSize = gap * totalGaps;
+
+    const availableSpace = 100 - totalGapSize;
+    const total = inbox + blocked + spam;
+    const scale = availableSpace / total;
+
+    const scaledInbox = inbox * scale;
+    const scaledBlocked = blocked * scale;
+    const scaledSpam = spam * scale;
+
+    const inboxEnd = scaledInbox;
+    const gapAfterInbox = inboxEnd + gap;
+
+    const blockedStart = gapAfterInbox;
+    const blockedEnd = blockedStart + scaledBlocked;
+    const gapAfterBlocked = blockedEnd + gap;
+
+    const spamStart = gapAfterBlocked;
+    const spamEnd = spamStart + scaledSpam;
+    const gapAfterSpam = spamEnd + gap;
+
+    const result = {
+      "--inbox-end": `${inboxEnd}%`,
+      "--gap-after-inbox": `${gapAfterInbox}%`,
+      "--blocked-start": `${blockedStart}%`,
+      "--blocked-end": `${blockedEnd}%`,
+      "--gap-after-blocked": `${gapAfterBlocked}%`,
+      "--spam-start": `${spamStart}%`,
+      "--spam-end": `${spamEnd}%`,
+      "--gap-after-spam": `${gapAfterSpam}%`,
+    };
+
+    return result;
+  };
+
+  if (!testDetails) {
+    return (
+      <div className={styles.rootBox}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "50vh",
+          }}
+        >
+          <CircularProgress size={40} />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <Box className={styles.rootBox}>
       <Box className={styles.headerBox}>
         <Box className={styles.infoBox}>
           <Typography className={styles.subjectLine}>
-            Hier steht die Subjectline lorem ipsum
+            {testDetails.test.subject}
           </Typography>
           <Typography className={styles.info}>
-            March, 13th, 2024 4:57pm
+            Sent: {new Date(testDetails.test.created).toLocaleString()}
           </Typography>
-          <Typography className={styles.info}>Talesandtails.de</Typography>
+          <Typography className={styles.info}>
+            From: {testDetails.test.from}
+          </Typography>
         </Box>
         {isModalOpen ? (
           <Box className={styles.modalBox}>
@@ -118,18 +217,33 @@ const InboxTestingDetails = () => {
                 </Typography>
                 <img src="/InboxTesting/Info.png" className={styles.infoIcon} />
               </Box>
-              <Box className={styles.donutChart}>
+              <Box
+                className={styles.donutChart}
+                style={
+                  calculateGradientStops(
+                    testDetails.test.overall_stats.inbox,
+                    testDetails.test.overall_stats.blocked,
+                    testDetails.test.overall_stats.spam
+                  ) as React.CSSProperties
+                }
+              >
                 <Box className={`${styles.chartLabel} ${styles.chartLabel91}`}>
                   <span className={styles.greenDot}></span>
-                  <Typography className={styles.chartLabelText}>91%</Typography>
+                  <Typography className={styles.chartLabelText}>
+                    {testDetails.test.overall_stats.inbox}%
+                  </Typography>
                 </Box>
                 <Box className={`${styles.chartLabel} ${styles.chartLabel5}`}>
                   <span className={styles.redDot}></span>
-                  <Typography className={styles.chartLabelText}>4%</Typography>
+                  <Typography className={styles.chartLabelText}>
+                    {testDetails.test.overall_stats.blocked}%
+                  </Typography>
                 </Box>
                 <Box className={`${styles.chartLabel} ${styles.chartLabel4}`}>
                   <span className={styles.orangeDot}></span>
-                  <Typography className={styles.chartLabelText}>5%</Typography>
+                  <Typography className={styles.chartLabelText}>
+                    {testDetails.test.overall_stats.spam}%
+                  </Typography>
                 </Box>
               </Box>
             </Box>
@@ -212,7 +326,18 @@ const InboxTestingDetails = () => {
             <Box className={styles.chartSectionHeader}>
               <Typography className={styles.contentTitle}>Content</Typography>
             </Box>
-            <Box className={styles.contentSectionContent}></Box>
+            <Box className={styles.contentSectionContent}>
+              {testDetails.test.content && (
+                <img
+                  src={testDetails.test.content}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    backgroundColor: "#f5f5f5",
+                  }}
+                />
+              )}
+            </Box>
           </Box>
         </Box>
       </Box>

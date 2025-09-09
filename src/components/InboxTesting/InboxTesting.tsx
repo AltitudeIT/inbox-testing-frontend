@@ -50,6 +50,9 @@ const InboxTesting = () => {
   const actionMenuOpen = Boolean(actionMenuAnchorEl);
 
   const [tests, setTests] = useState<InboxTestingResponse[]>();
+  const [selectedTest, setSelectedTest] = useState<InboxTestingResponse | null>(
+    null
+  );
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageLimit] = useState(25);
@@ -77,8 +80,12 @@ const InboxTesting = () => {
     "diesisteinnemusterseite6.de",
   ];
 
-  const handleActionMenuClick = (event: MouseEvent<HTMLElement>) => {
+  const handleActionMenuClick = (
+    event: MouseEvent<HTMLElement>,
+    test: InboxTestingResponse
+  ) => {
     event.stopPropagation();
+    setSelectedTest(test);
     setActionMenuAnchorEl(event.currentTarget);
   };
 
@@ -87,7 +94,9 @@ const InboxTesting = () => {
   };
 
   const handleViewClick = () => {
-    navigate(`/inbox-testing/details/1`);
+    if (selectedTest) {
+      navigate(`/inbox-testing/details/${selectedTest.test_id}`);
+    }
     handleActionMenuClose();
   };
 
@@ -406,7 +415,9 @@ const InboxTesting = () => {
                     <Box className={styles.campaignInfoColumn}>
                       <Typography
                         className={styles.campaignSubjectLine}
-                        onClick={handleViewClick}
+                        onClick={() =>
+                          navigate(`/inbox-testing/details/${test.test_id}`)
+                        }
                       >
                         {test.subject}
                       </Typography>
@@ -439,7 +450,7 @@ const InboxTesting = () => {
                   <TableCell>
                     <IconButton
                       size="small"
-                      onClick={(e) => handleActionMenuClick(e)}
+                      onClick={(e) => handleActionMenuClick(e, test)}
                       className={styles.actionMenuButton}
                     >
                       <MoreVertIcon />
