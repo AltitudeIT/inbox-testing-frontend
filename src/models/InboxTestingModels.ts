@@ -22,20 +22,16 @@ export interface InboxTestingApiResponse {
   pagination: Pagination;
 }
 
-interface AuthData {
-  spf: boolean;
-  dkim: boolean;
-  dmarc: boolean;
-}
-
-interface PlacementData {
-  account_id: string;
-  account_email: string;
+export interface PlacementData {
   isp_name: string;
-  inbox_type: string;
   duration: number;
-  auth: AuthData;
-  finished: boolean;
+  inbox_count: number;
+  spam_count: number;
+  blocked_count: number;
+  total_count: number;
+  spf_auth: boolean;
+  dkim_auth: boolean;
+  dmarc_auth: boolean;
 }
 
 interface OverallStats {

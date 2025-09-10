@@ -333,6 +333,8 @@ const InboxTestingDetails = () => {
                   style={{
                     width: "100%",
                     height: "100%",
+                    maxWidth: "300px",
+                    maxHeight: "740px",
                     backgroundColor: "#f5f5f5",
                   }}
                 />
@@ -419,7 +421,12 @@ const InboxTestingDetails = () => {
             />
           </Box>
         </Box>
-        {isExpanded("inboxPlacementAnalysis") && <InboxPlacement />}
+        {isExpanded("inboxPlacementAnalysis") && (
+          <InboxPlacement
+            globalPlacements={testDetails.placements.global}
+            europePlacements={testDetails.placements.europe}
+          />
+        )}
 
         <Box className={styles.subscriberInsightsBox}>
           <Box className={styles.titleContainer}>
