@@ -9,8 +9,14 @@ import {
   Typography,
 } from "@mui/material";
 import styles from "./IPRecords.module.css";
+import type { IPRecord } from "../../../models/InboxTestingModels";
 
-const IPRecords = () => {
+interface IPRecordsProps {
+  ip_records: IPRecord[];
+}
+
+const IPRecords: React.FC<IPRecordsProps> = ({ ip_records }) => {
+  console.log(ip_records.length);
   return (
     <Box className={styles.rootBox}>
       <TableContainer className={styles.tableContainer}>
@@ -31,7 +37,7 @@ const IPRecords = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {[...Array(4)].map((_, index) => (
+            {ip_records.map((record, index) => (
               <TableRow key={index} className={styles.tableRow}>
                 <TableCell
                   component="th"
@@ -39,13 +45,13 @@ const IPRecords = () => {
                   className={styles.cellWithPadding}
                 >
                   <Typography className={styles.rowText}>
-                    123.456.789
+                    {record.ip_address}
                   </Typography>
                 </TableCell>
 
                 <TableCell align="left">
                   <Typography className={styles.rowText}>
-                    Lorem ipsum
+                    {record.reverse_dns}
                   </Typography>
                 </TableCell>
                 <TableCell align="left">

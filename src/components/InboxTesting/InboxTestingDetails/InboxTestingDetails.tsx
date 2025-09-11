@@ -502,7 +502,9 @@ const InboxTestingDetails = () => {
             />
           </Box>
         </Box>
-        {isExpanded("ipRecords") && <IPRecords />}
+        {isExpanded("ipRecords") && (
+          <IPRecords ip_records={testDetails.ip_records} />
+        )}
 
         <Box className={styles.subscriberInsightsBox}>
           <Box className={styles.titleContainer}>

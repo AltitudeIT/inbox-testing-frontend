@@ -56,18 +56,16 @@ interface PlacementsByRegion {
   europe: PlacementData[];
 }
 
-interface Summary {
-  total_placements: number;
-  by_region: {
-    global: number;
-    europe: number;
-  };
+export interface IPRecord {
+  id: number;
+  ip_address: string;
+  reverse_dns: string;
 }
 
 export interface InboxTestDetailsResponse {
   test: TestData;
   placements: PlacementsByRegion;
-  summary: Summary;
+  ip_records: IPRecord[];
 }
 
 export interface InboxTestDetailsApiResponse {
