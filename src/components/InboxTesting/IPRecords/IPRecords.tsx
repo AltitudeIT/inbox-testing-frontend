@@ -16,7 +16,6 @@ interface IPRecordsProps {
 }
 
 const IPRecords: React.FC<IPRecordsProps> = ({ ip_records }) => {
-  console.log(ip_records.length);
   return (
     <Box className={styles.rootBox}>
       <TableContainer className={styles.tableContainer}>

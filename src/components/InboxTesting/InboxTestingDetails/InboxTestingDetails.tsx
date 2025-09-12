@@ -125,7 +125,7 @@ const InboxTestingDetails = () => {
     return result;
   };
 
-  if (!testDetails) {
+  if (!testDetails || isLoading) {
     return (
       <div className={styles.rootBox}>
         <div
