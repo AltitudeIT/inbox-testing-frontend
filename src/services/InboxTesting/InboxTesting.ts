@@ -9,9 +9,19 @@ const url = `${baseUrl}/inbox-testing`;
 
 export const GetAllTests = async (
   page: number,
-  limit: number
+  limit: number,
+  search?: string
 ): Promise<AxiosResponse<InboxTestingApiResponse>> => {
-  return await axios.get(`${url}/all?page=${page}&limit=${limit}`);
+  const params = new URLSearchParams({
+    page: page.toString(),
+    limit: limit.toString(),
+  });
+
+  if (search) {
+    params.append("search", search);
+  }
+
+  return await axios.get(`${url}/all?${params.toString()}`);
 };
 
 export const GetTestDetails = async (

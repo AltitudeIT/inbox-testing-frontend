@@ -57,6 +57,7 @@ const InboxTesting = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageLimit] = useState(25);
   const [pagination, setPagination] = useState<Pagination | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const navigate = useNavigate();
 
@@ -188,13 +189,22 @@ const InboxTesting = () => {
   };
 
   useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setCurrentPage(1);
+      fetchTests(1, pageLimit, searchQuery);
+    }, 500);
+
+    return () => clearTimeout(timeoutId);
+  }, [searchQuery]);
+
+  useEffect(() => {
     fetchTests(currentPage, pageLimit);
   }, [currentPage]);
 
-  const fetchTests = async (page = 1, limit = 25) => {
+  const fetchTests = async (page = 1, limit = 25, search = "") => {
     try {
       setIsLoading(true);
-      const response = await GetAllTests(page, limit);
+      const response = await GetAllTests(page, limit, search);
       setTests(response.data.results);
       setPagination(response.data.pagination);
     } catch (error) {
@@ -244,6 +254,8 @@ const InboxTesting = () => {
             variant="outlined"
             size="small"
             className={styles.searchTestInput}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
             slotProps={{
               input: {
                 startAdornment: (
