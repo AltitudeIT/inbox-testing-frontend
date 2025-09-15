@@ -48,6 +48,8 @@ interface TestData {
   from: string;
   overall_stats: OverallStats;
   content: string;
+  spam_assassin: number;
+  barracuda: number;
   finished: boolean;
 }
 

@@ -136,7 +136,6 @@
   width: 214px !important;
   height: 214px !important;
   border-radius: 50% !important;
-  background: #649f21 !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -191,6 +190,12 @@
 .greenDot,
 .orangeDot,
 .redDot {
+  width: 10px !important;
+  height: 10px !important;
+  border-radius: 50% !important;
+}
+
+.durationDot {
   width: 10px !important;
   height: 10px !important;
   border-radius: 50% !important;

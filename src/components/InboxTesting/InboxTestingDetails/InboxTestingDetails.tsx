@@ -125,6 +125,14 @@ const InboxTestingDetails = () => {
     return result;
   };
 
+  const getDurationColor = (durationInSeconds: number) => {
+    const hours = durationInSeconds / 3600;
+
+    if (hours <= 3) return "#649f21";
+    if (hours > 3 && hours <= 8) return "#f5770b";
+    return "#fc0003";
+  };
+
   if (!testDetails || isLoading) {
     return (
       <div className={styles.rootBox}>
@@ -255,9 +263,23 @@ const InboxTestingDetails = () => {
                 </Typography>
                 <img src="/InboxTesting/Info.png" className={styles.infoIcon} />
               </Box>
-              <Box className={styles.donutChartGreen}>
+              <Box
+                className={styles.donutChartGreen}
+                style={{
+                  background: getDurationColor(
+                    testDetails.test.overall_stats.duration
+                  ),
+                }}
+              >
                 <Box className={`${styles.chartLabel} ${styles.chartLabel100}`}>
-                  <span className={styles.greenDot}></span>
+                  <span
+                    className={styles.durationDot}
+                    style={{
+                      backgroundColor: getDurationColor(
+                        testDetails.test.overall_stats.duration
+                      ),
+                    }}
+                  ></span>
                   <Typography className={styles.chartLabelText}>
                     100%
                   </Typography>
@@ -270,13 +292,31 @@ const InboxTestingDetails = () => {
             <Typography className={styles.sectionTitle}>Spam Score</Typography>
             <Box className={styles.scoreGrid}>
               <Box className={styles.scoreItem}>
-                <img src="/InboxTesting/check-mark.png" />
+                <img
+                  src={
+                    testDetails.test.spam_assassin < 0
+                      ? "/InboxTesting/exclamation-mark.png"
+                      : testDetails.test.spam_assassin >= 0 &&
+                        testDetails.test.spam_assassin <= 5
+                      ? "/InboxTesting/stop-mark.png"
+                      : "/InboxTesting/check-mark.png"
+                  }
+                />
                 <Typography className={styles.scoreText}>
                   Spam Assassin
                 </Typography>
               </Box>
               <Box className={styles.scoreItem}>
-                <img src="/InboxTesting/exclamation-mark.png" />
+                <img
+                  src={
+                    testDetails.test.barracuda < 0.5
+                      ? "/InboxTesting/exclamation-mark.png"
+                      : testDetails.test.barracuda >= 0.5 &&
+                        testDetails.test.barracuda <= 2
+                      ? "/InboxTesting/stop-mark.png"
+                      : "/InboxTesting/check-mark.png"
+                  }
+                />
                 <Typography className={styles.scoreText}>
                   Barracuda .55
                 </Typography>
