@@ -41,7 +41,7 @@ const InboxTesting = () => {
   const periodOpen = Boolean(periodAnchorEl);
   const domainOpen = Boolean(domainAnchorEl);
   const [selectedDomain, setSelectedDomain] = useState("All domains");
-  const [selectedPeriod, setSelectedPeriod] = useState("Last 7 days");
+  const [selectedPeriod, setSelectedPeriod] = useState("All time");
 
   const [selectedDomains, setSelectedDomains] = useState<string[]>([]);
   const [actionMenuAnchorEl, setActionMenuAnchorEl] =
@@ -58,6 +58,13 @@ const InboxTesting = () => {
   const [pageLimit] = useState(25);
   const [pagination, setPagination] = useState<Pagination | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [dateRange, setDateRange] = useState<{
+    startDate: Date | null;
+    endDate: Date | null;
+  }>({
+    startDate: null,
+    endDate: null,
+  });
 
   const navigate = useNavigate();
 
@@ -80,6 +87,53 @@ const InboxTesting = () => {
     "diesisteinnemusterseite5.de",
     "diesisteinnemusterseite6.de",
   ];
+
+  const calculateDateRange = (period: any) => {
+    const now = new Date();
+    const startOfDay = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate()
+    );
+
+    switch (period) {
+      case "Last 7 days":
+        return {
+          startDate: new Date(startOfDay.getTime() - 7 * 24 * 60 * 60 * 1000),
+          endDate: now,
+        };
+      case "Last 60 days":
+        return {
+          startDate: new Date(startOfDay.getTime() - 60 * 24 * 60 * 60 * 1000),
+          endDate: now,
+        };
+      case "Last 90 days":
+        return {
+          startDate: new Date(startOfDay.getTime() - 90 * 24 * 60 * 60 * 1000),
+          endDate: now,
+        };
+      case "This year":
+        return {
+          startDate: new Date(now.getFullYear(), 0, 1),
+          endDate: now,
+        };
+      case "Last year":
+        return {
+          startDate: new Date(now.getFullYear() - 1, 0, 1),
+          endDate: new Date(now.getFullYear() - 1, 11, 31, 23, 59, 59),
+        };
+      case "All time":
+        return {
+          startDate: null,
+          endDate: null,
+        };
+      default:
+        return {
+          startDate: null,
+          endDate: null,
+        };
+    }
+  };
 
   const handleActionMenuClick = (
     event: MouseEvent<HTMLElement>,
@@ -117,8 +171,12 @@ const InboxTesting = () => {
     setPeriodAnchorEl(null);
   };
 
-  const handlePeriodSelect = (period: string) => {
+  const handlePeriodSelect = (period: any) => {
     setSelectedPeriod(period);
+    const newDateRange = calculateDateRange(period);
+    setDateRange(newDateRange);
+    setCurrentPage(1);
+
     if (document.activeElement) {
       (document.activeElement as HTMLElement).blur();
     }
@@ -189,28 +247,51 @@ const InboxTesting = () => {
   };
 
   useEffect(() => {
+    fetchTests(
+      currentPage,
+      pageLimit,
+      searchQuery,
+      dateRange.startDate,
+      dateRange.endDate
+    );
+  }, [currentPage, dateRange]);
+
+  useEffect(() => {
     const timeoutId = setTimeout(() => {
       setCurrentPage(1);
-      fetchTests(1, pageLimit, searchQuery);
+      fetchTests(
+        1,
+        pageLimit,
+        searchQuery,
+        dateRange.startDate,
+        dateRange.endDate
+      );
     }, 500);
 
     return () => clearTimeout(timeoutId);
   }, [searchQuery]);
 
-  useEffect(() => {
-    fetchTests(currentPage, pageLimit);
-  }, [currentPage]);
-
-  const fetchTests = async (page = 1, limit = 25, search = "") => {
+  const fetchTests = async (
+    page = 1,
+    limit = 25,
+    search = "",
+    startDate: Date | null = null,
+    endDate: Date | null = null
+  ) => {
     try {
       setIsLoading(true);
-      const response = await GetAllTests(page, limit, search);
+      const response = await GetAllTests(
+        page,
+        limit,
+        search,
+        startDate,
+        endDate
+      );
       setTests(response.data.results);
       setPagination(response.data.pagination);
     } catch (error) {
       if (isAxiosError(error)) {
         if (error.response?.status === 404) {
-          //@ts-ignore
           toast.error(error.response?.data?.message);
         } else {
           toast.error(error.response?.data?.message);

@@ -10,7 +10,9 @@ const url = `${baseUrl}/inbox-testing`;
 export const GetAllTests = async (
   page: number,
   limit: number,
-  search?: string
+  search?: string,
+  startDate?: Date | null,
+  endDate?: Date | null
 ): Promise<AxiosResponse<InboxTestingApiResponse>> => {
   const params = new URLSearchParams({
     page: page.toString(),
@@ -19,6 +21,14 @@ export const GetAllTests = async (
 
   if (search) {
     params.append("search", search);
+  }
+
+  if (startDate) {
+    params.append("startDate", startDate.toISOString());
+  }
+
+  if (endDate) {
+    params.append("endDate", endDate.toISOString());
   }
 
   return await axios.get(`${url}/all?${params.toString()}`);
