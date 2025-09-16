@@ -254,6 +254,8 @@ const InboxTesting = () => {
   }, [currentPage, dateRange, selectedDomains]);
 
   useEffect(() => {
+    if (!searchQuery) return;
+
     const timeoutId = setTimeout(() => {
       setCurrentPage(1);
       const domainNames = selectedDomains.map((d) => d.name);
