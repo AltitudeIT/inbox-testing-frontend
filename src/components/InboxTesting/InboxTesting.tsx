@@ -296,10 +296,10 @@ const InboxTesting = () => {
       setPagination(response.data.pagination);
     } catch (error) {
       if (isAxiosError(error)) {
-        if (error.response?.status === 404) {
+        if (error.response?.status) {
           toast.error(error.response?.data?.message);
         } else {
-          toast.error(error.response?.data?.message);
+          toast.error("Unexpected error occurred");
         }
       }
     } finally {
@@ -318,11 +318,12 @@ const InboxTesting = () => {
       setDomains(fetchedDomains);
     } catch (error) {
       if (isAxiosError(error)) {
-        if (error.response?.status === 404) {
+        if (error.response?.status) {
           toast.error(error.response?.data?.message);
         } else {
-          toast.error(error.response?.data?.message);
+          toast.error("Unexpected error occurred");
         }
+        setDomains([{ name: "All domains" }]);
       }
     }
   };
