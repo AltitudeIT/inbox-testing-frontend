@@ -1,7 +1,10 @@
 import {
   Box,
+  CircularProgress,
   Divider,
   IconButton,
+  Menu,
+  MenuItem,
   Table,
   TableBody,
   TableCell,
@@ -11,33 +14,75 @@ import {
   Typography,
 } from "@mui/material";
 import styles from "./Dashboard.module.css";
-import { useState } from "react";
+import { useEffect, useState, type MouseEvent } from "react";
 import { ChevronRight } from "@mui/icons-material";
 import ProgressBar from "../ProgressBar/ProgressBar";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import {
-  ResponsiveContainer,
-  LineChart,
-  CartesianGrid,
-  XAxis,
-  YAxis,
-  Legend,
-  Line,
-  Tooltip,
-} from "recharts";
+
 import DomainTrends from "../InboxTesting/DomainTrend/DomainTrend";
+import { isAxiosError } from "axios";
+import { toast } from "react-toastify";
+import { GetDashboardTests } from "../../services/InboxTesting/InboxTesting";
+import type { InboxTestingResponse } from "../../models/InboxTestingModels";
+import { useNavigate } from "react-router";
 
 const Dashboard = () => {
   const [selectedPeriod, setSelectedPeriod] = useState("Custom");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [tests, setTests] = useState<InboxTestingResponse[]>();
+  const navigate = useNavigate();
+  const [actionMenuAnchorEl, setActionMenuAnchorEl] =
+    useState<HTMLElement | null>(null);
+  const [selectedTest, setSelectedTest] = useState<InboxTestingResponse | null>(
+    null
+  );
+  const actionMenuOpen = Boolean(actionMenuAnchorEl);
 
-  const data = [
-    { date: "Mar 10", inbox: null, spam: null, missing: null },
-    { date: "Mar 11", inbox: null, spam: null, missing: null },
-    { date: "Mar 12", inbox: 90, spam: 8, missing: 2 },
-    { date: "Mar 13", inbox: 80, spam: 15, missing: 5 },
-    { date: "Mar 14", inbox: 85, spam: 10, missing: 5 },
-    { date: "Mar 15", inbox: null, spam: null, missing: null },
-  ];
+  useEffect(() => {
+    fetchLatestTests();
+  }, []);
+
+  const fetchLatestTests = async () => {
+    try {
+      setIsLoading(true);
+      const response = await GetDashboardTests();
+      setTests(response.data.results);
+    } catch (error) {
+      if (isAxiosError(error)) {
+        if (error.response?.status) {
+          toast.error(error.response?.data?.message);
+        } else {
+          toast.error("Unexpected error occurred");
+        }
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleActionMenuClick = (
+    event: MouseEvent<HTMLElement>,
+    test: InboxTestingResponse
+  ) => {
+    event.stopPropagation();
+    setSelectedTest(test);
+    setActionMenuAnchorEl(event.currentTarget);
+  };
+
+  const handleActionMenuClose = () => {
+    setActionMenuAnchorEl(null);
+  };
+
+  const handleViewClick = () => {
+    if (selectedTest) {
+      navigate(`/inbox-testing/details/${selectedTest.test_id}`);
+    }
+    handleActionMenuClose();
+  };
+
+  const handleDeleteClick = () => {
+    handleActionMenuClose();
+  };
 
   return (
     <Box className={styles.rootDiv}>
@@ -102,46 +147,107 @@ const Dashboard = () => {
               <TableCell></TableCell>
             </TableRow>
           </TableHead>
+
           <TableBody>
-            {[...Array(3)].map((_, index) => (
-              <TableRow key={index} className={styles.campaignTableRow}>
+            {isLoading ? (
+              <TableRow>
                 <TableCell
-                  component="th"
-                  scope="row"
-                  className={styles.campaignCellWithPadding}
+                  colSpan={6}
+                  align="center"
+                  style={{ padding: "40px" }}
                 >
-                  <Box className={styles.campaignInfoColumn}>
-                    <Typography className={styles.campaignSubjectLine}>
-                      Hier steht die Subjectline lorem ipsum
-                    </Typography>
-                    <Typography className={styles.campaignDateTime}>
-                      March, 13th, 2024 4:57pm
-                    </Typography>
-                    <Typography className={styles.campaignDomain}>
-                      Talesandtails.de
-                    </Typography>
-                  </Box>
-                </TableCell>
-                <TableCell align="left">
-                  <ProgressBar inbox={88} spam={6} blocked={6} />
-                </TableCell>
-                <TableCell className={styles.inboxPercentage} align="left">
-                  88%
-                </TableCell>
-                <TableCell className={styles.spamPercentage} align="left">
-                  6%
-                </TableCell>
-                <TableCell className={styles.blockedPercentage} align="left">
-                  6%
-                </TableCell>
-                <TableCell>
-                  <IconButton size="small" className={styles.actionMenuButton}>
-                    <MoreVertIcon />
-                  </IconButton>
+                  <CircularProgress size={40} />
                 </TableCell>
               </TableRow>
-            ))}
+            ) : tests && tests.length > 0 ? (
+              tests.map((test, index) => (
+                <TableRow key={index} className={styles.campaignTableRow}>
+                  <TableCell
+                    component="th"
+                    scope="row"
+                    className={styles.campaignCellWithPadding}
+                  >
+                    <Box className={styles.campaignInfoColumn}>
+                      <Typography
+                        className={styles.campaignSubjectLine}
+                        onClick={() =>
+                          navigate(`/inbox-testing/details/${test.test_id}`)
+                        }
+                      >
+                        {test.subject}
+                      </Typography>
+                      <Typography className={styles.campaignDateTime}>
+                        {test.created
+                          ? new Date(test.created).toLocaleString()
+                          : "Date not available"}
+                      </Typography>
+                      <Typography className={styles.campaignDomain}>
+                        {test.domain}
+                      </Typography>
+                    </Box>
+                  </TableCell>
+                  <TableCell align="left">
+                    <ProgressBar
+                      inbox={test.inbox}
+                      spam={test.spam}
+                      blocked={test.blocked}
+                    />
+                  </TableCell>
+                  <TableCell className={styles.inboxPercentage} align="left">
+                    {test.inbox}%
+                  </TableCell>
+                  <TableCell className={styles.spamPercentage} align="left">
+                    {test.spam}%
+                  </TableCell>
+                  <TableCell className={styles.blockedPercentage} align="left">
+                    {test.blocked}%
+                  </TableCell>
+                  <TableCell>
+                    <IconButton
+                      size="small"
+                      onClick={(e) => handleActionMenuClick(e, test)}
+                      className={styles.actionMenuButton}
+                    >
+                      <MoreVertIcon />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={6} align="center">
+                  <Typography>No tests available</Typography>
+                </TableCell>
+              </TableRow>
+            )}
           </TableBody>
+          <Menu
+            anchorEl={actionMenuAnchorEl}
+            open={actionMenuOpen}
+            onClose={handleActionMenuClose}
+            className={styles.actionMenu}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "right",
+            }}
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+          >
+            <MenuItem
+              onClick={handleViewClick}
+              className={`${styles.actionMenuItem}`}
+            >
+              View
+            </MenuItem>
+            <MenuItem
+              onClick={handleDeleteClick}
+              className={`${styles.actionMenuItem} `}
+            >
+              Delete
+            </MenuItem>
+          </Menu>
         </Table>
       </TableContainer>
 

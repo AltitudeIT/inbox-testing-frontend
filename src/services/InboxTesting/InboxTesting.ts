@@ -51,3 +51,9 @@ export const GetAllDomains = async (): Promise<
 > => {
   return await axios.get(`${url}/domains`);
 };
+
+export const GetDashboardTests = async (): Promise<
+  AxiosResponse<InboxTestingApiResponse>
+> => {
+  return await axios.get(`${url}/dashboard-tests`);
+};
