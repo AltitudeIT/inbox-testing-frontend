@@ -200,6 +200,7 @@
   border-top: none !important;
   position: relative !important;
   margin-top: -20px !important;
+  height: 400px !important;
 }
 
 .checkboxMenuItem {

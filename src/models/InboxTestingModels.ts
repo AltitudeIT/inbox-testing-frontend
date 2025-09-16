@@ -73,3 +73,7 @@ export interface InboxTestDetailsResponse {
 export interface InboxTestDetailsApiResponse {
   result: InboxTestDetailsResponse;
 }
+
+export interface Domain {
+  name: string;
+}
