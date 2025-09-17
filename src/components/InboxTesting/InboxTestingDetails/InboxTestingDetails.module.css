@@ -211,6 +211,63 @@
   background-color: #fc0003 !important;
 }
 
+/* Tooltip styles */
+.tooltip {
+  position: absolute !important;
+  top: -10px !important;
+  right: -150px !important;
+  background-color: white !important;
+  border: 1px solid #333 !important;
+  border-radius: 8px !important;
+  padding: 0px 0px 0px 24px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+  z-index: 1000 !important;
+  width: 140px !important;
+  height: 123px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: flex-start !important;
+}
+
+.legendItem {
+  display: flex !important;
+  align-items: center !important;
+  gap: 14px !important;
+  margin-bottom: 6px !important;
+  font-size: 15px !important;
+  width: 100% !important;
+  font-weight: 400 !important;
+}
+
+.legendItem:last-child {
+  margin-bottom: 0 !important;
+}
+
+.legendDot {
+  width: 13px !important;
+  height: 13px !important;
+  border-radius: 50% !important;
+  flex-shrink: 0 !important;
+}
+
+.legendText {
+  color: #050e21 !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+}
+
+.legendDotGreen {
+  background-color: #649f21 !important;
+}
+
+.legendDotOrange {
+  background-color: #f5770b !important;
+}
+
+.legendDotRed {
+  background-color: #fc0003 !important;
+}
+
 /* ===== content section ===== */
 .contentSection {
   display: flex !important;
@@ -289,6 +346,34 @@
   right: 0px !important;
   width: 44px !important;
   height: 44px !important;
+}
+
+.spamInfoIcon:hover {
+  cursor: pointer;
+}
+
+.spamTooltip {
+  position: absolute !important;
+  top: 65px !important;
+  right: -130px !important;
+  background-color: white !important;
+  border: 1px solid #333 !important;
+  border-radius: 8px !important;
+  padding: 0px 0px 0px 24px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+  z-index: 1000 !important;
+  width: 185px !important;
+  height: 123px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: flex-start !important;
+}
+
+.legendIcon {
+  width: 13px !important;
+  height: 13px !important;
+  flex-shrink: 0 !important;
 }
 
 /* ===== recommendations section ===== */

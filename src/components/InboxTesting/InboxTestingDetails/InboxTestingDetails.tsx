@@ -36,6 +36,12 @@ const InboxTestingDetails = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [copiedItem, setCopiedItem] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [showDeliveryTooltip, setShowDeliveryTooltip] =
+    useState<boolean>(false);
+  const [showDurationTooltip, setShowDurationTooltip] =
+    useState<boolean>(false);
+  const [showSpamScoreTooltip, setShowSpamScoreTooltip] =
+    useState<boolean>(false);
 
   useEffect(() => {
     fetchTestDetails();
@@ -223,7 +229,12 @@ const InboxTestingDetails = () => {
                 <Typography className={styles.chartSectionTitle}>
                   Delivery
                 </Typography>
-                <img src="/InboxTesting/Info.png" className={styles.infoIcon} />
+                <img
+                  src="/InboxTesting/Info.png"
+                  className={styles.infoIcon}
+                  onMouseEnter={() => setShowDeliveryTooltip(true)}
+                  onMouseLeave={() => setShowDeliveryTooltip(false)}
+                />
               </Box>
               <Box
                 className={styles.donutChart}
@@ -234,6 +245,8 @@ const InboxTestingDetails = () => {
                     testDetails.test.overall_stats.spam
                   ) as React.CSSProperties
                 }
+                onMouseEnter={() => setShowDeliveryTooltip(true)}
+                onMouseLeave={() => setShowDeliveryTooltip(false)}
               >
                 <Box className={`${styles.chartLabel} ${styles.chartLabel91}`}>
                   <span className={styles.greenDot}></span>
@@ -253,6 +266,28 @@ const InboxTestingDetails = () => {
                     {testDetails.test.overall_stats.spam}%
                   </Typography>
                 </Box>
+                {showDeliveryTooltip && (
+                  <div className={styles.tooltip}>
+                    <div className={styles.legendItem}>
+                      <div
+                        className={`${styles.legendDot} ${styles.legendDotGreen}`}
+                      ></div>
+                      <span className={styles.legendText}>Inbox</span>
+                    </div>
+                    <div className={styles.legendItem}>
+                      <div
+                        className={`${styles.legendDot} ${styles.legendDotOrange}`}
+                      ></div>
+                      <span className={styles.legendText}>Spam</span>
+                    </div>
+                    <div className={styles.legendItem}>
+                      <div
+                        className={`${styles.legendDot} ${styles.legendDotRed}`}
+                      ></div>
+                      <span className={styles.legendText}>Missing</span>
+                    </div>
+                  </div>
+                )}
               </Box>
             </Box>
 
@@ -261,7 +296,12 @@ const InboxTestingDetails = () => {
                 <Typography className={styles.chartSectionTitle}>
                   Duration
                 </Typography>
-                <img src="/InboxTesting/Info.png" className={styles.infoIcon} />
+                <img
+                  src="/InboxTesting/Info.png"
+                  className={styles.infoIcon}
+                  onMouseEnter={() => setShowDurationTooltip(true)}
+                  onMouseLeave={() => setShowDurationTooltip(false)}
+                />
               </Box>
               <Box
                 className={styles.donutChartGreen}
@@ -270,6 +310,8 @@ const InboxTestingDetails = () => {
                     testDetails.test.overall_stats.duration
                   ),
                 }}
+                onMouseEnter={() => setShowDurationTooltip(true)}
+                onMouseLeave={() => setShowDurationTooltip(false)}
               >
                 <Box className={`${styles.chartLabel} ${styles.chartLabel100}`}>
                   <span
@@ -284,6 +326,28 @@ const InboxTestingDetails = () => {
                     100%
                   </Typography>
                 </Box>
+                {showDurationTooltip && (
+                  <div className={styles.tooltip}>
+                    <div className={styles.legendItem}>
+                      <div
+                        className={`${styles.legendDot} ${styles.legendDotGreen}`}
+                      ></div>
+                      <span className={styles.legendText}>0-3 Hrs</span>
+                    </div>
+                    <div className={styles.legendItem}>
+                      <div
+                        className={`${styles.legendDot} ${styles.legendDotOrange}`}
+                      ></div>
+                      <span className={styles.legendText}>3-8 Hrs</span>
+                    </div>
+                    <div className={styles.legendItem}>
+                      <div
+                        className={`${styles.legendDot} ${styles.legendDotRed}`}
+                      ></div>
+                      <span className={styles.legendText}>8+ Hrs</span>
+                    </div>
+                  </div>
+                )}
               </Box>
             </Box>
           </Box>
@@ -330,7 +394,37 @@ const InboxTestingDetails = () => {
                 <Typography className={styles.scoreText}>Brightmail</Typography>
               </Box>
             </Box>
-            <img src="/InboxTesting/Info.png" className={styles.spamInfoIcon} />
+            <img
+              src="/InboxTesting/Info.png"
+              className={styles.spamInfoIcon}
+              onMouseEnter={() => setShowSpamScoreTooltip(true)}
+              onMouseLeave={() => setShowSpamScoreTooltip(false)}
+            />
+            {showSpamScoreTooltip && (
+              <div className={styles.spamTooltip}>
+                <div className={styles.legendItem}>
+                  <img
+                    src="/InboxTesting/check-mark.png"
+                    className={styles.legendIcon}
+                  />
+                  <span className={styles.legendText}>Good</span>
+                </div>
+                <div className={styles.legendItem}>
+                  <img
+                    src="/InboxTesting/stop-mark.png"
+                    className={styles.legendIcon}
+                  />
+                  <span className={styles.legendText}>Caution</span>
+                </div>
+                <div className={styles.legendItem}>
+                  <img
+                    src="/InboxTesting/exclamation-mark.png"
+                    className={styles.legendIcon}
+                  />
+                  <span className={styles.legendText}>Needs Attention</span>
+                </div>
+              </div>
+            )}
           </Box>
 
           <Box className={styles.recommendationsSection}>
