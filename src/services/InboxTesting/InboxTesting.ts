@@ -5,6 +5,7 @@ import type {
   InboxTestDetailsApiResponse,
   InboxTestingApiResponse,
 } from "../../models/InboxTestingModels";
+import type { ISPApiResponse } from "../../models/IspModels";
 
 const url = `${baseUrl}/inbox-testing`;
 
@@ -56,4 +57,21 @@ export const GetDashboardTests = async (): Promise<
   AxiosResponse<InboxTestingApiResponse>
 > => {
   return await axios.get(`${url}/dashboard-tests`);
+};
+
+export const GetAllISPs = async (): Promise<AxiosResponse<ISPApiResponse>> => {
+  return await axios.get(`${url}/isps`);
+};
+
+export const UpdateISPDisplay = async (
+  ispName: string,
+  display: boolean
+): Promise<AxiosResponse> => {
+  return await axios.put(`${url}/isps/${ispName}`, { display });
+};
+
+export const UpdateAllISPs = async (
+  display: boolean
+): Promise<AxiosResponse> => {
+  return await axios.put(`${url}/isps/bulk`, { display });
 };
