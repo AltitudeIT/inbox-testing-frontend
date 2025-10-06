@@ -30,9 +30,6 @@ const IPRecords: React.FC<IPRecordsProps> = ({ ip_records }) => {
               <TableCell align="left" className={styles.headerCell}>
                 REVERSE DNS
               </TableCell>
-              <TableCell className={styles.headerCell} align="left">
-                ORGANISATION NAME
-              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -51,11 +48,6 @@ const IPRecords: React.FC<IPRecordsProps> = ({ ip_records }) => {
                 <TableCell align="left">
                   <Typography className={styles.rowText}>
                     {record.reverse_dns}
-                  </Typography>
-                </TableCell>
-                <TableCell align="left">
-                  <Typography className={styles.rowText}>
-                    Lorem ipsum dolor sit amet,
                   </Typography>
                 </TableCell>
               </TableRow>

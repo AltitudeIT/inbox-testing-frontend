@@ -15,11 +15,13 @@ import DomainRecords from "../DomainRecords/DomainRecords";
 import InboxPlacement from "../InboxPlacement/InboxPlacement";
 import DomainTrends from "../DomainTrend/DomainTrend";
 import FAQ from "../FAQ/FAQ";
-import ReputationAnalysis from "../ReputationAnalysis/ReputationAnalysis";
 import { isAxiosError } from "axios";
 import { toast } from "react-toastify";
 import { useParams } from "react-router";
-import { GetTestDetails } from "../../../services/InboxTesting/InboxTesting";
+import {
+  GeneratePDF,
+  GetTestDetails,
+} from "../../../services/InboxTesting/InboxTesting";
 import type { InboxTestDetailsResponse } from "../../../models/InboxTestingModels";
 
 interface ExpandedSections {
@@ -42,6 +44,8 @@ const InboxTestingDetails = () => {
     useState<boolean>(false);
   const [showSpamScoreTooltip, setShowSpamScoreTooltip] =
     useState<boolean>(false);
+
+  const [isGeneratingPDF, setIsGeneratingPDF] = useState<boolean>(false);
 
   useEffect(() => {
     fetchTestDetails();
@@ -86,6 +90,38 @@ const InboxTestingDetails = () => {
       setTimeout(() => setCopiedItem(null), 500);
     } catch (err) {
       console.error("Failed to copy text: ", err);
+    }
+  };
+
+  const downloadPDF = async () => {
+    setIsGeneratingPDF(true);
+
+    try {
+      const includedSections = Object.entries(expandedSections)
+        .filter(([_, isExpanded]) => isExpanded)
+        .map(([key]) => key);
+
+      const response = await GeneratePDF({
+        testId: testId!,
+        sections: includedSections,
+      });
+
+      const blob = new Blob([response.data], { type: "application/pdf" });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `inbox-test-report-${testId}-${Date.now()}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+
+      toast.success("PDF downloaded successfully!");
+    } catch (error) {
+      toast.error("Failed to generate PDF");
+      console.error(error);
+    } finally {
+      setIsGeneratingPDF(false);
     }
   };
 
@@ -206,9 +242,17 @@ const InboxTestingDetails = () => {
 
             <Button
               className={styles.pdfButton}
-              onClick={() => setIsModalOpen(false)}
+              onClick={downloadPDF}
+              disabled={isGeneratingPDF}
             >
-              Download PDF
+              {isGeneratingPDF ? (
+                <>
+                  <CircularProgress size={16} sx={{ mr: 1 }} />
+                  Generating PDF...
+                </>
+              ) : (
+                "Download PDF"
+              )}
             </Button>
           </Box>
         ) : (
@@ -385,14 +429,6 @@ const InboxTestingDetails = () => {
                   Barracuda .55
                 </Typography>
               </Box>
-              <Box className={styles.scoreItem}>
-                <img src="/InboxTesting/stop-mark.png" />
-                <Typography className={styles.scoreText}>Symantec</Typography>
-              </Box>
-              <Box className={styles.scoreItem}>
-                <img src="/InboxTesting/check-mark.png" />
-                <Typography className={styles.scoreText}>Brightmail</Typography>
-              </Box>
             </Box>
             <img
               src="/InboxTesting/Info.png"
@@ -489,7 +525,11 @@ const InboxTestingDetails = () => {
             />
           </Box>
           <Box className={styles.includeBox}>
-            <Switch className={styles.antSwitch} />
+            <Switch
+              className={styles.antSwitch}
+              checked={isExpanded("subscriberInsights")}
+              onChange={() => handleIncludeClick("subscriberInsights")}
+            />
             <Typography className={styles.includeText}>Include</Typography>
             <ChevronRight
               onClick={() => handleIncludeClick("subscriberInsights")}
@@ -515,7 +555,11 @@ const InboxTestingDetails = () => {
             />
           </Box>
           <Box className={styles.includeBox}>
-            <Switch className={styles.antSwitch} />
+            <Switch
+              className={styles.antSwitch}
+              checked={isExpanded("folderPlacement")}
+              onChange={() => handleIncludeClick("folderPlacement")}
+            />
             <Typography className={styles.includeText}>Include</Typography>
             <ChevronRight
               onClick={() => handleIncludeClick("folderPlacement")}
@@ -541,7 +585,11 @@ const InboxTestingDetails = () => {
             />
           </Box>
           <Box className={styles.includeBox}>
-            <Switch className={styles.antSwitch} />
+            <Switch
+              className={styles.antSwitch}
+              checked={isExpanded("inboxPlacementAnalysis")}
+              onChange={() => handleIncludeClick("inboxPlacementAnalysis")}
+            />
             <Typography className={styles.includeText}>Include</Typography>
             <ChevronRight
               onClick={() => handleIncludeClick("inboxPlacementAnalysis")}
@@ -572,7 +620,11 @@ const InboxTestingDetails = () => {
             />
           </Box>
           <Box className={styles.includeBox}>
-            <Switch className={styles.antSwitch} />
+            <Switch
+              className={styles.antSwitch}
+              checked={isExpanded("inboxPlacementDomain")}
+              onChange={() => handleIncludeClick("inboxPlacementDomain")}
+            />
             <Typography className={styles.includeText}>Include</Typography>
             <ChevronRight
               onClick={() => handleIncludeClick("inboxPlacementDomain")}
@@ -598,7 +650,11 @@ const InboxTestingDetails = () => {
             />
           </Box>
           <Box className={styles.includeBox}>
-            <Switch className={styles.antSwitch} />
+            <Switch
+              className={styles.antSwitch}
+              checked={isExpanded("domainRecords")}
+              onChange={() => handleIncludeClick("domainRecords")}
+            />
             <Typography className={styles.includeText}>Include</Typography>
             <ChevronRight
               onClick={() => handleIncludeClick("domainRecords")}
@@ -622,7 +678,11 @@ const InboxTestingDetails = () => {
             />
           </Box>
           <Box className={styles.includeBox}>
-            <Switch className={styles.antSwitch} />
+            <Switch
+              className={styles.antSwitch}
+              checked={isExpanded("ipRecords")}
+              onChange={() => handleIncludeClick("ipRecords")}
+            />
             <Typography className={styles.includeText}>Include</Typography>
             <ChevronRight
               onClick={() => handleIncludeClick("ipRecords")}
@@ -639,7 +699,8 @@ const InboxTestingDetails = () => {
           <IPRecords ip_records={testDetails.ip_records} />
         )}
 
-        <Box className={styles.subscriberInsightsBox}>
+        {/* ovo (reputation analysis) je u V2 */}
+        {/* <Box className={styles.subscriberInsightsBox}>
           <Box className={styles.titleContainer}>
             <Typography className={styles.sectionTitle}>
               Reputation Analysis
@@ -650,7 +711,11 @@ const InboxTestingDetails = () => {
             />
           </Box>
           <Box className={styles.includeBox}>
-            <Switch className={styles.antSwitch} />
+            <Switch
+              className={styles.antSwitch}
+              checked={isExpanded("reputationAnalysis")}
+              onChange={() => handleIncludeClick("reputationAnalysis")}
+            />
             <Typography className={styles.includeText}>Include</Typography>
             <ChevronRight
               onClick={() => handleIncludeClick("reputationAnalysis")}
@@ -663,7 +728,7 @@ const InboxTestingDetails = () => {
             />
           </Box>
         </Box>
-        {isExpanded("reputationAnalysis") && <ReputationAnalysis />}
+        {isExpanded("reputationAnalysis") && <ReputationAnalysis />} */}
 
         <Box className={styles.subscriberInsightsBox}>
           <Box className={styles.titleContainer}>
@@ -674,7 +739,11 @@ const InboxTestingDetails = () => {
             />
           </Box>
           <Box className={styles.includeBox}>
-            <Switch className={styles.antSwitch} />
+            <Switch
+              className={styles.antSwitch}
+              checked={isExpanded("faq")}
+              onChange={() => handleIncludeClick("faq")}
+            />
             <Typography className={styles.includeText}>Include</Typography>
             <ChevronRight
               onClick={() => handleIncludeClick("faq")}

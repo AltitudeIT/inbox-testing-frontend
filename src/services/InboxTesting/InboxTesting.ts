@@ -2,6 +2,7 @@ import axios, { type AxiosResponse } from "axios";
 import { baseUrl } from "../ServiceConfig";
 import type {
   Domain,
+  GeneratePDFRequest,
   InboxTestDetailsApiResponse,
   InboxTestingApiResponse,
 } from "../../models/InboxTestingModels";
@@ -74,4 +75,12 @@ export const UpdateAllISPs = async (
   display: boolean
 ): Promise<AxiosResponse> => {
   return await axios.put(`${url}/isps/bulk`, { display });
+};
+
+export const GeneratePDF = async (
+  data: GeneratePDFRequest
+): Promise<AxiosResponse<Blob>> => {
+  return await axios.post(`${url}/generate-pdf`, data, {
+    responseType: "blob",
+  });
 };

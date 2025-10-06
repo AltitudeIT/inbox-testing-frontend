@@ -14,15 +14,6 @@ const Sidebar = () => {
     if (pathname.includes("/subscriber-breakdown"))
       return "subscriber-breakdown";
 
-    if (
-      pathname.includes("/profile") ||
-      pathname.includes("/integrations") ||
-      pathname.includes("/domain-ip") ||
-      pathname.includes("/add-integration")
-    ) {
-      return "profile";
-    }
-
     return "";
   }
 
@@ -52,8 +43,6 @@ const Sidebar = () => {
         return "test-group";
       case "subscriber-breakdown":
         return "subscriber-breakdown";
-      case "profile":
-        return "profile";
       case "integrations":
         return "integrations";
       case "domain-ip":
@@ -197,39 +186,12 @@ const Sidebar = () => {
               </div>
               <hr />
               <NavLink
-                to={getLinkDestination("profile")}
-                className={styles.profileMenuItem}
-                onClick={() => handleOnMenuItemPress("profile")}
-              >
-                <img src="/personal-logo.png" />
-                <span>Personal</span>
-              </NavLink>
-
-              <NavLink
-                to={getLinkDestination("organisation")}
-                className={styles.profileMenuItem}
-                onClick={() => handleOnMenuItemPress("organisation")}
-              >
-                <img src="/organisation-logo.png" />
-                <span>Organisation</span>
-              </NavLink>
-
-              <NavLink
                 to={getLinkDestination("integrations")}
                 className={styles.profileMenuItem}
                 onClick={() => handleOnMenuItemPress("integrations")}
               >
                 <img src="/integration-logo.png" />
                 <span>Integrations</span>
-              </NavLink>
-
-              <NavLink
-                to={getLinkDestination("billing")}
-                className={styles.profileMenuItem}
-                onClick={() => handleOnMenuItemPress("billing")}
-              >
-                <img src="/billing-logo.png" />
-                <span>Billing</span>
               </NavLink>
               <hr />
 

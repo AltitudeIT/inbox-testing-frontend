@@ -10,7 +10,6 @@ import TestgroupPage from "./pages/TestgroupPage/TestgroupPage";
 import InboxTestingPage from "./pages/InboxTesting/InboxTesting";
 import SubscriberBreakdownPage from "./pages/SubscriberBreakdown/SubscriberBreakdown";
 import InboxTestingDetailsPage from "./pages/InboxTesting/InboxTestingDetails/InboxTestingDetailsPage";
-import ProfileDetailsPage from "./pages/ProfileDetails/ProfileDetailsPage";
 import ProfileLayout from "./components/Layout/ProfileLayout/ProfileLayout";
 import IntegrationsPage from "./pages/ProfileDetails/Integrations/IntegrationsPage";
 import DomainAndIpPage from "./pages/ProfileDetails/DomainAndIp/DomainAndIpPage";
@@ -39,7 +38,6 @@ function App() {
               element={<InboxTestingDetailsPage />}
             />
             <Route element={<ProfileLayout />}>
-              <Route path="/profile" element={<ProfileDetailsPage />} />
               <Route path="/integrations" element={<IntegrationsPage />} />
               <Route path="/add-integration" element={<AddIntegrationPage />} />
               <Route path="/domain-ip" element={<DomainAndIpPage />} />

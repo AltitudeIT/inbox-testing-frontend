@@ -7,10 +7,7 @@ const ProfileSidebar = () => {
   const location = useLocation();
 
   function getCurrentPageFromPath(pathname: string): string {
-    if (pathname.includes("/profile")) return "profile";
-    if (pathname.includes("/organisation")) return "organisation";
     if (pathname.includes("/integrations")) return "integrations";
-    if (pathname.includes("/billing")) return "billing";
     if (pathname.includes("/domain-ip")) return "domain-ip";
     return "";
   }
@@ -31,12 +28,8 @@ const ProfileSidebar = () => {
 
   const getLinkDestination = (itemName: string) => {
     switch (itemName) {
-      case "organisation":
-        return `organisation`;
       case "integrations":
         return `integrations`;
-      case "billing":
-        return `billing`;
       case "domain-ip":
         return `domain-ip`;
 
@@ -50,22 +43,6 @@ const ProfileSidebar = () => {
       <nav className={styles.nav}>
         <ul className={styles.ul}>
           <NavLink
-            to="profile"
-            className={getMenuItemClassName("profile")}
-            onClick={() => handleOnMenuItemPress("profile")}
-          >
-            <p className={styles.optionText}>Personal</p>
-          </NavLink>
-
-          <NavLink
-            to={getLinkDestination("organisation")}
-            className={getMenuItemClassName("organisation")}
-            onClick={() => handleOnMenuItemPress("organisation")}
-          >
-            <p className={styles.optionText}>Organisation</p>
-          </NavLink>
-
-          <NavLink
             to={getLinkDestination("integrations")}
             className={getMenuItemClassName("integrations")}
             onClick={() => handleOnMenuItemPress("integrations")}
@@ -73,13 +50,6 @@ const ProfileSidebar = () => {
             <p className={styles.optionText}>Integrations</p>
           </NavLink>
 
-          <NavLink
-            to={getLinkDestination("billing")}
-            className={getMenuItemClassName("billing")}
-            onClick={() => handleOnMenuItemPress("billing")}
-          >
-            <p className={styles.optionText}>Billing</p>
-          </NavLink>
           <NavLink
             to={getLinkDestination("domain-ip")}
             className={getMenuItemClassName("domain-ip")}

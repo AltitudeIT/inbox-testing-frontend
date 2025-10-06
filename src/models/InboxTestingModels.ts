@@ -77,3 +77,8 @@ export interface InboxTestDetailsApiResponse {
 export interface Domain {
   name: string;
 }
+
+export interface GeneratePDFRequest {
+  testId: string;
+  sections: string[];
+}

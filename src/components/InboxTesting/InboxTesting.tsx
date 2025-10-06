@@ -312,7 +312,6 @@ const InboxTesting = () => {
   const fetchDomains = async () => {
     try {
       const response = await GetAllDomains();
-      console.log(response.data);
       const fetchedDomains: Domain[] = [
         { name: "All domains" },
         ...response.data.result,

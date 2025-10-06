@@ -147,7 +147,7 @@ hr {
   border: 1px solid rgb(148, 146, 146);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   width: 365px;
-  height: 399px;
+  height: 250px;
   display: flex;
   flex-direction: column;
   padding: 0px 24px;
