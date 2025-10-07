@@ -49,6 +49,28 @@ const InboxPlacement: React.FC<InboxPlacementProps> = ({
     return ispPlacement?.duration || 0;
   };
 
+  const formatDuration = (seconds: number): string => {
+    if (seconds < 60) {
+      return `${seconds} sec`;
+    } else if (seconds < 3600) {
+      const minutes = Math.floor(seconds / 60);
+      const remainingSeconds = seconds % 60;
+      return remainingSeconds > 0
+        ? `${minutes}m ${remainingSeconds}s`
+        : `${minutes}m`;
+    } else {
+      const hours = Math.floor(seconds / 3600);
+      const remainingMinutes = Math.floor((seconds % 3600) / 60);
+      const remainingSeconds = seconds % 60;
+
+      let result = `${hours}h`;
+      if (remainingMinutes > 0) result += ` ${remainingMinutes}m`;
+      if (remainingSeconds > 0) result += ` ${remainingSeconds}s`;
+
+      return result;
+    }
+  };
+
   return (
     <Box className={styles.rootBox}>
       <Typography className={styles.titleText}>Global</Typography>
@@ -82,7 +104,6 @@ const InboxPlacement: React.FC<InboxPlacementProps> = ({
                 globalPlacements,
                 placement.isp_name
               );
-
               return (
                 <TableRow key={index} className={styles.tableRow}>
                   <TableCell
@@ -125,7 +146,7 @@ const InboxPlacement: React.FC<InboxPlacementProps> = ({
                   </TableCell>
                   <TableCell align="left" className={styles.durationCell}>
                     <Typography className={styles.rowText}>
-                      {duration} sec
+                      {formatDuration(duration)}
                     </Typography>
                   </TableCell>
                   <TableCell align="left">
@@ -245,7 +266,7 @@ const InboxPlacement: React.FC<InboxPlacementProps> = ({
                   </TableCell>
                   <TableCell align="left" className={styles.durationCell}>
                     <Typography className={styles.rowText}>
-                      {duration} sec
+                      {formatDuration(duration)}
                     </Typography>
                   </TableCell>
                   <TableCell align="left">
