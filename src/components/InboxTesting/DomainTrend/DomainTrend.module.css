@@ -12,16 +12,14 @@
   background: white;
   border: 1px solid #050e21;
   border-radius: 10px;
-  padding: 5px 12px;
-  width: 98px;
-  height: 83px;
+  padding: 10px 16px;
 }
 
 .tooltipLabel {
   font-weight: 700;
   font-size: 12px;
   text-align: left;
-  margin: 0;
+  margin: 0px 0px 4px 0px;
 }
 
 .tooltipEntry {

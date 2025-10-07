@@ -64,10 +64,18 @@ export interface IPRecord {
   reverse_dns: string;
 }
 
+export interface DomainTrend {
+  created: string;
+  inbox: string;
+  spam: string;
+  blocked: string;
+}
+
 export interface InboxTestDetailsResponse {
   test: TestData;
   placements: PlacementsByRegion;
   ip_records: IPRecord[];
+  domain_trends: DomainTrend[];
 }
 
 export interface InboxTestDetailsApiResponse {

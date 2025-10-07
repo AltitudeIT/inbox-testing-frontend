@@ -10,30 +10,36 @@ import {
   Tooltip,
 } from "recharts";
 import styles from "./DomainTrend.module.css";
+import type { DomainTrend } from "../../../models/InboxTestingModels";
 
-const DomainTrends = () => {
-  const data = [
-    { date: "Mar 10", inbox: null, spam: null, missing: null },
-    { date: "Mar 11", inbox: null, spam: null, missing: null },
-    { date: "Mar 12", inbox: 90, spam: 8, missing: 2 },
-    { date: "Mar 13", inbox: 80, spam: 15, missing: 5 },
-    { date: "Mar 14", inbox: 85, spam: 10, missing: 5 },
-    { date: "Mar 15", inbox: null, spam: null, missing: null },
-  ];
+interface DomainTrendProps {
+  domain_trends: DomainTrend[];
+}
+
+const DomainTrends: React.FC<DomainTrendProps> = ({ domain_trends }) => {
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    });
+  };
 
   return (
     <Box className={styles.rootBox}>
       <ResponsiveContainer>
         <LineChart
-          data={data}
-          margin={{ top: 20, right: 40, left: -30, bottom: 20 }}
+          data={domain_trends}
+          margin={{ top: 20, right: 40, left: 0, bottom: 20 }}
         >
           <CartesianGrid stroke="#e0e0e0" />
           <XAxis
-            dataKey="date"
+            dataKey="created"
             axisLine={true}
             tickLine={false}
             tick={{ fontSize: 12, fill: "black" }}
+            tickFormatter={formatDate}
           />
           <YAxis
             domain={[0, 100]}
@@ -48,7 +54,9 @@ const DomainTrends = () => {
               if (active && payload && payload.length) {
                 return (
                   <div className={styles.tooltip}>
-                    <p className={styles.tooltipLabel}>{label}</p>
+                    <p className={styles.tooltipLabel}>
+                      {formatDate(String(label))}
+                    </p>
                     {payload.map((entry, index) => (
                       <p key={index} className={styles.tooltipEntry}>
                         <span
@@ -94,7 +102,7 @@ const DomainTrends = () => {
             connectNulls={false}
           />
           <Line
-            dataKey="missing"
+            dataKey="blocked"
             stroke="#FC0003"
             strokeWidth={2}
             dot={{ fill: "#FC0003", strokeWidth: 1 }}

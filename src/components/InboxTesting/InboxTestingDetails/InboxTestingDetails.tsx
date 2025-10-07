@@ -637,7 +637,9 @@ const InboxTestingDetails = () => {
             />
           </Box>
         </Box>
-        {isExpanded("inboxPlacementDomain") && <DomainTrends />}
+        {isExpanded("inboxPlacementDomain") && (
+          <DomainTrends domain_trends={testDetails.domain_trends} />
+        )}
 
         <Box className={styles.subscriberInsightsBox}>
           <Box className={styles.titleContainer}>
