@@ -39,7 +39,7 @@ const SubscriberBreakdownList = (props: SubscriberBreakdownListProps) => {
     content = (
       <TableBody>
         <TableRow>
-          <TableCell className={styles.element} colSpan={4}>
+          <TableCell className={styles.element} colSpan={5}>
             <Typography variant="body2" className={styles.typographyElement}>
               There are no subscribers available.
             </Typography>
@@ -79,6 +79,9 @@ const SubscriberBreakdownList = (props: SubscriberBreakdownListProps) => {
               <TableCell className={`${styles.cell} ${styles.nameCell}`}>
                 Name
               </TableCell>
+              <TableCell
+                className={`${styles.cell} ${styles.statusCell}`}
+              ></TableCell>
               <TableCell className={`${styles.cell} ${styles.dateCell}`}>
                 Date
               </TableCell>

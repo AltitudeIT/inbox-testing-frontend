@@ -1,4 +1,10 @@
-import { useEffect, useState } from "react";
+import {
+  useEffect,
+  useState,
+  useRef,
+  forwardRef,
+  useImperativeHandle,
+} from "react";
 import styles from "./SubscriberBreakdown.module.css";
 import SubscriberBreakdownList from "./SubscriberBreakdownList/SubscriberBreakdownList";
 import SubscriberDetails from "./SubscriberDetails/SubscriberDetails";
@@ -9,9 +15,12 @@ import type {
   SubscriberListRespone,
   PaginationInfo,
 } from "../../models/SubscriberModels";
-import { GetSubscriberList } from "../../services/SubscriberList/SubscriberList";
+import {
+  GetSubscriberList,
+  checkSubscriberListStatus,
+} from "../../services/SubscriberList/SubscriberList";
 
-const SubscriberBreakdown = () => {
+const SubscriberBreakdown = forwardRef((props, ref) => {
   const [selectedSubscriber, setSelectedSubscriber] =
     useState<SubscriberListRespone | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -36,16 +45,64 @@ const SubscriberBreakdown = () => {
     setSelectedSubscriber(null);
   };
 
+  const pollingIntervalsRef = useRef<Map<number, NodeJS.Timeout>>(new Map());
+
+  useImperativeHandle(ref, () => ({
+    refreshList: () => {
+      fetchSubscriberList(pagination.page, pagination.limit);
+    },
+  }));
+
   useEffect(() => {
     fetchSubscriberList(pagination.page, pagination.limit);
+
+    return () => {
+      pollingIntervalsRef.current.forEach((interval) =>
+        clearInterval(interval)
+      );
+      pollingIntervalsRef.current.clear();
+    };
   }, []);
 
-  const fetchSubscriberList = async (page = 1, limit = 5) => {
+  useEffect(() => {
+    const processingLists = subscriberList.filter(
+      (list) => list.status === "processing"
+    );
+
+    processingLists.forEach((list) => {
+      if (!pollingIntervalsRef.current.has(list.id)) {
+        const intervalId = setInterval(() => {
+          pollListStatus(list.id);
+        }, 5000);
+        pollingIntervalsRef.current.set(list.id, intervalId);
+      }
+    });
+
+    pollingIntervalsRef.current.forEach((intervalId, listId) => {
+      const listStillProcessing = processingLists.some((l) => l.id === listId);
+      if (!listStillProcessing) {
+        clearInterval(intervalId);
+        pollingIntervalsRef.current.delete(listId);
+      }
+    });
+  }, [subscriberList]);
+
+  const pollListStatus = async (listId: number) => {
     try {
-      setIsLoading(true);
-      const response = await GetSubscriberList(page, limit);
-      setSubscriberList(response.data.data);
-      setPagination(response.data.pagination);
+      const response = await checkSubscriberListStatus(listId);
+      const newStatus = response.data.status;
+
+      setSubscriberList((prevList) =>
+        prevList.map((list) =>
+          list.id === listId ? { ...list, status: newStatus } : list
+        )
+      );
+
+      if (newStatus === "complete") {
+        toast.success(`Subscriber list processing completed!`);
+      } else if (newStatus === "failed") {
+        toast.error(`Subscriber list processing failed.`);
+      }
     } catch (error) {
       if (isAxiosError(error)) {
         if (error.response?.status) {
@@ -54,6 +111,16 @@ const SubscriberBreakdown = () => {
           toast.error("Unexpected error occurred");
         }
       }
+    }
+  };
+
+  const fetchSubscriberList = async (page = 1, limit = 5) => {
+    try {
+      setIsLoading(true);
+      const response = await GetSubscriberList(page, limit);
+      setSubscriberList(response.data.data);
+      setPagination(response.data.pagination);
+    } catch (error) {
     } finally {
       setIsLoading(false);
     }
@@ -103,6 +170,8 @@ const SubscriberBreakdown = () => {
       </div>
     </>
   );
-};
+});
+
+SubscriberBreakdown.displayName = "SubscriberBreakdown";
 
 export default SubscriberBreakdown;
