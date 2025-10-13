@@ -19,16 +19,10 @@ import {
 import InfoOutlineIcon from "@mui/icons-material/InfoOutline";
 import styles from "./SubscriberDetails.module.css";
 import SearchIcon from "@mui/icons-material/Search";
-
-interface SubscriberResponse {
-  id: number;
-  name: string;
-  date: string;
-  totalSubscribers: string;
-}
+import type { SubscriberListRespone } from "../../../models/SubscriberModels";
 
 interface SubscriberDetailsProps {
-  subscriber: SubscriberResponse;
+  subscriber: SubscriberListRespone;
   onClose: () => void;
 }
 
