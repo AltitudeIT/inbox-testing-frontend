@@ -13,6 +13,24 @@
   margin: 32px 0 !important;
 }
 
+.processingMessage {
+  font-size: 18px !important;
+  font-weight: 400 !important;
+  color: #f5770b !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+  padding: 24px 0px !important;
+  text-align: center !important;
+}
+
+.errorMessage {
+  font-size: 18px !important;
+  font-weight: 400 !important;
+  color: #fc0003 !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+  padding: 24px 0px !important;
+  text-align: center !important;
+}
+
 /* ===== details section ===== */
 
 .detailsBox {
@@ -135,10 +153,53 @@
   font-weight: 300 !important;
   font-size: 15px !important;
   opacity: 0.7 !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
 }
 
-.rightText {
-  opacity: 0.7 !important;
+.paginationControls {
+  display: flex !important;
+  align-items: center !important;
+  gap: 16px !important;
+}
+
+.paginationButton {
+  background: transparent !important;
+  border: none !important;
+  color: #050e21 !important;
+  font-size: 15px !important;
+  font-weight: 300 !important;
+  text-transform: none !important;
+  min-width: auto !important;
+  box-shadow: none !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+}
+
+.paginationButton:disabled {
+  color: #ccc !important;
+}
+
+.pageNumbers {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.pageNumber {
+  font-size: 15px !important;
+  font-weight: 300 !important;
+  color: #050e21 !important;
+  padding: 4px 10px !important;
+  border-radius: 50% !important;
+  cursor: pointer;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.currentPage {
+  background-color: rgba(5, 14, 33, 0.2) !important;
+  color: #050e21 !important;
+  font-weight: 500 !important;
 }
 
 .divider {

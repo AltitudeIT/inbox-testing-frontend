@@ -16,8 +16,8 @@ import type {
   PaginationInfo,
 } from "../../models/SubscriberModels";
 import {
+  CheckSubscriberListStatus,
   GetSubscriberList,
-  checkSubscriberListStatus,
 } from "../../services/SubscriberList/SubscriberList";
 
 const SubscriberBreakdown = forwardRef((props, ref) => {
@@ -89,7 +89,7 @@ const SubscriberBreakdown = forwardRef((props, ref) => {
 
   const pollListStatus = async (listId: number) => {
     try {
-      const response = await checkSubscriberListStatus(listId);
+      const response = await CheckSubscriberListStatus(listId);
       const newStatus = response.data.status;
 
       setSubscriberList((prevList) =>
@@ -97,6 +97,13 @@ const SubscriberBreakdown = forwardRef((props, ref) => {
           list.id === listId ? { ...list, status: newStatus } : list
         )
       );
+
+      setSelectedSubscriber((prevSelected) => {
+        if (prevSelected && prevSelected.id === listId) {
+          return { ...prevSelected, status: newStatus };
+        }
+        return prevSelected;
+      });
 
       if (newStatus === "complete") {
         toast.success(`Subscriber list processing completed!`);
@@ -121,6 +128,13 @@ const SubscriberBreakdown = forwardRef((props, ref) => {
       setSubscriberList(response.data.data);
       setPagination(response.data.pagination);
     } catch (error) {
+      if (isAxiosError(error)) {
+        if (error.response?.status) {
+          toast.error(error.response?.data?.message);
+        } else {
+          toast.error("Unexpected error occurred");
+        }
+      }
     } finally {
       setIsLoading(false);
     }
@@ -163,6 +177,7 @@ const SubscriberBreakdown = forwardRef((props, ref) => {
         </p>
         {selectedSubscriber && (
           <SubscriberDetails
+            key={selectedSubscriber.id}
             subscriber={selectedSubscriber}
             onClose={handleCloseDetails}
           />

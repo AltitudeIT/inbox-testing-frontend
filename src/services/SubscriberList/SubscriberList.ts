@@ -1,7 +1,10 @@
 import axios from "axios";
 import type { AxiosResponse } from "axios";
 import { baseUrl } from "../ServiceConfig";
-import type { SubscriberListApiResponse } from "../../models/SubscriberModels";
+import type {
+  SubscriberListApiResponse,
+  SubscriberListDetails,
+} from "../../models/SubscriberModels";
 
 const url = `${baseUrl}/subscriber-list`;
 
@@ -27,8 +30,26 @@ export const GetSubscriberList = async (
   return await axios.get(`${url}?${params.toString()}`);
 };
 
-export const checkSubscriberListStatus = async (
+export const CheckSubscriberListStatus = async (
   listId: number
 ): Promise<AxiosResponse<{ status: string }>> => {
   return await axios.get(`${url}/${listId}/status`);
+};
+
+export const GetSubscriberListDetails = async (
+  id: number,
+  page: number = 1,
+  limit: number = 5,
+  search: string = ""
+): Promise<AxiosResponse<SubscriberListDetails>> => {
+  const params = new URLSearchParams({
+    page: page.toString(),
+    limit: limit.toString(),
+  });
+
+  if (search) {
+    params.append("search", search);
+  }
+
+  return await axios.get(`${url}/${id}?${params.toString()}`);
 };

@@ -19,3 +19,18 @@ export interface SubscriberListApiResponse {
   data: SubscriberListRespone[];
   pagination: PaginationInfo;
 }
+
+export interface SubscriberListDetails {
+  id: number;
+  isp_breakdown: ISPBreakdown[];
+  total_subscribers: number;
+  unique_domains: number;
+  pagination?: PaginationInfo;
+}
+
+export interface ISPBreakdown {
+  isp: string;
+  subscribers: number;
+  percent_of_list: string;
+  domains: number;
+}
