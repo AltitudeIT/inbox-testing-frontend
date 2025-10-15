@@ -1,4 +1,12 @@
-import { IconButton, TableCell, TableRow, Chip } from "@mui/material";
+import {
+  IconButton,
+  TableCell,
+  TableRow,
+  Chip,
+  Menu,
+  MenuItem,
+} from "@mui/material";
+import { useState, type MouseEvent } from "react";
 import styles from "./SubscriberBreakdownList.module.css";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ErrorIcon from "@mui/icons-material/Error";
@@ -11,10 +19,33 @@ interface SubscriberBreakdownItemProps {
 }
 
 const SubscriberBreakdownItem = (props: SubscriberBreakdownItemProps) => {
+  const [actionMenuAnchorEl, setActionMenuAnchorEl] =
+    useState<HTMLElement | null>(null);
+  const actionMenuOpen = Boolean(actionMenuAnchorEl);
   const handleRowClick = () => {
     if (props.onSelect) {
       props.onSelect(props.subscriber);
     }
+  };
+
+  const handleActionMenuClick = (event: MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
+    setActionMenuAnchorEl(event.currentTarget);
+  };
+
+  const handleActionMenuClose = () => {
+    setActionMenuAnchorEl(null);
+  };
+
+  const handleViewClick = () => {
+    if (props.onSelect) {
+      props.onSelect(props.subscriber);
+    }
+    handleActionMenuClose();
+  };
+
+  const handleDeleteClick = () => {
+    handleActionMenuClose();
   };
 
   const formatDate = (dateString: string) => {
@@ -75,9 +106,37 @@ const SubscriberBreakdownItem = (props: SubscriberBreakdownItemProps) => {
         {props.subscriber.total_count}
       </TableCell>
       <TableCell className={styles.actionsCell}>
-        <IconButton size="small" className={styles.menuButton}>
+        <IconButton
+          size="small"
+          className={styles.menuButton}
+          onClick={handleActionMenuClick}
+        >
           <MoreVertIcon />
         </IconButton>
+        <Menu
+          anchorEl={actionMenuAnchorEl}
+          open={actionMenuOpen}
+          onClose={handleActionMenuClose}
+          className={styles.actionMenu}
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "right",
+          }}
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
+        >
+          <MenuItem onClick={handleViewClick} className={styles.actionMenuItem}>
+            View
+          </MenuItem>
+          <MenuItem
+            onClick={handleDeleteClick}
+            className={styles.actionMenuItem}
+          >
+            Delete
+          </MenuItem>
+        </Menu>
       </TableCell>
     </TableRow>
   );

@@ -20,7 +20,7 @@ import {
   GetSubscriberList,
 } from "../../services/SubscriberList/SubscriberList";
 
-const SubscriberBreakdown = forwardRef((props, ref) => {
+const SubscriberBreakdown = forwardRef((_, ref) => {
   const [selectedSubscriber, setSelectedSubscriber] =
     useState<SubscriberListRespone | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
