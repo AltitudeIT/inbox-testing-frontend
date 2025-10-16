@@ -9,7 +9,7 @@ const SubscriberInsights = () => {
           <img src="/InboxTesting/SubscriberInsights/mail-icon.png" />
         </Box>
         <Box className={styles.contentBox}>
-          <Typography className={styles.inboxText}> Inbox Count</Typography>
+          <Typography className={styles.inboxText}> Inbox </Typography>
           <Typography className={styles.countText}>21886 </Typography>
           <Typography className={styles.percentageText}>97,45% </Typography>
         </Box>
@@ -20,7 +20,7 @@ const SubscriberInsights = () => {
           className={styles.bulkImage}
         />
         <Box className={styles.contentBox}>
-          <Typography className={styles.inboxText}> Bulk Count</Typography>
+          <Typography className={styles.inboxText}> Spam</Typography>
           <Typography className={styles.countText}>569 </Typography>
           <Typography className={styles.percentageText}>2,53% </Typography>
         </Box>
@@ -30,7 +30,7 @@ const SubscriberInsights = () => {
           <img src="/InboxTesting/SubscriberInsights/warning-icon.png" />
         </Box>
         <Box className={styles.contentBox}>
-          <Typography className={styles.inboxText}> Inbox Count</Typography>
+          <Typography className={styles.inboxText}> Missing</Typography>
           <Typography className={styles.countText}>4 </Typography>
           <Typography className={styles.percentageText}>0,02% </Typography>
         </Box>
