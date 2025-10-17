@@ -71,11 +71,21 @@ export interface DomainTrend {
   blocked: string;
 }
 
+export interface SubscriberInsight {
+  inbox_percentage: number;
+  spam_percentage: number;
+  blocked_percentage: number;
+  inbox_count: number;
+  spam_count: number;
+  blocked_count: number;
+}
+
 export interface InboxTestDetailsResponse {
   test: TestData;
   placements: PlacementsByRegion;
   ip_records: IPRecord[];
   domain_trends: DomainTrend[];
+  subscriber_insights: SubscriberInsight;
 }
 
 export interface InboxTestDetailsApiResponse {

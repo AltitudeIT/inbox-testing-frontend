@@ -542,7 +542,9 @@ const InboxTestingDetails = () => {
             />
           </Box>
         </Box>
-        {isExpanded("subscriberInsights") && <SubscriberInsights />}
+        {isExpanded("subscriberInsights") && (
+          <SubscriberInsights data={testDetails.subscriber_insights} />
+        )}
 
         <Box className={styles.subscriberInsightsBox}>
           <Box className={styles.titleContainer}>
