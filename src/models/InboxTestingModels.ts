@@ -100,3 +100,7 @@ export interface GeneratePDFRequest {
   testId: string;
   sections: string[];
 }
+
+export interface EmailRevenueResponse {
+  revenue: number;
+}

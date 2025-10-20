@@ -22,7 +22,10 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import DomainTrends from "../InboxTesting/DomainTrend/DomainTrend";
 import { isAxiosError } from "axios";
 import { toast } from "react-toastify";
-import { GetDashboardTests } from "../../services/InboxTesting/InboxTesting";
+import {
+  GetDashboardRevenue,
+  GetDashboardTests,
+} from "../../services/InboxTesting/InboxTesting";
 import type { InboxTestingResponse } from "../../models/InboxTestingModels";
 import { useNavigate } from "react-router";
 
@@ -36,10 +39,12 @@ const Dashboard = () => {
   const [selectedTest, setSelectedTest] = useState<InboxTestingResponse | null>(
     null
   );
+  const [emailRevenue, setEmailRevenue] = useState<number>();
   const actionMenuOpen = Boolean(actionMenuAnchorEl);
 
   useEffect(() => {
     fetchLatestTests();
+    fetchEmailRevenue();
   }, []);
 
   const fetchLatestTests = async () => {
@@ -47,6 +52,24 @@ const Dashboard = () => {
       setIsLoading(true);
       const response = await GetDashboardTests();
       setTests(response.data.results);
+    } catch (error) {
+      if (isAxiosError(error)) {
+        if (error.response?.status) {
+          toast.error(error.response?.data?.message);
+        } else {
+          toast.error("Unexpected error occurred");
+        }
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const fetchEmailRevenue = async () => {
+    try {
+      setIsLoading(true);
+      const response = await GetDashboardRevenue();
+      setEmailRevenue(response.data.revenue);
     } catch (error) {
       if (isAxiosError(error)) {
         if (error.response?.status) {
@@ -99,7 +122,9 @@ const Dashboard = () => {
 
       <Box className={styles.detailsContainer}>
         <Box className={styles.detailsBox}>
-          <Typography className={styles.detailsCount}>XX,XX €</Typography>
+          <Typography className={styles.detailsCount}>
+            {emailRevenue}€
+          </Typography>
           <Box>
             <Typography className={styles.detailsText}>
               E-Mail Revenue
@@ -251,7 +276,7 @@ const Dashboard = () => {
         </Table>
       </TableContainer>
 
-      <Divider />
+      {/* <Divider />
 
       <Typography className={styles.inboxTestsText}>
         Inbox Placement-Trend
@@ -259,7 +284,7 @@ const Dashboard = () => {
 
       <Box className={styles.domainBox}>
         <DomainTrends />
-      </Box>
+      </Box> */}
     </Box>
   );
 };

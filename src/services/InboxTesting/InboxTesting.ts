@@ -2,6 +2,7 @@ import axios, { type AxiosResponse } from "axios";
 import { baseUrl } from "../ServiceConfig";
 import type {
   Domain,
+  EmailRevenueResponse,
   GeneratePDFRequest,
   InboxTestDetailsApiResponse,
   InboxTestingApiResponse,
@@ -58,6 +59,12 @@ export const GetDashboardTests = async (): Promise<
   AxiosResponse<InboxTestingApiResponse>
 > => {
   return await axios.get(`${url}/dashboard-tests`);
+};
+
+export const GetDashboardRevenue = async (): Promise<
+  AxiosResponse<EmailRevenueResponse>
+> => {
+  return await axios.get(`${url}/dashboard-revenue`);
 };
 
 export const GetAllISPs = async (): Promise<AxiosResponse<ISPApiResponse>> => {
