@@ -16,6 +16,7 @@ interface SubscriberBreakdownItemProps {
   subscriber: SubscriberListRespone;
   onSelect?: (subscriber: SubscriberListRespone) => void;
   isSelected: boolean;
+  onDelete?: (id: number, name: string) => void;
 }
 
 const SubscriberBreakdownItem = (props: SubscriberBreakdownItemProps) => {
@@ -46,6 +47,9 @@ const SubscriberBreakdownItem = (props: SubscriberBreakdownItemProps) => {
 
   const handleDeleteClick = () => {
     handleActionMenuClose();
+    if (props.onDelete) {
+      props.onDelete(props.subscriber.id, props.subscriber.name);
+    }
   };
 
   const formatDate = (dateString: string) => {

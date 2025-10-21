@@ -53,3 +53,9 @@ export const GetSubscriberListDetails = async (
 
   return await axios.get(`${url}/${id}?${params.toString()}`);
 };
+
+export const DeleteSubscriberList = async (
+  id: number
+): Promise<AxiosResponse> => {
+  return await axios.delete(`${url}/${id}`);
+};

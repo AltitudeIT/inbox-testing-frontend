@@ -27,6 +27,7 @@ interface SubscriberBreakdownListProps {
   isLoading?: boolean;
   onNextPage?: () => void;
   onPreviousPage?: () => void;
+  onDelete?: (id: number, name: string) => void;
 }
 
 const SubscriberBreakdownList = (props: SubscriberBreakdownListProps) => {
@@ -56,6 +57,7 @@ const SubscriberBreakdownList = (props: SubscriberBreakdownListProps) => {
             subscriber={subscriber}
             onSelect={props.onSubscriberSelect}
             isSelected={props.selectedSubscriberId === subscriber.id}
+            onDelete={props.onDelete}
           />
         ))}
       </TableBody>

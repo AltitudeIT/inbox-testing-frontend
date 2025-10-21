@@ -8,7 +8,14 @@ import {
 import styles from "./SubscriberBreakdown.module.css";
 import SubscriberBreakdownList from "./SubscriberBreakdownList/SubscriberBreakdownList";
 import SubscriberDetails from "./SubscriberDetails/SubscriberDetails";
-import { Divider } from "@mui/material";
+import {
+  Divider,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  Button,
+} from "@mui/material";
 import { isAxiosError } from "axios";
 import { toast } from "react-toastify";
 import type {
@@ -18,6 +25,7 @@ import type {
 import {
   CheckSubscriberListStatus,
   GetSubscriberList,
+  DeleteSubscriberList,
 } from "../../services/SubscriberList/SubscriberList";
 
 const SubscriberBreakdown = forwardRef((_, ref) => {
@@ -35,6 +43,9 @@ const SubscriberBreakdown = forwardRef((_, ref) => {
     hasNextPage: false,
     hasPreviousPage: false,
   });
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState<number>(0);
+  const [deleteName, setDeleteName] = useState<string>("");
   const handleSubscriberSelect = (subscriber: SubscriberListRespone) => {
     setSelectedSubscriber((prev) =>
       prev?.id === subscriber.id ? null : subscriber
@@ -156,8 +167,107 @@ const SubscriberBreakdown = forwardRef((_, ref) => {
     }
   };
 
+  const handleDeleteClick = (id: number, name: string) => {
+    setIsDialogOpen(true);
+    setDeleteId(id);
+    setDeleteName(name);
+  };
+
+  const handleConfirmDelete = async () => {
+    try {
+      await DeleteSubscriberList(deleteId);
+      toast.success(`Successfully deleted subscriber list: ${deleteName}`);
+
+      setIsDialogOpen(false);
+
+      const newTotalItems = (pagination?.total || 1) - 1;
+      const newTotalPages = Math.ceil(newTotalItems / pagination.limit);
+      const pageToFetch =
+        pagination.page >= newTotalPages
+          ? Math.max(1, newTotalPages)
+          : pagination.page;
+      fetchSubscriberList(pageToFetch, pagination.limit);
+      setSelectedSubscriber(null);
+      setDeleteId(0);
+      setDeleteName("");
+    } catch (error) {
+      if (isAxiosError(error)) {
+        if (error.response) {
+          toast.error(error.response?.data.message);
+        }
+      } else {
+        toast.error("Something unexpectedly went wrong");
+      }
+    }
+  };
+
   return (
     <>
+      <Dialog
+        open={isDialogOpen}
+        onClose={() => setIsDialogOpen(false)}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        slotProps={{
+          paper: {
+            sx: {
+              borderRadius: "18px",
+              padding: "20px 30px 20px 30px",
+            },
+          },
+        }}
+      >
+        <DialogContent>
+          <DialogContentText
+            sx={{
+              fontFamily: "Montserrat, sans-serif",
+              marginBottom: "34px",
+              fontSize: "20px",
+              fontWeight: "500",
+            }}
+            id="alert-dialog-description"
+          >
+            Are you sure you want to delete this subscriber list?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            sx={{
+              color: "#FFFFFF",
+              backgroundColor: "#050E21",
+              borderRadius: "10px",
+              width: "100px",
+              fontFamily: "Montserrat, sans-serif",
+              fontWeight: "500",
+              "&:hover": {
+                opacity: "0.9",
+              },
+            }}
+            onClick={handleConfirmDelete}
+          >
+            Yes
+          </Button>
+          <Button
+            sx={{
+              color: "var(--primary-text-color)",
+              backgroundColor: "#FFFFFF",
+              borderRadius: "10px",
+              border: "1px solid #050E21",
+              width: "90px",
+              fontFamily: "Montserrat, sans-serif",
+              fontWeight: "500",
+              "&:hover": {
+                opacity: "0.8",
+                border: "1px solid #050E21",
+              },
+            }}
+            onClick={() => setIsDialogOpen(false)}
+          >
+            No
+          </Button>
+        </DialogActions>
+      </Dialog>
+
       <div className={styles.rootDiv}>
         <SubscriberBreakdownList
           subscribers={subscriberList}
@@ -167,6 +277,7 @@ const SubscriberBreakdown = forwardRef((_, ref) => {
           isLoading={isLoading}
           onNextPage={handleNextPage}
           onPreviousPage={handlePreviousPage}
+          onDelete={handleDeleteClick}
         />
       </div>
       <Divider className={styles.divider} />
