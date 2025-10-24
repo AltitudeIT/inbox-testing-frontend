@@ -1,30 +1,39 @@
 import { Box, Typography, Button } from "@mui/material";
 import styles from "./AddIntegrationForm.module.css";
+import { useNavigate } from "react-router";
 
 const AddIntegrationForm = () => {
+  const navigate = useNavigate();
   const integrations = [
     {
       id: 1,
-      name: "Google Postmaster",
+      name: "GlockApps",
       description:
         "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod",
       available: true,
       image: "/gmail-icon.png",
+      route: "glockapps",
     },
     {
       id: 2,
-      name: "Outlook SNDS",
+      name: "Klaviyo",
       description:
         "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod",
       available: true,
+      route: "klaviyo",
     },
     {
       id: 3,
       name: "",
       description: "",
       available: false,
+      route: "",
     },
   ];
+
+  const handleAddIntegration = (route: string) => {
+    navigate(`/add-integration/${route}`);
+  };
 
   return (
     <Box className={styles.container}>
@@ -55,7 +64,12 @@ const AddIntegrationForm = () => {
               </Typography>
 
               {integration.available ? (
-                <Button className={styles.addButton}>ADD INTEGRATION</Button>
+                <Button
+                  className={styles.addButton}
+                  onClick={() => handleAddIntegration(integration.route)}
+                >
+                  ADD INTEGRATION
+                </Button>
               ) : (
                 <Box className={styles.comingSoonOverlay}>
                   <Typography className={styles.comingSoonTitle}>

@@ -1,10 +1,15 @@
 import { useEffect, useState } from "react";
 import styles from "./Sidebar.module.css";
 import { NavLink, useLocation } from "react-router";
+import { isAxiosError } from "axios";
+import { toast } from "react-toastify";
+import { GetCurrentUser } from "../../services/User/UserService";
+import type { UserProfileApiResponse } from "../../models/UserModels";
 
 const Sidebar = () => {
   const [selectedMenuItem, setSelectedMenuItem] = useState("");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [currentUser, setCurrentUser] = useState<UserProfileApiResponse>();
   const location = useLocation();
 
   function getCurrentPageFromPath(pathname: string): string {
@@ -21,6 +26,10 @@ const Sidebar = () => {
     const currentPage = getCurrentPageFromPath(location.pathname);
     setSelectedMenuItem(currentPage);
   }, [location.pathname]);
+
+  useEffect(() => {
+    getCurrentUser();
+  }, []);
 
   const handleOnMenuItemPress = (clickedItem: string) => {
     setSelectedMenuItem(clickedItem);
@@ -52,10 +61,19 @@ const Sidebar = () => {
     }
   };
 
-  const currentUser = {
-    name: "Mailody",
-    email: "thomas@mailody.de",
-    avatar: "",
+  const getCurrentUser = async () => {
+    try {
+      const response = await GetCurrentUser();
+      setCurrentUser(response.data);
+    } catch (error) {
+      if (isAxiosError(error)) {
+        if (error.response?.status) {
+          toast.error(error.response?.data?.message);
+        } else {
+          toast.error("Unexpected error occurred");
+        }
+      }
+    }
   };
 
   const toggleMenu = () => {
@@ -154,12 +172,14 @@ const Sidebar = () => {
               src={
                 selectedMenuItem === "profile"
                   ? "/default-avatar-dark.png"
-                  : currentUser.avatar || "/default-avatar.png"
+                  : "/default-avatar.png"
               }
             />
             <div className={styles.profileInfo}>
-              <p className={styles.profileName}>{currentUser.name}</p>
-              <p className={styles.profileEmail}>{currentUser.email}</p>
+              <p className={styles.profileName}>
+                {`${currentUser?.first_name} ${currentUser?.last_name}`}
+              </p>
+              <p className={styles.profileEmail}>{currentUser?.email}</p>
             </div>
 
             <img
@@ -178,9 +198,11 @@ const Sidebar = () => {
                   <img src="/profilemenu-logo.png" />
                 </div>
                 <div className={styles.profileHeaderInfo}>
-                  <p className={styles.profileHeaderName}>{currentUser.name}</p>
+                  <p className={styles.profileHeaderName}>
+                    {`${currentUser?.first_name} ${currentUser?.last_name}`}
+                  </p>
                   <p className={styles.profileHeaderEmail}>
-                    {currentUser.email}
+                    {currentUser?.email}
                   </p>
                 </div>
               </div>
