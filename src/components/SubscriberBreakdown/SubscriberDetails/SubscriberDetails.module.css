@@ -138,10 +138,6 @@
   border: 0 !important;
 }
 
-.searchIconButton {
-  color: #050e21 !important;
-}
-
 .tablePagination {
   display: flex !important;
   justify-content: space-between !important;

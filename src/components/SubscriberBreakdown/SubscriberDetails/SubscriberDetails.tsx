@@ -215,7 +215,6 @@ const SubscriberDetails: React.FC<SubscriberDetailsProps> = (props) => {
                   <TableCell className={styles.headerItem} align="left">
                     DOMAINS
                   </TableCell>
-                  <TableCell></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -236,14 +235,6 @@ const SubscriberDetails: React.FC<SubscriberDetailsProps> = (props) => {
                     </TableCell>
                     <TableCell className={styles.rowItem} align="left">
                       {item.domains}
-                    </TableCell>
-                    <TableCell className={styles.rowItem} align="center">
-                      <IconButton>
-                        <SearchIcon
-                          className={styles.searchIconButton}
-                          fontSize="medium"
-                        />
-                      </IconButton>
                     </TableCell>
                   </TableRow>
                 ))}
