@@ -14,7 +14,6 @@ import ProfileLayout from "./components/Layout/ProfileLayout/ProfileLayout";
 import IntegrationsPage from "./pages/ProfileDetails/Integrations/IntegrationsPage";
 import DomainAndIpPage from "./pages/ProfileDetails/DomainAndIp/DomainAndIpPage";
 import AddIntegrationPage from "./pages/ProfileDetails/AddIntegration/AddIntegrationPage";
-import GlockAppsPage from "./pages/ProfileDetails/AddIntegration/GlockAppsPage";
 import KlaviyoPage from "./pages/ProfileDetails/AddIntegration/KlaviyoPage";
 
 function App() {
@@ -42,8 +41,10 @@ function App() {
             <Route element={<ProfileLayout />}>
               <Route path="/integrations" element={<IntegrationsPage />} />
               <Route path="/add-integration" element={<AddIntegrationPage />} />
-              <Route path="/add-integration/glockapps" element={<GlockAppsPage />} />
-              <Route path="/add-integration/klaviyo" element={<KlaviyoPage />} />
+              <Route
+                path="/add-integration/klaviyo"
+                element={<KlaviyoPage />}
+              />
               <Route path="/domain-ip" element={<DomainAndIpPage />} />
             </Route>
           </Route>

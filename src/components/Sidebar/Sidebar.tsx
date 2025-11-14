@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "./Sidebar.module.css";
-import { NavLink, useLocation } from "react-router";
+import { NavLink, useLocation, useNavigate } from "react-router";
 import { isAxiosError } from "axios";
 import { toast } from "react-toastify";
 import { GetCurrentUser } from "../../services/User/UserService";
@@ -11,6 +11,7 @@ const Sidebar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState<UserProfileApiResponse>();
   const location = useLocation();
+  const navigate = useNavigate();
 
   function getCurrentPageFromPath(pathname: string): string {
     if (pathname.includes("/dashboard")) return "dashboard";
@@ -80,7 +81,10 @@ const Sidebar = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const handleLogout = () => {};
+  const handleLogout = () => {
+    sessionStorage.removeItem("token");
+    navigate("/");
+  };
 
   return (
     <aside className={styles.rootDiv}>

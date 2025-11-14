@@ -1,4 +1,4 @@
-import React, { useEffect, useState, type MouseEvent } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Typography,
   Box,
@@ -11,10 +11,8 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Divider,
   Button,
-  Menu,
-  MenuItem,
+  Divider,
 } from "@mui/material";
 import InfoOutlineIcon from "@mui/icons-material/InfoOutline";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
@@ -35,28 +33,11 @@ interface SubscriberDetailsProps {
 }
 
 const SubscriberDetails: React.FC<SubscriberDetailsProps> = (props) => {
-  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
-  const [selectedDomain, setSelectedDomain] = useState("Domain");
-  const open = Boolean(anchorEl);
-
   const [subscriberListDetails, setSubscriberListDetails] =
     useState<SubscriberListDetails>();
   const [currentPage, setCurrentPage] = useState(1);
   const [pageLimit] = useState(5);
   const [searchQuery, setSearchQuery] = useState("");
-
-  const handleClick = (event: MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const handleSelect = (domain: string) => {
-    setSelectedDomain(domain);
-    handleClose();
-  };
 
   useEffect(() => {
     FetchListDetails(currentPage, pageLimit, searchQuery);
@@ -320,79 +301,7 @@ const SubscriberDetails: React.FC<SubscriberDetailsProps> = (props) => {
           </Box>
         </Box>
       </Box>
-
       <Divider className={styles.divider} />
-
-      <Box className={styles.bindingBox}>
-        <Typography className={styles.bindingTitle}>List Binding</Typography>
-        <Typography className={styles.instructionText}>
-          Please select a sending domain that you would like to bind the
-          Subscriber Breakdown to.
-        </Typography>
-
-        <Typography className={styles.domainText}>Domain</Typography>
-        <Box className={styles.domainBox}>
-          <Box className={styles.domainMenuBox} onClick={handleClick}>
-            <Typography className={styles.selectedDomain}>
-              {selectedDomain}
-            </Typography>
-            <Box className={styles.arrow} />
-          </Box>
-
-          <Menu
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            className={styles.dropdownMenu}
-          >
-            {[...Array(6)].map((_, index) => (
-              <MenuItem
-                key={index}
-                onClick={() => handleSelect(`diesisteinemusterseite.de`)}
-                className={styles.menuItem}
-              >
-                diesisteinemusterseite.de
-              </MenuItem>
-            ))}
-          </Menu>
-
-          <Button className={styles.addDomainButton}>ADD DOMAIN</Button>
-        </Box>
-
-        <Typography className={styles.bindedListTitle}>Binded List:</Typography>
-        <Box className={styles.domainListBox}>
-          <TableContainer className={styles.domainTableContainer}>
-            <Table>
-              <TableHead className={styles.domainTableHead}>
-                <TableRow>
-                  <TableCell
-                    className={`${styles.headerItem} ${styles.domainHeaderCell}`}
-                  >
-                    DOMAIN
-                  </TableCell>
-                  <TableCell></TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                <TableRow className={styles.domainTableRow}>
-                  <TableCell
-                    className={styles.rowItem}
-                    component="th"
-                    scope="row"
-                  >
-                    loremipsum.de
-                  </TableCell>
-                  <TableCell className={styles.rowItem} align="right">
-                    <Typography className={styles.removeText}>
-                      Remove
-                    </Typography>
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Box>
-      </Box>
     </Box>
   );
 };

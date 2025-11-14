@@ -7,26 +7,21 @@ const AddIntegrationForm = () => {
   const integrations = [
     {
       id: 1,
-      name: "GlockApps",
-      description:
-        "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod",
-      available: true,
-      image: "/gmail-icon.png",
-      route: "glockapps",
-    },
-    {
-      id: 2,
       name: "Klaviyo",
       description:
         "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod",
       available: true,
+      image: "",
+
       route: "klaviyo",
     },
     {
-      id: 3,
+      id: 2,
       name: "",
       description: "",
       available: false,
+      image: "",
+
       route: "",
     },
   ];
