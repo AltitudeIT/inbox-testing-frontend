@@ -13,24 +13,6 @@
   margin: 32px 0 !important;
 }
 
-.processingMessage {
-  font-size: 18px !important;
-  font-weight: 400 !important;
-  color: #f5770b !important;
-  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
-  padding: 24px 0px !important;
-  text-align: center !important;
-}
-
-.errorMessage {
-  font-size: 18px !important;
-  font-weight: 400 !important;
-  color: #fc0003 !important;
-  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
-  padding: 24px 0px !important;
-  text-align: center !important;
-}
-
 /* ===== details section ===== */
 
 .detailsBox {

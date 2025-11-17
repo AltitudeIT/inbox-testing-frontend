@@ -40,7 +40,7 @@ const SubscriberBreakdownList = (props: SubscriberBreakdownListProps) => {
     content = (
       <TableBody>
         <TableRow>
-          <TableCell className={styles.element} colSpan={5}>
+          <TableCell className={styles.element} colSpan={4}>
             <Typography variant="body2" className={styles.typographyElement}>
               There are no subscribers available.
             </Typography>
@@ -64,13 +64,19 @@ const SubscriberBreakdownList = (props: SubscriberBreakdownListProps) => {
     );
   }
 
-  const startRange = pagination
-    ? (pagination.page - 1) * pagination.limit + 1
-    : 1;
-  const endRange = pagination
-    ? Math.min(pagination.page * pagination.limit, pagination.total)
-    : subscribers.length;
   const totalCount = pagination?.total || 0;
+  const startRange =
+    totalCount === 0
+      ? 0
+      : pagination
+      ? (pagination.page - 1) * pagination.limit + 1
+      : 1;
+  const endRange =
+    totalCount === 0
+      ? 0
+      : pagination
+      ? Math.min(pagination.page * pagination.limit, pagination.total)
+      : subscribers.length;
 
   return (
     <Box>
@@ -81,9 +87,6 @@ const SubscriberBreakdownList = (props: SubscriberBreakdownListProps) => {
               <TableCell className={`${styles.cell} ${styles.nameCell}`}>
                 Name
               </TableCell>
-              <TableCell
-                className={`${styles.cell} ${styles.statusCell}`}
-              ></TableCell>
               <TableCell className={`${styles.cell} ${styles.dateCell}`}>
                 Date
               </TableCell>

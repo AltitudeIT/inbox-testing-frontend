@@ -99,30 +99,6 @@ const SubscriberDetails: React.FC<SubscriberDetailsProps> = (props) => {
     }
   };
 
-  if (props.subscriber.status === "processing") {
-    return (
-      <Box>
-        <Box className={styles.detailsContainer}>
-          <Typography className={styles.processingMessage}>
-            This subscriber list is still being processed. Please wait...
-          </Typography>
-        </Box>
-      </Box>
-    );
-  }
-
-  if (props.subscriber.status === "failed") {
-    return (
-      <Box>
-        <Box className={styles.detailsContainer}>
-          <Typography className={styles.errorMessage}>
-            This subscriber list failed to process. Please try uploading again.
-          </Typography>
-        </Box>
-      </Box>
-    );
-  }
-
   return (
     <Box>
       <Box className={styles.detailsContainer}>

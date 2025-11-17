@@ -30,12 +30,6 @@ export const GetSubscriberList = async (
   return await axios.get(`${url}?${params.toString()}`);
 };
 
-export const CheckSubscriberListStatus = async (
-  listId: number
-): Promise<AxiosResponse<{ status: string }>> => {
-  return await axios.get(`${url}/${listId}/status`);
-};
-
 export const GetSubscriberListDetails = async (
   id: number,
   page: number = 1,

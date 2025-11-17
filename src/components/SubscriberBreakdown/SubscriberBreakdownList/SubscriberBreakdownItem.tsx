@@ -2,14 +2,12 @@ import {
   IconButton,
   TableCell,
   TableRow,
-  Chip,
   Menu,
   MenuItem,
 } from "@mui/material";
 import { useState, type MouseEvent } from "react";
 import styles from "./SubscriberBreakdownList.module.css";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import ErrorIcon from "@mui/icons-material/Error";
 import type { SubscriberListRespone } from "../../../models/SubscriberModels";
 
 interface SubscriberBreakdownItemProps {
@@ -60,39 +58,6 @@ const SubscriberBreakdownItem = (props: SubscriberBreakdownItemProps) => {
     return `${year}-${month}-${day}`;
   };
 
-  const renderStatusChip = () => {
-    const status = props.subscriber.status;
-
-    if (status === "processing") {
-      return (
-        <Chip
-          icon={
-            <img
-              src="/processing-icon.png"
-              alt="processing"
-              style={{ width: 16, height: 16 }}
-            />
-          }
-          label="Processing"
-          size="small"
-          className={styles.statusChipProcessing}
-        />
-      );
-    } else if (status === "complete") {
-      return <></>;
-    } else if (status === "failed") {
-      return (
-        <Chip
-          icon={<ErrorIcon />}
-          label="Failed"
-          size="small"
-          className={styles.statusChipFailed}
-        />
-      );
-    }
-    return null;
-  };
-
   return (
     <TableRow
       className={`${styles.tableRow} ${
@@ -102,7 +67,6 @@ const SubscriberBreakdownItem = (props: SubscriberBreakdownItemProps) => {
       <TableCell onClick={handleRowClick} className={styles.itemName}>
         {props.subscriber.name}
       </TableCell>
-      <TableCell className={styles.item}>{renderStatusChip()}</TableCell>
       <TableCell className={styles.item}>
         {formatDate(props.subscriber.created_at)}
       </TableCell>

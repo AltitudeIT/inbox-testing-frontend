@@ -2,7 +2,6 @@ export interface SubscriberListRespone {
   id: number;
   name: string;
   total_count: number;
-  status: string;
   created_at: string;
 }
 

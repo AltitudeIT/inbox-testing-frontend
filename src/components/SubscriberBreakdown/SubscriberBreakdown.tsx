@@ -1,10 +1,4 @@
-import {
-  useEffect,
-  useState,
-  useRef,
-  forwardRef,
-  useImperativeHandle,
-} from "react";
+import { useEffect, useState, forwardRef, useImperativeHandle } from "react";
 import styles from "./SubscriberBreakdown.module.css";
 import SubscriberBreakdownList from "./SubscriberBreakdownList/SubscriberBreakdownList";
 import SubscriberDetails from "./SubscriberDetails/SubscriberDetails";
@@ -23,7 +17,6 @@ import type {
   PaginationInfo,
 } from "../../models/SubscriberModels";
 import {
-  CheckSubscriberListStatus,
   GetSubscriberList,
   DeleteSubscriberList,
 } from "../../services/SubscriberList/SubscriberList";
@@ -56,8 +49,6 @@ const SubscriberBreakdown = forwardRef((_, ref) => {
     setSelectedSubscriber(null);
   };
 
-  const pollingIntervalsRef = useRef<Map<number, NodeJS.Timeout>>(new Map());
-
   useImperativeHandle(ref, () => ({
     refreshList: () => {
       fetchSubscriberList(pagination.page, pagination.limit);
@@ -66,71 +57,7 @@ const SubscriberBreakdown = forwardRef((_, ref) => {
 
   useEffect(() => {
     fetchSubscriberList(pagination.page, pagination.limit);
-
-    return () => {
-      pollingIntervalsRef.current.forEach((interval) =>
-        clearInterval(interval)
-      );
-      pollingIntervalsRef.current.clear();
-    };
   }, []);
-
-  useEffect(() => {
-    const processingLists = subscriberList.filter(
-      (list) => list.status === "processing"
-    );
-
-    processingLists.forEach((list) => {
-      if (!pollingIntervalsRef.current.has(list.id)) {
-        const intervalId = setInterval(() => {
-          pollListStatus(list.id);
-        }, 5000);
-        pollingIntervalsRef.current.set(list.id, intervalId);
-      }
-    });
-
-    pollingIntervalsRef.current.forEach((intervalId, listId) => {
-      const listStillProcessing = processingLists.some((l) => l.id === listId);
-      if (!listStillProcessing) {
-        clearInterval(intervalId);
-        pollingIntervalsRef.current.delete(listId);
-      }
-    });
-  }, [subscriberList]);
-
-  const pollListStatus = async (listId: number) => {
-    try {
-      const response = await CheckSubscriberListStatus(listId);
-      const newStatus = response.data.status;
-
-      setSubscriberList((prevList) =>
-        prevList.map((list) =>
-          list.id === listId ? { ...list, status: newStatus } : list
-        )
-      );
-
-      setSelectedSubscriber((prevSelected) => {
-        if (prevSelected && prevSelected.id === listId) {
-          return { ...prevSelected, status: newStatus };
-        }
-        return prevSelected;
-      });
-
-      if (newStatus === "complete") {
-        toast.success(`Subscriber list processing completed!`);
-      } else if (newStatus === "failed") {
-        toast.error(`Subscriber list processing failed.`);
-      }
-    } catch (error) {
-      if (isAxiosError(error)) {
-        if (error.response?.status) {
-          toast.error(error.response?.data?.message);
-        } else {
-          toast.error("Unexpected error occurred");
-        }
-      }
-    }
-  };
 
   const fetchSubscriberList = async (page = 1, limit = 5) => {
     try {
