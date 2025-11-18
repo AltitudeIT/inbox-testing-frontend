@@ -93,10 +93,6 @@ export interface InboxTestDetailsApiResponse {
   result: InboxTestDetailsResponse;
 }
 
-export interface Domain {
-  name: string;
-}
-
 export interface GeneratePDFRequest {
   testId: string;
   sections: string[];

@@ -20,12 +20,8 @@ import ProgressBar from "../ProgressBar/ProgressBar";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import styles from "./InboxTesting.module.css";
 import { useNavigate } from "react-router";
-import {
-  GetAllDomains,
-  GetAllTests,
-} from "../../services/InboxTesting/InboxTesting";
+import { GetAllTests } from "../../services/InboxTesting/InboxTesting";
 import type {
-  Domain,
   InboxTestingResponse,
   Pagination,
 } from "../../models/InboxTestingModels";
@@ -39,16 +35,8 @@ const InboxTesting = () => {
   const [periodAnchorEl, setPeriodAnchorEl] = useState<HTMLElement | null>(
     null
   );
-  const [domainAnchorEl, setDomainAnchorEl] = useState<HTMLElement | null>(
-    null
-  );
   const periodOpen = Boolean(periodAnchorEl);
-  const domainOpen = Boolean(domainAnchorEl);
-  const [selectedDomain, setSelectedDomain] = useState("All domains");
   const [selectedPeriod, setSelectedPeriod] = useState("All time");
-  const [domains, setDomains] = useState<Domain[]>([]);
-
-  const [selectedDomains, setSelectedDomains] = useState<Domain[]>([]);
   const [actionMenuAnchorEl, setActionMenuAnchorEl] =
     useState<HTMLElement | null>(null);
 
@@ -179,94 +167,27 @@ const InboxTesting = () => {
     handlePeriodClose();
   };
 
-  const handleDomainClick = (event: MouseEvent<HTMLElement>) => {
-    if (domainOpen) {
-      setDomainAnchorEl(null);
-    } else {
-      setDomainAnchorEl(event.currentTarget);
-    }
-  };
-
-  const handleDomainClose = () => {
-    setDomainAnchorEl(null);
-  };
-
-  const handleDomainCheckboxChange = (domain: Domain) => {
-    if (domain.name === "All domains") {
-      if (selectedDomains.some((d) => d.name === "All domains")) {
-        setSelectedDomains([]);
-        setSelectedDomain("All domains");
-      } else {
-        setSelectedDomains(domains);
-        setSelectedDomain("All domains");
-      }
-    } else {
-      let newSelectedDomains: Domain[];
-
-      if (selectedDomains.some((d) => d.name === domain.name)) {
-        newSelectedDomains = selectedDomains.filter(
-          (d) => d.name !== domain.name && d.name !== "All domains"
-        );
-      } else {
-        newSelectedDomains = [
-          ...selectedDomains.filter((d) => d.name !== "All domains"),
-          domain,
-        ];
-      }
-
-      const individualDomains = domains.filter(
-        (item) => item.name !== "All domains"
-      );
-      const allIndividualSelected = individualDomains.every((item) =>
-        newSelectedDomains.some((d) => d.name === item.name)
-      );
-
-      if (
-        allIndividualSelected &&
-        newSelectedDomains.length === individualDomains.length
-      ) {
-        newSelectedDomains = [{ name: "All domains" }, ...newSelectedDomains];
-      }
-
-      setSelectedDomains(newSelectedDomains);
-
-      if (newSelectedDomains.length === 0) {
-        setSelectedDomain("All domains");
-      } else if (newSelectedDomains.some((d) => d.name === "All domains")) {
-        setSelectedDomain("All domains");
-      } else if (newSelectedDomains.length === 1) {
-        setSelectedDomain(newSelectedDomains[0].name);
-      } else {
-        setSelectedDomain(`${newSelectedDomains.length} domains selected`);
-      }
-    }
-  };
-
   useEffect(() => {
-    const domainNames = selectedDomains.map((d) => d.name);
     fetchTests(
       currentPage,
       pageLimit,
       searchQuery,
       dateRange.startDate,
-      dateRange.endDate,
-      domainNames
+      dateRange.endDate
     );
-  }, [currentPage, dateRange, selectedDomains]);
+  }, [currentPage, dateRange]);
 
   useEffect(() => {
     if (!hasSearched) return;
 
     const timeoutId = setTimeout(() => {
       setCurrentPage(1);
-      const domainNames = selectedDomains.map((d) => d.name);
       fetchTests(
         1,
         pageLimit,
         searchQuery,
         dateRange.startDate,
-        dateRange.endDate,
-        domainNames
+        dateRange.endDate
       );
     }, 500);
 
@@ -274,7 +195,6 @@ const InboxTesting = () => {
   }, [searchQuery]);
 
   useEffect(() => {
-    fetchDomains();
     setHasSearched(true);
   }, []);
 
@@ -283,8 +203,7 @@ const InboxTesting = () => {
     limit = 25,
     search = "",
     startDate: Date | null = null,
-    endDate: Date | null = null,
-    domains: string[] = []
+    endDate: Date | null = null
   ) => {
     try {
       setIsLoading(true);
@@ -293,8 +212,7 @@ const InboxTesting = () => {
         limit,
         search,
         startDate,
-        endDate,
-        domains
+        endDate
       );
       setTests(response.data.results);
       setPagination(response.data.pagination);
@@ -308,26 +226,6 @@ const InboxTesting = () => {
       }
     } finally {
       setIsLoading(false);
-    }
-  };
-
-  const fetchDomains = async () => {
-    try {
-      const response = await GetAllDomains();
-      const fetchedDomains: Domain[] = [
-        { name: "All domains" },
-        ...response.data.result,
-      ];
-      setDomains(fetchedDomains);
-    } catch (error) {
-      if (isAxiosError(error)) {
-        if (error.response?.status) {
-          toast.error(error.response?.data?.message);
-        } else {
-          toast.error("Unexpected error occurred");
-        }
-        setDomains([{ name: "All domains" }]);
-      }
     }
   };
 
@@ -438,59 +336,6 @@ const InboxTesting = () => {
             </Box>
           </>
         )}
-
-        <Box className={styles.verticalDivider} />
-
-        <Box className={styles.domainBox}>
-          <Typography className={styles.headerTitle}>Domain</Typography>
-          <Box className={styles.domainSelectBox} onClick={handleDomainClick}>
-            <Typography className={styles.headerSelectedText}>
-              {selectedDomain}
-            </Typography>
-            <Box className={styles.arrow} />
-          </Box>
-        </Box>
-
-        <Menu
-          anchorEl={domainAnchorEl}
-          open={domainOpen}
-          onClose={handleDomainClose}
-          disableAutoFocus
-          disableEnforceFocus
-          disableRestoreFocus
-          className={styles.domainDropdownMenu}
-        >
-          <div className={styles.noOption} />
-          {domains.map((domain, index) => (
-            <MenuItem
-              key={index}
-              onClick={(e) => {
-                e.preventDefault();
-                handleDomainCheckboxChange(domain);
-              }}
-              className={styles.checkboxMenuItem}
-            >
-              <Box
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleDomainCheckboxChange(domain);
-                }}
-                className={`${styles.customCheckbox} ${
-                  selectedDomains.some((d) => d.name === domain.name)
-                    ? styles.customCheckboxChecked
-                    : styles.customCheckboxUnchecked
-                }`}
-              >
-                {selectedDomains.some((d) => d.name === domain.name) && (
-                  <Box className={styles.checkmark} />
-                )}
-              </Box>
-              <Typography className={styles.checkboxLabel}>
-                {domain.name}
-              </Typography>
-            </MenuItem>
-          ))}
-        </Menu>
       </Box>
       <TableContainer className={styles.campaignTableContainer}>
         <Table>
