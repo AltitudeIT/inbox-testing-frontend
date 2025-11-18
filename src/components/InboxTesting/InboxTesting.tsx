@@ -70,6 +70,7 @@ const InboxTesting = () => {
     startDate: null,
     endDate: null,
   });
+  const [hasSearched, setHasSearched] = useState(false);
 
   const navigate = useNavigate();
 
@@ -254,7 +255,7 @@ const InboxTesting = () => {
   }, [currentPage, dateRange, selectedDomains]);
 
   useEffect(() => {
-    if (!searchQuery) return;
+    if (!hasSearched) return;
 
     const timeoutId = setTimeout(() => {
       setCurrentPage(1);
@@ -274,6 +275,7 @@ const InboxTesting = () => {
 
   useEffect(() => {
     fetchDomains();
+    setHasSearched(true);
   }, []);
 
   const fetchTests = async (
@@ -620,13 +622,15 @@ const InboxTesting = () => {
       <Box className={styles.tablePagination}>
         <Typography className={styles.paginationText} variant="body2">
           {pagination
-            ? `${
-                (pagination.currentPage - 1) * pagination.perPage + 1
-              }-${Math.min(
-                pagination.currentPage * pagination.perPage,
-                pagination.total
-              )} of ${pagination.total}`
-            : "1-25 of 50"}
+            ? pagination.total === 0
+              ? "0-0 of 0"
+              : `${
+                  (pagination.currentPage - 1) * pagination.perPage + 1
+                }-${Math.min(
+                  pagination.currentPage * pagination.perPage,
+                  pagination.total
+                )} of ${pagination.total}`
+            : "0-0 of 0"}
         </Typography>
 
         <Box className={styles.paginationControls}>
