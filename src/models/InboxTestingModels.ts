@@ -51,6 +51,7 @@ interface TestData {
   spam_assassin: number;
   barracuda: number;
   finished: boolean;
+  recommendations: string;
 }
 
 interface PlacementsByRegion {
