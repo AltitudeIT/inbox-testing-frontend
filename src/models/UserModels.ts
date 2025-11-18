@@ -8,3 +8,10 @@ export interface UserProfileApiResponse {
 export interface KlaviyoRequest {
   apiKey: string;
 }
+
+export interface IntegrationResponse {
+  id: number;
+  name: string;
+  klaviyo_status: boolean;
+  klaviyo_api_key: string;
+}

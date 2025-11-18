@@ -14,25 +14,42 @@ import {
 } from "@mui/material";
 import styles from "./Integration.module.css";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { useState, type MouseEvent } from "react";
+import { useEffect, useState, type MouseEvent } from "react";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { useNavigate } from "react-router";
+import {
+  GetIntegrations,
+  UpdateIntegrationStatus,
+  RemoveIntegration,
+} from "../../services/User/UserService";
+import type { IntegrationResponse } from "../../models/UserModels";
+import { isAxiosError } from "axios";
+import { toast } from "react-toastify";
 
 const Integration = () => {
   const [actionMenuAnchorEl, setActionMenuAnchorEl] =
     useState<HTMLElement | null>(null);
   const actionMenuOpen = Boolean(actionMenuAnchorEl);
   const navigator = useNavigate();
+  const [integrations, setIntegrations] = useState<IntegrationResponse[]>([]);
+  const [selectedIntegration, setSelectedIntegration] =
+    useState<IntegrationResponse | null>(null);
 
-  const integrations = [
-    { name: "Google Postmaster", status: "enabled" },
-    { name: "Outlook SNDS", status: "enabled" },
-    { name: "Klaviyo", status: "disabled" },
-  ];
+  const fetchIntegrations = async () => {
+    try {
+      const response = await GetIntegrations();
+      console.log(response.data);
+      setIntegrations(response.data);
+    } catch (error) {}
+  };
 
-  const StatusButton = ({ status }: { status: string }) => {
-    if (status === "enabled") {
+  useEffect(() => {
+    fetchIntegrations();
+  }, []);
+
+  const StatusButton = ({ status }: { status: boolean }) => {
+    if (status === true) {
       return (
         <Box className={styles.statusButton}>
           <CheckCircleIcon className={styles.enabledIcon} />
@@ -49,8 +66,12 @@ const Integration = () => {
     }
   };
 
-  const handleActionMenuClick = (event: MouseEvent<HTMLElement>) => {
+  const handleActionMenuClick = (
+    event: MouseEvent<HTMLElement>,
+    integration: IntegrationResponse
+  ) => {
     event.stopPropagation();
+    setSelectedIntegration(integration);
     setActionMenuAnchorEl(event.currentTarget);
   };
 
@@ -58,12 +79,45 @@ const Integration = () => {
     setActionMenuAnchorEl(null);
   };
 
-  const handleDisableClick = () => {
-    handleActionMenuClose();
+  const handleDisableClick = async () => {
+    if (!selectedIntegration) return;
+
+    try {
+      const newStatus = !selectedIntegration.klaviyo_status;
+      await UpdateIntegrationStatus(selectedIntegration.id, newStatus);
+      toast.success("Integration status updated successfully");
+      fetchIntegrations();
+    } catch (error) {
+      if (isAxiosError(error)) {
+        if (error.response?.status) {
+          toast.error(error.response?.data?.message);
+        } else {
+          toast.error("Unexpected error occurred");
+        }
+      }
+    } finally {
+      handleActionMenuClose();
+    }
   };
 
-  const handleRemoveClick = () => {
-    handleActionMenuClose();
+  const handleRemoveClick = async () => {
+    if (!selectedIntegration) return;
+
+    try {
+      await RemoveIntegration(selectedIntegration.id);
+      toast.success("Integration removed successfully");
+      fetchIntegrations();
+    } catch (error) {
+      if (isAxiosError(error)) {
+        if (error.response?.status) {
+          toast.error(error.response?.data?.message);
+        } else {
+          toast.error("Unexpected error occurred");
+        }
+      }
+    } finally {
+      handleActionMenuClose();
+    }
   };
 
   const handleAddIntegrationClick = () => {
@@ -103,33 +157,41 @@ const Integration = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {integrations.map((integration, index) => (
-              <TableRow key={index} className={styles.tableRow}>
-                <TableCell
-                  className={styles.rowItem}
-                  component="th"
-                  scope="row"
-                >
-                  <Box className={styles.nameCell}>
-                    <Typography className={styles.integrationName}>
-                      {integration.name}
-                    </Typography>
-                  </Box>
-                </TableCell>
-                <TableCell className={styles.rowItem} align="left">
-                  <StatusButton status={integration.status} />
-                </TableCell>
-                <TableCell align="right">
-                  <IconButton
-                    size="small"
-                    onClick={(e) => handleActionMenuClick(e)}
-                    className={styles.actionMenuButton}
+            {integrations.length > 0 ? (
+              integrations.map((integration, index) => (
+                <TableRow key={index} className={styles.tableRow}>
+                  <TableCell
+                    className={styles.rowItem}
+                    component="th"
+                    scope="row"
                   >
-                    <MoreVertIcon />
-                  </IconButton>
+                    <Box className={styles.nameCell}>
+                      <Typography className={styles.integrationName}>
+                        {integration.name}
+                      </Typography>
+                    </Box>
+                  </TableCell>
+                  <TableCell className={styles.rowItem} align="left">
+                    <StatusButton status={integration.klaviyo_status} />
+                  </TableCell>
+                  <TableCell align="right">
+                    <IconButton
+                      size="small"
+                      onClick={(e) => handleActionMenuClick(e, integration)}
+                      className={styles.actionMenuButton}
+                    >
+                      <MoreVertIcon />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={3} align="center">
+                  <Typography>You don't have any integrations yet</Typography>
                 </TableCell>
               </TableRow>
-            ))}
+            )}
           </TableBody>
           <Menu
             anchorEl={actionMenuAnchorEl}
@@ -149,7 +211,9 @@ const Integration = () => {
               onClick={handleDisableClick}
               className={`${styles.actionMenuItem}`}
             >
-              Disable integration
+              {selectedIntegration?.klaviyo_status
+                ? "Disable integration"
+                : "Enable integration"}
             </MenuItem>
             <MenuItem
               onClick={handleRemoveClick}
