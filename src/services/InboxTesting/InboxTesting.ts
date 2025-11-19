@@ -43,16 +43,44 @@ export const GetTestDetails = async (
   return await axios.get(`${url}/${testId}`);
 };
 
-export const GetDashboardTests = async (): Promise<
-  AxiosResponse<InboxTestingApiResponse>
-> => {
-  return await axios.get(`${url}/dashboard-tests`);
+export const GetDashboardTests = async (
+  startDate?: Date | null,
+  endDate?: Date | null
+): Promise<AxiosResponse<InboxTestingApiResponse>> => {
+  const params = new URLSearchParams();
+
+  if (startDate) {
+    params.append("startDate", startDate.toISOString());
+  }
+
+  if (endDate) {
+    params.append("endDate", endDate.toISOString());
+  }
+
+  const queryString = params.toString();
+  return await axios.get(
+    `${url}/dashboard-tests${queryString ? `?${queryString}` : ""}`
+  );
 };
 
-export const GetDashboardRevenue = async (): Promise<
-  AxiosResponse<EmailRevenueResponse>
-> => {
-  return await axios.get(`${url}/dashboard-revenue`);
+export const GetDashboardRevenue = async (
+  startDate?: Date | null,
+  endDate?: Date | null
+): Promise<AxiosResponse<EmailRevenueResponse>> => {
+  const params = new URLSearchParams();
+
+  if (startDate) {
+    params.append("startDate", startDate.toISOString());
+  }
+
+  if (endDate) {
+    params.append("endDate", endDate.toISOString());
+  }
+
+  const queryString = params.toString();
+  return await axios.get(
+    `${url}/dashboard-revenue${queryString ? `?${queryString}` : ""}`
+  );
 };
 
 export const GetAllISPs = async (): Promise<AxiosResponse<ISPApiResponse>> => {
