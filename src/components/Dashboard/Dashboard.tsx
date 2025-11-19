@@ -119,7 +119,7 @@ const Dashboard = () => {
       case "Last year":
         return {
           startDate: new Date(now.getFullYear() - 1, 0, 1),
-          endDate: new Date(now.getFullYear() - 1, 11, 31, 23, 59, 59),
+          endDate: new Date(now.getFullYear() - 1, 11, 30, 23, 59, 59),
         };
       default:
         return {
@@ -251,6 +251,7 @@ const Dashboard = () => {
       const response = await GetDashboardRevenue(startDate, endDate);
       setEmailRevenue(response.data.revenue);
     } catch (error) {
+      setEmailRevenue(undefined);
       if (isAxiosError(error)) {
         if (error.response?.status) {
           toast.error(error.response?.data?.message);
@@ -457,7 +458,7 @@ const Dashboard = () => {
       <Box className={styles.detailsContainer}>
         <Box className={styles.detailsBox}>
           <Typography className={styles.detailsCount}>
-            {emailRevenue}€
+            {emailRevenue !== undefined ? `${emailRevenue}€` : "XX,XX €"}
           </Typography>
           <Box>
             <Typography className={styles.detailsText}>
