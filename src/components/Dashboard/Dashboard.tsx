@@ -32,8 +32,12 @@ import { toast } from "react-toastify";
 import {
   GetDashboardRevenue,
   GetDashboardTests,
+  GetDashboardPlacements,
 } from "../../services/InboxTesting/InboxTesting";
-import type { InboxTestingResponse } from "../../models/InboxTestingModels";
+import type {
+  InboxTestingResponse,
+  DomainTrend,
+} from "../../models/InboxTestingModels";
 import { useNavigate } from "react-router";
 
 const Dashboard = () => {
@@ -59,6 +63,7 @@ const Dashboard = () => {
     startDate: null,
     endDate: null,
   });
+  const [domainTrends, setDomainTrends] = useState<DomainTrend[]>([]);
   const [startDateAnchorEl, setStartDateAnchorEl] =
     useState<HTMLElement | null>(null);
   const [endDateAnchorEl, setEndDateAnchorEl] = useState<HTMLElement | null>(
@@ -213,6 +218,7 @@ const Dashboard = () => {
   useEffect(() => {
     fetchLatestTests(dateRange.startDate, dateRange.endDate);
     fetchEmailRevenue(dateRange.startDate, dateRange.endDate);
+    fetchDashboardPlacements(dateRange.startDate, dateRange.endDate);
   }, [dateRange]);
 
   const fetchLatestTests = async (
@@ -244,6 +250,31 @@ const Dashboard = () => {
       setIsLoading(true);
       const response = await GetDashboardRevenue(startDate, endDate);
       setEmailRevenue(response.data.revenue);
+    } catch (error) {
+      if (isAxiosError(error)) {
+        if (error.response?.status) {
+          toast.error(error.response?.data?.message);
+        } else {
+          toast.error("Unexpected error occurred");
+        }
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const fetchDashboardPlacements = async (
+    startDate: Date | null = null,
+    endDate: Date | null = null
+  ) => {
+    try {
+      setIsLoading(true);
+      const response = await GetDashboardPlacements(startDate, endDate);
+      if (Array.isArray(response.data)) {
+        setDomainTrends(response.data);
+      } else {
+        setDomainTrends([]);
+      }
     } catch (error) {
       if (isAxiosError(error)) {
         if (error.response?.status) {
@@ -579,15 +610,15 @@ const Dashboard = () => {
         </Table>
       </TableContainer>
 
-      {/* <Divider />
+      <Divider />
 
       <Typography className={styles.inboxTestsText}>
         Inbox Placement-Trend
       </Typography>
 
       <Box className={styles.domainBox}>
-        <DomainTrends />
-      </Box> */}
+        <DomainTrends domain_trends={domainTrends} />
+      </Box>
     </Box>
   );
 };

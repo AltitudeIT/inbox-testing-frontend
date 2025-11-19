@@ -1,6 +1,7 @@
 import axios, { type AxiosResponse } from "axios";
 import { baseUrl } from "../ServiceConfig";
 import type {
+  DomainTrend,
   EmailRevenueResponse,
   GeneratePDFRequest,
   InboxTestDetailsApiResponse,
@@ -80,6 +81,26 @@ export const GetDashboardRevenue = async (
   const queryString = params.toString();
   return await axios.get(
     `${url}/dashboard-revenue${queryString ? `?${queryString}` : ""}`
+  );
+};
+
+export const GetDashboardPlacements = async (
+  startDate?: Date | null,
+  endDate?: Date | null
+): Promise<AxiosResponse<DomainTrend[]>> => {
+  const params = new URLSearchParams();
+
+  if (startDate) {
+    params.append("startDate", startDate.toISOString());
+  }
+
+  if (endDate) {
+    params.append("endDate", endDate.toISOString());
+  }
+
+  const queryString = params.toString();
+  return await axios.get(
+    `${url}/dashboard-placements${queryString ? `?${queryString}` : ""}`
   );
 };
 
