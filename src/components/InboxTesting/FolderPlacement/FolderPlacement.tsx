@@ -1,7 +1,12 @@
 import { Box, Typography } from "@mui/material";
 import styles from "./FolderPlacement.module.css";
+import type { FolderType } from "../../../models/InboxTestingModels";
 
-const FolderPlacement = () => {
+interface FolderPlacementProps {
+  data: FolderType;
+}
+
+const FolderPlacement = ({ data }: FolderPlacementProps) => {
   return (
     <Box className={styles.rootBox}>
       <Box className={styles.folderPlacementBox}>
@@ -12,7 +17,7 @@ const FolderPlacement = () => {
           <Typography className={styles.placementText}>
             Gmail Folder Placement
           </Typography>
-          <Typography className={styles.text}>Promotions </Typography>
+          <Typography className={styles.text}>{data.gmail} </Typography>
         </Box>
         <img src="/InboxTesting/info.png" className={styles.infoIcon} />
       </Box>
@@ -24,7 +29,7 @@ const FolderPlacement = () => {
           <Typography className={styles.placementText}>
             Outlook Folder Placement
           </Typography>
-          <Typography className={styles.text}>Other </Typography>
+          <Typography className={styles.text}>{data.outlook} </Typography>
         </Box>
         <img src="/InboxTesting/info.png" className={styles.infoIcon} />
       </Box>

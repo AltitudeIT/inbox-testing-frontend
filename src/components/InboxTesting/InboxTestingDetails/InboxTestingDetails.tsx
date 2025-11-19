@@ -556,7 +556,9 @@ const InboxTestingDetails = () => {
             />
           </Box>
         </Box>
-        {isExpanded("folderPlacement") && <FolderPlacement />}
+        {isExpanded("folderPlacement") && (
+          <FolderPlacement data={testDetails.folder_type} />
+        )}
 
         <Box className={styles.subscriberInsightsBox}>
           <Box className={styles.titleContainer}>

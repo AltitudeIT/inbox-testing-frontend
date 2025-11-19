@@ -84,9 +84,15 @@ export interface SubscriberInsight {
 export interface InboxTestDetailsResponse {
   test: TestData;
   placements: PlacementsByRegion;
+  folder_type: FolderType;
   ip_records: IPRecord[];
   domain_trends: DomainTrend[];
   subscriber_insights: SubscriberInsight;
+}
+
+export interface FolderType {
+  gmail: string;
+  outlook: string;
 }
 
 export interface InboxTestDetailsApiResponse {
