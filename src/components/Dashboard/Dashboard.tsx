@@ -22,6 +22,9 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import dayjs, { type Dayjs } from "dayjs";
+import utc from "dayjs/plugin/utc";
+
+dayjs.extend(utc);
 
 import DomainTrends from "../InboxTesting/DomainTrend/DomainTrend";
 import { isAxiosError } from "axios";
@@ -218,10 +221,6 @@ const Dashboard = () => {
   ) => {
     try {
       setIsLoading(true);
-      console.log("Fetching tests with dates:", {
-        startDate: startDate?.toISOString(),
-        endDate: endDate?.toISOString(),
-      });
       const response = await GetDashboardTests(startDate, endDate);
       setTests(response.data.results);
     } catch (error) {
@@ -321,7 +320,9 @@ const Dashboard = () => {
           <Box className={styles.timeBox} onClick={handleStartDateClick}>
             <Typography className={styles.headerSelectedText}>
               {dateRange.startDate
-                ? dateRange.startDate.toLocaleDateString()
+                ? `${
+                    dateRange.startDate.getUTCMonth() + 1
+                  }/${dateRange.startDate.getUTCDate()}/${dateRange.startDate.getUTCFullYear()}`
                 : "Start Date"}
             </Typography>
           </Box>
@@ -329,7 +330,9 @@ const Dashboard = () => {
           <Box className={styles.timeBox} onClick={handleEndDateClick}>
             <Typography className={styles.headerSelectedText}>
               {dateRange.endDate
-                ? dateRange.endDate.toLocaleDateString()
+                ? `${
+                    dateRange.endDate.getUTCMonth() + 1
+                  }/${dateRange.endDate.getUTCDate()}/${dateRange.endDate.getUTCFullYear()}`
                 : "End Date"}
             </Typography>
           </Box>
@@ -351,9 +354,29 @@ const Dashboard = () => {
       >
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DateCalendar
-            value={dateRange.startDate ? dayjs(dateRange.startDate) : null}
+            value={
+              dateRange.startDate
+                ? dayjs.utc(
+                    `${dateRange.startDate.getUTCFullYear()}-${String(
+                      dateRange.startDate.getUTCMonth() + 1
+                    ).padStart(2, "0")}-${String(
+                      dateRange.startDate.getUTCDate()
+                    ).padStart(2, "0")}`
+                  )
+                : null
+            }
             onChange={handleStartDateChange}
-            maxDate={dateRange.endDate ? dayjs(dateRange.endDate) : undefined}
+            maxDate={
+              dateRange.endDate
+                ? dayjs.utc(
+                    `${dateRange.endDate.getUTCFullYear()}-${String(
+                      dateRange.endDate.getUTCMonth() + 1
+                    ).padStart(2, "0")}-${String(
+                      dateRange.endDate.getUTCDate()
+                    ).padStart(2, "0")}`
+                  )
+                : undefined
+            }
           />
         </LocalizationProvider>
       </Popover>
@@ -373,10 +396,28 @@ const Dashboard = () => {
       >
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DateCalendar
-            value={dateRange.endDate ? dayjs(dateRange.endDate) : null}
+            value={
+              dateRange.endDate
+                ? dayjs.utc(
+                    `${dateRange.endDate.getUTCFullYear()}-${String(
+                      dateRange.endDate.getUTCMonth() + 1
+                    ).padStart(2, "0")}-${String(
+                      dateRange.endDate.getUTCDate()
+                    ).padStart(2, "0")}`
+                  )
+                : null
+            }
             onChange={handleEndDateChange}
             minDate={
-              dateRange.startDate ? dayjs(dateRange.startDate) : undefined
+              dateRange.startDate
+                ? dayjs.utc(
+                    `${dateRange.startDate.getUTCFullYear()}-${String(
+                      dateRange.startDate.getUTCMonth() + 1
+                    ).padStart(2, "0")}-${String(
+                      dateRange.startDate.getUTCDate()
+                    ).padStart(2, "0")}`
+                  )
+                : undefined
             }
           />
         </LocalizationProvider>
