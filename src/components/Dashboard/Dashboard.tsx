@@ -45,7 +45,7 @@ const Dashboard = () => {
     null
   );
   const periodOpen = Boolean(periodAnchorEl);
-  const [selectedPeriod, setSelectedPeriod] = useState("All time");
+  const [selectedPeriod, setSelectedPeriod] = useState("This year");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [tests, setTests] = useState<InboxTestingResponse[]>();
   const navigate = useNavigate();
@@ -56,13 +56,19 @@ const Dashboard = () => {
   );
   const [emailRevenue, setEmailRevenue] = useState<number>();
   const actionMenuOpen = Boolean(actionMenuAnchorEl);
+
+  const getInitialDateRange = () => {
+    const now = new Date();
+    return {
+      startDate: new Date(now.getFullYear(), 0, 1),
+      endDate: now,
+    };
+  };
+
   const [dateRange, setDateRange] = useState<{
     startDate: Date | null;
     endDate: Date | null;
-  }>({
-    startDate: null,
-    endDate: null,
-  });
+  }>(getInitialDateRange());
   const [domainTrends, setDomainTrends] = useState<DomainTrend[]>([]);
   const [startDateAnchorEl, setStartDateAnchorEl] =
     useState<HTMLElement | null>(null);
@@ -78,7 +84,6 @@ const Dashboard = () => {
     "Last 90 days",
     "This year",
     "Last year",
-    "All time",
     "Custom",
   ];
 
@@ -116,15 +121,10 @@ const Dashboard = () => {
           startDate: new Date(now.getFullYear() - 1, 0, 1),
           endDate: new Date(now.getFullYear() - 1, 11, 31, 23, 59, 59),
         };
-      case "All time":
-        return {
-          startDate: null,
-          endDate: null,
-        };
       default:
         return {
-          startDate: null,
-          endDate: null,
+          startDate: new Date(now.getFullYear(), 0, 1),
+          endDate: now,
         };
     }
   };
