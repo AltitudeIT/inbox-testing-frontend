@@ -1,0 +1,116 @@
+.titleBox {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  gap: 8px;
+}
+
+.title {
+  font-size: 25px !important;
+  font-weight: 700 !important;
+  color: #211e1be5 !important;
+  opacity: 0.9 !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+  text-align: left !important;
+}
+
+.subtitle {
+  font-size: 15px !important;
+  font-weight: 300 !important;
+  color: #050e21 !important;
+  opacity: 0.9 !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+  text-align: left !important;
+}
+
+.allText {
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  color: #050e21 !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+}
+
+.middleBox {
+  display: flex;
+  justify-content: space-between;
+  margin: 0px 30px;
+}
+
+/* ===== switch ===== */
+
+.antSwitch {
+  width: 40px !important;
+  height: 20px !important;
+  padding: 0 !important;
+}
+
+.antSwitch :global(.MuiSwitch-switchBase) {
+  padding: 2px !important;
+}
+
+.antSwitch :global(.MuiSwitch-switchBase.Mui-checked) {
+  transform: translateX(20px) !important;
+  color: #050e21 !important;
+}
+
+.antSwitch :global(.MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track) {
+  opacity: 1 !important;
+  background-color: #f5f95e !important;
+}
+
+.antSwitch :global(.MuiSwitch-thumb) {
+  box-shadow: 0 2px 4px 0 rgb(0 35 11 / 20%) !important;
+  width: 16px !important;
+  height: 16px !important;
+  border-radius: 8.5px !important;
+  background-color: #050e21 !important;
+  transition: all 200ms !important;
+}
+
+.antSwitch :global(.MuiSwitch-track) {
+  border-radius: 10.5px !important;
+  opacity: 1 !important;
+  background-color: #f5f5f5 !important;
+  border: none !important;
+  box-sizing: border-box !important;
+}
+
+.antSwitch :global(.MuiSwitch-switchBase.Mui-checked .MuiSwitch-thumb) {
+  background-color: #050e21 !important;
+}
+
+.antSwitch:active :global(.MuiSwitch-switchBase.Mui-checked) {
+  transform: translateX(18px) !important;
+}
+
+.divider {
+  margin: 20px 30px !important;
+}
+
+.ispGrid {
+  padding: 0 30px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+}
+
+.ispRow {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+}
+
+.ispItem {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  width: calc(33.333% - 20px) !important;
+  width: 290px !important;
+}
+
+.ispText {
+  font-size: 18px !important;
+  font-weight: 400 !important;
+  color: #050e21 !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+}

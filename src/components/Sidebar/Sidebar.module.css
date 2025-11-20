@@ -147,7 +147,7 @@ hr {
   border: 1px solid rgb(148, 146, 146);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   width: 365px;
-  height: 399px;
+  height: 250px;
   display: flex;
   flex-direction: column;
   padding: 0px 24px;
@@ -217,10 +217,20 @@ hr {
 .profileOption {
   display: flex;
   align-items: center;
-  height: 45px;
+  height: 55px;
   gap: 10px;
   cursor: pointer;
   position: relative;
   margin: 10px 32px 20px 0px;
-  padding-right: 4px;
+  padding: 0px 10px 0px 8px;
+}
+
+.profileOption.selected {
+  background-color: #f5f95e;
+  border-radius: 10px;
+}
+
+.profileOption.selected .profileName,
+.profileOption.selected .profileEmail {
+  color: #050e21;
 }

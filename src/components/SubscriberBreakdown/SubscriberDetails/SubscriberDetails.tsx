@@ -1,4 +1,4 @@
-import React, { useState, type MouseEvent } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Typography,
   Box,
@@ -11,50 +11,101 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Divider,
   Button,
-  MenuItem,
-  Menu,
+  Divider,
 } from "@mui/material";
 import InfoOutlineIcon from "@mui/icons-material/InfoOutline";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import styles from "./SubscriberDetails.module.css";
 import SearchIcon from "@mui/icons-material/Search";
-
-interface SubscriberResponse {
-  id: number;
-  name: string;
-  date: string;
-  totalSubscribers: string;
-}
+import type {
+  SubscriberListDetails,
+  SubscriberListRespone,
+} from "../../../models/SubscriberModels";
+import { isAxiosError } from "axios";
+import { toast } from "react-toastify";
+import { GetSubscriberListDetails } from "../../../services/SubscriberList/SubscriberList";
 
 interface SubscriberDetailsProps {
-  subscriber: SubscriberResponse;
+  subscriber: SubscriberListRespone;
   onClose: () => void;
 }
 
-const SubscriberDetails: React.FC<SubscriberDetailsProps> = () => {
-  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
-  const [selectedDomain, setSelectedDomain] = useState("Domain");
-  const open = Boolean(anchorEl);
+const SubscriberDetails: React.FC<SubscriberDetailsProps> = (props) => {
+  const [subscriberListDetails, setSubscriberListDetails] =
+    useState<SubscriberListDetails>();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageLimit] = useState(5);
+  const [searchQuery, setSearchQuery] = useState("");
 
-  const handleClick = (event: MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
+  useEffect(() => {
+    FetchListDetails(currentPage, pageLimit, searchQuery);
+  }, [currentPage]);
+
+  useEffect(() => {
+    if (!searchQuery) {
+      FetchListDetails(1, pageLimit, "");
+      return;
+    }
+
+    const timeoutId = setTimeout(() => {
+      setCurrentPage(1);
+      FetchListDetails(1, pageLimit, searchQuery);
+    }, 500);
+
+    return () => clearTimeout(timeoutId);
+  }, [searchQuery]);
+
+  const FetchListDetails = async (
+    page: number,
+    limit: number,
+    search: string = ""
+  ) => {
+    try {
+      const response = await GetSubscriberListDetails(
+        props.subscriber.id,
+        page,
+        limit,
+        search
+      );
+      setSubscriberListDetails(response.data);
+    } catch (error) {
+      if (isAxiosError(error)) {
+        if (error.response?.status) {
+          toast.error(error.response?.data?.message);
+        } else {
+          toast.error("Unexpected error occurred");
+        }
+      }
+    }
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
+  const handlePreviousPage = () => {
+    if (subscriberListDetails?.pagination?.hasPreviousPage) {
+      setCurrentPage((prev) => prev - 1);
+    }
   };
 
-  const handleSelect = (domain: string) => {
-    setSelectedDomain(domain);
-    handleClose();
+  const handleNextPage = () => {
+    if (subscriberListDetails?.pagination?.hasNextPage) {
+      setCurrentPage((prev) => prev + 1);
+    }
+  };
+
+  const handlePageClick = (pageNumber: number) => {
+    if (pageNumber !== currentPage) {
+      setCurrentPage(pageNumber);
+    }
   };
 
   return (
     <Box>
       <Box className={styles.detailsContainer}>
         <Box className={styles.detailsBox}>
-          <Typography className={styles.detailsCount}>24.685</Typography>
+          <Typography className={styles.detailsCount}>
+            {subscriberListDetails?.total_subscribers || 0}
+          </Typography>
           <Box>
             <Typography className={styles.detailsText}>
               Total subscribers
@@ -66,7 +117,9 @@ const SubscriberDetails: React.FC<SubscriberDetailsProps> = () => {
         </Box>
 
         <Box className={styles.detailsBox}>
-          <Typography className={styles.detailsCount}>200</Typography>
+          <Typography className={styles.detailsCount}>
+            {subscriberListDetails?.unique_domains || 0}
+          </Typography>
           <Box className={styles.statLabel}>
             <Typography className={styles.detailsText}>
               Unique Domains
@@ -84,6 +137,8 @@ const SubscriberDetails: React.FC<SubscriberDetailsProps> = () => {
           variant="outlined"
           size="small"
           className={styles.searchInput}
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
           slotProps={{
             input: {
               startAdornment: (
@@ -117,35 +172,26 @@ const SubscriberDetails: React.FC<SubscriberDetailsProps> = () => {
                   <TableCell className={styles.headerItem} align="left">
                     DOMAINS
                   </TableCell>
-                  <TableCell></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {[...Array(6)].map((_, index) => (
+                {subscriberListDetails?.isp_breakdown.map((item, index) => (
                   <TableRow key={index} className={styles.tableRow}>
                     <TableCell
                       className={styles.rowItem}
                       component="th"
                       scope="row"
                     >
-                      Gmail
+                      {item.isp}
                     </TableCell>
                     <TableCell className={styles.rowItem} align="left">
-                      4,697
+                      {item.subscribers.toLocaleString()}
                     </TableCell>
                     <TableCell className={styles.rowItem} align="left">
-                      22.56%
+                      {item.percent_of_list}
                     </TableCell>
                     <TableCell className={styles.rowItem} align="left">
-                      35
-                    </TableCell>
-                    <TableCell className={styles.rowItem} align="center">
-                      <IconButton>
-                        <SearchIcon
-                          className={styles.searchIconButton}
-                          fontSize="medium"
-                        />
-                      </IconButton>
+                      {item.domains}
                     </TableCell>
                   </TableRow>
                 ))}
@@ -153,87 +199,85 @@ const SubscriberDetails: React.FC<SubscriberDetailsProps> = () => {
             </Table>
           </TableContainer>
           <Box className={styles.tablePagination}>
-            <Typography
-              className={styles.paginationText}
-              variant="body2"
-            >{`1-5 of 20`}</Typography>
-            <p className={styles.rightText}>ssssss</p>
-          </Box>
-        </Box>
-      </Box>
-
-      <Divider className={styles.divider} />
-
-      <Box className={styles.bindingBox}>
-        <Typography className={styles.bindingTitle}>List Binding</Typography>
-        <Typography className={styles.instructionText}>
-          Please select a sending domain that you would like to bind the
-          Subscriber Breakdown to.
-        </Typography>
-
-        <Typography className={styles.domainText}>Domain</Typography>
-        <Box className={styles.domainBox}>
-          <Box className={styles.domainMenuBox} onClick={handleClick}>
-            <Typography className={styles.selectedDomain}>
-              {selectedDomain}
+            <Typography className={styles.paginationText} variant="body2">
+              {subscriberListDetails?.pagination
+                ? `${
+                    (subscriberListDetails.pagination.page - 1) *
+                      subscriberListDetails.pagination.limit +
+                    1
+                  }-${Math.min(
+                    subscriberListDetails.pagination.page *
+                      subscriberListDetails.pagination.limit,
+                    subscriberListDetails.pagination.total
+                  )} of ${subscriberListDetails.pagination.total}`
+                : "0-0 of 0"}
             </Typography>
-            <Box className={styles.arrow} />
-          </Box>
 
-          <Menu
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            className={styles.dropdownMenu}
-          >
-            {[...Array(6)].map((_, index) => (
-              <MenuItem
-                key={index}
-                onClick={() => handleSelect(`diesisteinemusterseite.de`)}
-                className={styles.menuItem}
+            <Box className={styles.paginationControls}>
+              <Button
+                className={styles.paginationButton}
+                disabled={!subscriberListDetails?.pagination?.hasPreviousPage}
+                onClick={handlePreviousPage}
+                startIcon={<ChevronLeftIcon />}
               >
-                diesisteinemusterseite.de
-              </MenuItem>
-            ))}
-          </Menu>
+                Prev
+              </Button>
 
-          <Button className={styles.addDomainButton}>ADD DOMAIN</Button>
-        </Box>
-
-        <Typography className={styles.bindedListTitle}>Binded List:</Typography>
-        <Box className={styles.domainListBox}>
-          <TableContainer className={styles.domainTableContainer}>
-            <Table>
-              <TableHead className={styles.domainTableHead}>
-                <TableRow>
-                  <TableCell
-                    className={`${styles.headerItem} ${styles.domainHeaderCell}`}
-                  >
-                    DOMAIN
-                  </TableCell>
-                  <TableCell></TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                <TableRow className={styles.domainTableRow}>
-                  <TableCell
-                    className={styles.rowItem}
-                    component="th"
-                    scope="row"
-                  >
-                    loremipsum.de
-                  </TableCell>
-                  <TableCell className={styles.rowItem} align="right">
-                    <Typography className={styles.removeText}>
-                      Remove
+              <Box className={styles.pageNumbers}>
+                {subscriberListDetails?.pagination &&
+                  subscriberListDetails.pagination.page > 1 && (
+                    <Typography
+                      className={styles.pageNumber}
+                      onClick={() =>
+                        handlePageClick(
+                          subscriberListDetails.pagination!.page - 1
+                        )
+                      }
+                    >
+                      {subscriberListDetails.pagination.page - 1}
                     </Typography>
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </TableContainer>
+                  )}
+
+                <Typography
+                  className={`${styles.pageNumber} ${styles.currentPage}`}
+                  onClick={() =>
+                    handlePageClick(
+                      subscriberListDetails?.pagination?.page || 1
+                    )
+                  }
+                >
+                  {subscriberListDetails?.pagination?.page || 1}
+                </Typography>
+
+                {subscriberListDetails?.pagination &&
+                  subscriberListDetails.pagination.page <
+                    subscriberListDetails.pagination.totalPages && (
+                    <Typography
+                      className={styles.pageNumber}
+                      onClick={() =>
+                        handlePageClick(
+                          subscriberListDetails.pagination!.page + 1
+                        )
+                      }
+                    >
+                      {subscriberListDetails.pagination.page + 1}
+                    </Typography>
+                  )}
+              </Box>
+
+              <Button
+                className={styles.paginationButton}
+                disabled={!subscriberListDetails?.pagination?.hasNextPage}
+                onClick={handleNextPage}
+                endIcon={<ChevronRightIcon />}
+              >
+                Next
+              </Button>
+            </Box>
+          </Box>
         </Box>
       </Box>
+      <Divider className={styles.divider} />
     </Box>
   );
 };

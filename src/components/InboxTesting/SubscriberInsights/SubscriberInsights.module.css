@@ -1,0 +1,65 @@
+.rootBox {
+  background-color: #f5f5f5;
+  display: flex !important;
+  height: 140px !important;
+  border-radius: 0 0 16px 16px;
+  margin-top: -40px;
+  gap: 30px !important;
+  padding: 10px 30px !important;
+}
+
+.countBox {
+  background-color: #ffffff !important;
+  width: 314px !important;
+  height: 104px !important;
+  border-radius: 10px !important;
+  display: flex !important;
+  align-items: center;
+  gap: 26px;
+  padding-left: 20px;
+}
+
+.contentBox {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.imageBox {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background-color: #050e21;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding-bottom: 2px;
+}
+
+.inboxText {
+  font-size: 15px !important;
+  font-weight: 400 !important;
+  color: #050e21 !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+  opacity: 0.9 !important;
+}
+
+.countText {
+  font-size: 20px !important;
+  font-weight: 700 !important;
+  color: #050e21 !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+}
+
+.percentageText {
+  font-size: 12px !important;
+  font-weight: 400 !important;
+  color: #050e21 !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+}
+
+.bulkImage {
+  width: 42px !important;
+  height: 42px !important;
+}

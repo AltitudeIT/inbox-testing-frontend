@@ -1,0 +1,585 @@
+.rootBox {
+  margin-bottom: 168px;
+}
+
+.headerBox {
+  display: flex !important;
+  justify-content: space-between !important;
+  margin-top: 40px !important;
+}
+
+.infoBox {
+  display: flex !important;
+  flex-direction: column !important;
+  text-align: left !important;
+  gap: 4px !important;
+}
+
+.subjectLine {
+  font-size: 25px !important;
+  font-weight: 700 !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+}
+
+.info {
+  font-size: 20px !important;
+  font-weight: 300 !important;
+  opacity: 0.7 !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+}
+
+.shareButton {
+  border: 1px solid #050e21 !important;
+  width: 168px !important;
+  height: 46px !important;
+  background-color: transparent !important;
+  color: #050e21 !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  border-radius: 50px !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+}
+
+/* Main layout structure */
+.sectionGrid {
+  display: flex !important;
+  gap: 40px !important;
+  margin: 40px 0 !important;
+  align-items: flex-start !important;
+}
+
+.leftColumn {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 40px !important;
+}
+
+.rightColumn {
+  width: 657px !important;
+  flex-shrink: 0 !important;
+}
+
+/* ===== stats box ===== */
+.statsContainer {
+  display: flex !important;
+  gap: 40px !important;
+  align-items: flex-start !important;
+}
+
+.chartSection {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 20px !important;
+  background-color: #f5f5f5 !important;
+  position: relative !important;
+  width: 320px !important;
+  height: 327px !important;
+  border-radius: 16px !important;
+}
+
+.sectionTitle {
+  font-size: 21px !important;
+  font-weight: 700 !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+  color: #050e21 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.chartSectionHeader {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  width: 100% !important;
+}
+
+.chartSectionTitle {
+  font-size: 21px !important;
+  font-weight: 700 !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+  color: #050e21 !important;
+  margin: 20px 0 0 30px !important;
+}
+
+/* Donut Charts */
+.donutChart {
+  width: 214px !important;
+  height: 214px !important;
+  border-radius: 50% !important;
+  background: conic-gradient(
+    #649f21 0% var(--inbox-end),
+    #f5f5f5 var(--inbox-end) var(--gap-after-inbox),
+    #fc0003 var(--blocked-start) var(--blocked-end),
+    #f5f5f5 var(--blocked-end) var(--gap-after-blocked),
+    #f5770b var(--spam-start) var(--spam-end),
+    #f5f5f5 var(--spam-end) 100%
+  ) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: relative !important;
+}
+
+.donutChart::after {
+  content: "" !important;
+  width: 130px !important;
+  height: 130px !important;
+  background: white !important;
+  border-radius: 50% !important;
+  position: absolute !important;
+}
+
+.donutChartGreen {
+  width: 214px !important;
+  height: 214px !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: relative !important;
+}
+
+.donutChartGreen::after {
+  content: "" !important;
+  width: 140px !important;
+  height: 140px !important;
+  background: white !important;
+  border-radius: 50% !important;
+  position: absolute !important;
+}
+
+.chartLabel {
+  position: absolute !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+}
+
+.chartLabelText {
+  font-weight: 300 !important;
+  font-size: 12px !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+  color: #211e1be5 !important;
+  opacity: 0.9 !important;
+}
+
+.chartLabel91 {
+  top: 0px !important;
+  right: -20px !important;
+}
+
+.chartLabel5 {
+  bottom: -5px !important;
+  right: 5px !important;
+}
+
+.chartLabel4 {
+  bottom: -30px !important;
+  right: 60px !important;
+}
+
+.chartLabel100 {
+  top: 0px !important;
+  right: -20px !important;
+}
+
+/* Dots */
+.greenDot,
+.orangeDot,
+.redDot {
+  width: 10px !important;
+  height: 10px !important;
+  border-radius: 50% !important;
+}
+
+.durationDot {
+  width: 10px !important;
+  height: 10px !important;
+  border-radius: 50% !important;
+}
+
+.greenDot {
+  background-color: #649f21 !important;
+}
+.orangeDot {
+  background-color: #f5770b !important;
+}
+.redDot {
+  background-color: #fc0003 !important;
+}
+
+/* Tooltip styles */
+.tooltip {
+  position: absolute !important;
+  top: -10px !important;
+  right: -150px !important;
+  background-color: white !important;
+  border: 1px solid #333 !important;
+  border-radius: 8px !important;
+  padding: 0px 0px 0px 24px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+  z-index: 1000 !important;
+  width: 140px !important;
+  height: 123px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: flex-start !important;
+}
+
+.legendItem {
+  display: flex !important;
+  align-items: center !important;
+  gap: 14px !important;
+  margin-bottom: 6px !important;
+  font-size: 15px !important;
+  width: 100% !important;
+  font-weight: 400 !important;
+}
+
+.legendItem:last-child {
+  margin-bottom: 0 !important;
+}
+
+.legendDot {
+  width: 13px !important;
+  height: 13px !important;
+  border-radius: 50% !important;
+  flex-shrink: 0 !important;
+}
+
+.legendText {
+  color: #050e21 !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+}
+
+.legendDotGreen {
+  background-color: #649f21 !important;
+}
+
+.legendDotOrange {
+  background-color: #f5770b !important;
+}
+
+.legendDotRed {
+  background-color: #fc0003 !important;
+}
+
+/* ===== content section ===== */
+.contentSection {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  background-color: #f5f5f5 !important;
+  width: 657px !important;
+  height: 928px !important;
+  border-radius: 16px !important;
+  padding: 24px 20px 20px 20px !important;
+}
+
+.contentTitle {
+  font-size: 21px !important;
+  font-weight: 700 !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+  color: #050e21 !important;
+  margin: 0 0 0 30px !important;
+}
+
+.contentSectionContent {
+  border: 1px solid #707070 !important;
+  margin: 40px 0px 15px 0px !important;
+  width: 549px !important;
+  height: 816px !important;
+}
+
+/* ===== spam score section ===== */
+.spamScoreSection {
+  background-color: #f5f5f5 !important;
+  width: 100% !important;
+  max-width: 675px !important;
+  height: 126px !important;
+  border-radius: 16px !important;
+  padding: 26px 24px 0px 30px !important;
+  position: relative !important;
+}
+
+.scoreGrid {
+  display: grid !important;
+  grid-template-columns: 1fr 3fr !important;
+  gap: 8px !important;
+  margin-top: 20px !important;
+}
+
+.scoreItem {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.scoreText {
+  font-size: 12px !important;
+  font-weight: 400 !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+  color: #211e1be5 !important;
+  opacity: 0.9 !important;
+}
+
+.infoIcon {
+  position: absolute !important;
+  top: 6px !important;
+  right: 0px !important;
+  width: 44px !important;
+  height: 44px !important;
+}
+
+.infoIcon:hover {
+  cursor: pointer;
+}
+
+.spamInfoIcon {
+  position: absolute !important;
+  top: 6px !important;
+  right: 0px !important;
+  width: 44px !important;
+  height: 44px !important;
+}
+
+.spamInfoIcon:hover {
+  cursor: pointer;
+}
+
+.spamTooltip {
+  position: absolute !important;
+  top: 65px !important;
+  right: -130px !important;
+  background-color: white !important;
+  border: 1px solid #333 !important;
+  border-radius: 8px !important;
+  padding: 0px 0px 0px 24px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+  z-index: 1000 !important;
+  width: 185px !important;
+  height: 123px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: flex-start !important;
+}
+
+.legendIcon {
+  width: 13px !important;
+  height: 13px !important;
+  flex-shrink: 0 !important;
+}
+
+/* ===== recommendations section ===== */
+.recommendationsSection {
+  background-color: #f5f5f5 !important;
+  width: 100% !important;
+  max-width: 675px !important;
+  height: 397px !important;
+  padding: 26px 24px 0px 30px !important;
+  text-align: left !important;
+  border-radius: 16px !important;
+}
+
+.recommendationText {
+  font-weight: 400 !important;
+  font-size: 12px !important;
+  color: #211e1be5 !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+  line-height: 1.7 !important;
+  margin-top: 20px !important;
+}
+
+.secondBox {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+/* ===== subrscriber insights section ===== */
+
+.subscriberInsightsBox {
+  background-color: #f5f5f5;
+  height: 77px !important;
+  border-radius: 16px !important;
+  display: flex !important;
+  align-items: center !important;
+  padding: 0 30px !important;
+  justify-content: space-between !important;
+}
+
+.titleContainer {
+  display: flex !important;
+  align-items: center !important;
+}
+
+.infoIconHeader {
+  width: 19px !important;
+  height: 19px !important;
+  margin-left: 19px !important;
+}
+
+.includeBox {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+}
+
+.includeText {
+  font-weight: 400 !important;
+  font-size: 21px !important;
+  color: #050e21 !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+}
+
+/* ===== switch ===== */
+
+.antSwitch {
+  width: 41px !important;
+  height: 21px !important;
+  padding: 0 !important;
+}
+
+.antSwitch :global(.MuiSwitch-switchBase) {
+  padding: 2px !important;
+}
+
+.antSwitch :global(.MuiSwitch-switchBase.Mui-checked) {
+  transform: translateX(20px) !important;
+  color: #fff !important;
+}
+
+.antSwitch :global(.MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track) {
+  opacity: 1 !important;
+  background-color: #050e21 !important;
+}
+
+.antSwitch :global(.MuiSwitch-thumb) {
+  box-shadow: 0 2px 4px 0 rgb(0 35 11 / 20%) !important;
+  width: 17px !important;
+  height: 17px !important;
+  border-radius: 8.5px !important;
+  background-color: #050e21 !important;
+  transition: all 200ms !important;
+}
+
+.antSwitch :global(.MuiSwitch-track) {
+  border-radius: 10.5px !important;
+  opacity: 1 !important;
+  background-color: transparent !important;
+  border: 1px solid #050e21 !important;
+  box-sizing: border-box !important;
+}
+
+.antSwitch :global(.MuiSwitch-switchBase.Mui-checked .MuiSwitch-thumb) {
+  background-color: #ffffff !important;
+}
+
+.antSwitch:active :global(.MuiSwitch-thumb) {
+  width: 17px !important;
+}
+
+.antSwitch:active :global(.MuiSwitch-switchBase.Mui-checked) {
+  transform: translateX(18px) !important;
+}
+
+.chevronRight {
+  font-size: 24px !important;
+  color: #050e21 !important;
+  margin-left: 4px !important;
+  transition: "transform 0.2 ease" !important;
+}
+
+.chevronRight:hover {
+  cursor: pointer;
+}
+
+.modalBox {
+  background-color: #f5f5f5 !important;
+  width: 657px !important;
+  height: 291px !important;
+  border-radius: 16px !important;
+  padding: 30px 30px 20px 40px !important;
+}
+
+.modalTitle {
+  font-weight: 700 !important;
+  font-size: 20px !important;
+  color: #050e21 !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+  text-align: left;
+  margin-bottom: 10px !important;
+}
+
+.modalDescription {
+  font-weight: 300 !important;
+  font-size: 20px !important;
+  color: #050e21 !important;
+  opacity: 0.9 !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+  text-align: left;
+}
+
+.pdfButton {
+  all: unset !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 181px !important;
+  height: 47px !important;
+  background-color: #050e21 !important;
+  border-radius: 50px !important;
+  cursor: pointer !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  color: white !important;
+  text-transform: uppercase !important;
+}
+
+.inputContainer {
+  display: flex !important;
+  gap: 10px !important;
+  margin: 20px 0 !important;
+  align-items: center !important;
+}
+
+.linkInput {
+  width: 353px !important;
+  height: 45px !important;
+  padding: 12px 16px !important;
+  border: 1px solid #050e21e5 !important;
+  border-radius: 8px !important;
+  font-size: 15px !important;
+  font-weight: 400 !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+  background-color: white !important;
+  color: #050e21 !important;
+  opacity: 0.9 !important;
+}
+
+.copyBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  position: relative !important;
+  padding-left: 6px;
+}
+
+.copyIcon {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.copyText {
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+  font-weight: 400 !important;
+  font-size: 18px !important;
+  color: #050e21 !important;
+}

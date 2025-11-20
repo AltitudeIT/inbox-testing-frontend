@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import styles from "./SubscriberBreakdown.module.css";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import SubscriberBreakdown from "../../components/SubscriberBreakdown/SubscriberBreakdown";
@@ -6,6 +6,7 @@ import UploadSubscriberModal from "../../components/SubscriberBreakdown/UploadSu
 
 const SubscriberBreakdownPage: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const subscriberBreakdownRef = useRef<{ refreshList: () => void }>(null);
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -13,6 +14,10 @@ const SubscriberBreakdownPage: React.FC = () => {
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
+  };
+
+  const handleUploadSuccess = () => {
+    subscriberBreakdownRef.current?.refreshList();
   };
 
   return (
@@ -23,8 +28,12 @@ const SubscriberBreakdownPage: React.FC = () => {
           Upload subscriber list
         </button>
       </div>
-      <SubscriberBreakdown />
-      <UploadSubscriberModal open={isModalOpen} onClose={handleCloseModal} />
+      <SubscriberBreakdown ref={subscriberBreakdownRef} />
+      <UploadSubscriberModal
+        open={isModalOpen}
+        onClose={handleCloseModal}
+        onSuccess={handleUploadSuccess}
+      />
     </div>
   );
 };

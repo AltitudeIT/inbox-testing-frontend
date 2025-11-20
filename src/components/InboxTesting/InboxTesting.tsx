@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   IconButton,
   InputAdornment,
   Menu,
@@ -14,27 +15,52 @@ import {
   Typography,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import { useState, type MouseEvent } from "react";
+import { useEffect, useState, type MouseEvent } from "react";
 import ProgressBar from "../ProgressBar/ProgressBar";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import styles from "./InboxTesting.module.css";
+import { useNavigate } from "react-router";
+import { GetAllTests } from "../../services/InboxTesting/InboxTesting";
+import type {
+  InboxTestingResponse,
+  Pagination,
+} from "../../models/InboxTestingModels";
+import { isAxiosError } from "axios";
+import { toast } from "react-toastify";
+import { CircularProgress } from "@mui/material";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 
 const InboxTesting = () => {
   const [periodAnchorEl, setPeriodAnchorEl] = useState<HTMLElement | null>(
     null
   );
-  const [domainAnchorEl, setDomainAnchorEl] = useState<HTMLElement | null>(
-    null
-  );
   const periodOpen = Boolean(periodAnchorEl);
-  const domainOpen = Boolean(domainAnchorEl);
-  const [selectedDomain, setSelectedDomain] = useState("All domains");
-  const [selectedPeriod, setSelectedPeriod] = useState("Custom");
-  const [selectedDomains, setSelectedDomains] = useState<string[]>([]);
+  const [selectedPeriod, setSelectedPeriod] = useState("All time");
   const [actionMenuAnchorEl, setActionMenuAnchorEl] =
     useState<HTMLElement | null>(null);
 
   const actionMenuOpen = Boolean(actionMenuAnchorEl);
+
+  const [tests, setTests] = useState<InboxTestingResponse[]>();
+  const [selectedTest, setSelectedTest] = useState<InboxTestingResponse | null>(
+    null
+  );
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageLimit] = useState(25);
+  const [pagination, setPagination] = useState<Pagination | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [dateRange, setDateRange] = useState<{
+    startDate: Date | null;
+    endDate: Date | null;
+  }>({
+    startDate: null,
+    endDate: null,
+  });
+  const [hasSearched, setHasSearched] = useState(false);
+
+  const navigate = useNavigate();
 
   const menuItems = [
     "Last 7 days",
@@ -46,18 +72,59 @@ const InboxTesting = () => {
     "Custom",
   ];
 
-  const domainItems = [
-    "All domains",
-    "diesisteinnemusterseite1.de",
-    "diesisteinnemusterseite2.de",
-    "diesisteinnemusterseite3.de",
-    "diesisteinnemusterseite4.de",
-    "diesisteinnemusterseite5.de",
-    "diesisteinnemusterseite6.de",
-  ];
+  const calculateDateRange = (period: any) => {
+    const now = new Date();
+    const startOfDay = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate()
+    );
 
-  const handleActionMenuClick = (event: MouseEvent<HTMLElement>) => {
+    switch (period) {
+      case "Last 7 days":
+        return {
+          startDate: new Date(startOfDay.getTime() - 7 * 24 * 60 * 60 * 1000),
+          endDate: now,
+        };
+      case "Last 60 days":
+        return {
+          startDate: new Date(startOfDay.getTime() - 60 * 24 * 60 * 60 * 1000),
+          endDate: now,
+        };
+      case "Last 90 days":
+        return {
+          startDate: new Date(startOfDay.getTime() - 90 * 24 * 60 * 60 * 1000),
+          endDate: now,
+        };
+      case "This year":
+        return {
+          startDate: new Date(now.getFullYear(), 0, 1),
+          endDate: now,
+        };
+      case "Last year":
+        return {
+          startDate: new Date(now.getFullYear() - 1, 0, 1),
+          endDate: new Date(now.getFullYear() - 1, 11, 31, 23, 59, 59),
+        };
+      case "All time":
+        return {
+          startDate: null,
+          endDate: null,
+        };
+      default:
+        return {
+          startDate: null,
+          endDate: null,
+        };
+    }
+  };
+
+  const handleActionMenuClick = (
+    event: MouseEvent<HTMLElement>,
+    test: InboxTestingResponse
+  ) => {
     event.stopPropagation();
+    setSelectedTest(test);
     setActionMenuAnchorEl(event.currentTarget);
   };
 
@@ -66,6 +133,9 @@ const InboxTesting = () => {
   };
 
   const handleViewClick = () => {
+    if (selectedTest) {
+      navigate(`/inbox-testing/details/${selectedTest.test_id}`);
+    }
     handleActionMenuClose();
   };
 
@@ -85,74 +155,100 @@ const InboxTesting = () => {
     setPeriodAnchorEl(null);
   };
 
-  const handlePeriodSelect = (period: string) => {
+  const handlePeriodSelect = (period: any) => {
     setSelectedPeriod(period);
+    const newDateRange = calculateDateRange(period);
+    setDateRange(newDateRange);
+    setCurrentPage(1);
+
     if (document.activeElement) {
       (document.activeElement as HTMLElement).blur();
     }
     handlePeriodClose();
   };
 
-  const handleDomainClick = (event: MouseEvent<HTMLElement>) => {
-    if (domainOpen) {
-      setDomainAnchorEl(null);
-    } else {
-      setDomainAnchorEl(event.currentTarget);
+  useEffect(() => {
+    fetchTests(
+      currentPage,
+      pageLimit,
+      searchQuery,
+      dateRange.startDate,
+      dateRange.endDate
+    );
+  }, [currentPage, dateRange]);
+
+  useEffect(() => {
+    if (!hasSearched) return;
+
+    const timeoutId = setTimeout(() => {
+      setCurrentPage(1);
+      fetchTests(
+        1,
+        pageLimit,
+        searchQuery,
+        dateRange.startDate,
+        dateRange.endDate
+      );
+    }, 500);
+
+    return () => clearTimeout(timeoutId);
+  }, [searchQuery]);
+
+  useEffect(() => {
+    setHasSearched(true);
+  }, []);
+
+  const fetchTests = async (
+    page = 1,
+    limit = 25,
+    search = "",
+    startDate: Date | null = null,
+    endDate: Date | null = null
+  ) => {
+    try {
+      setIsLoading(true);
+      const response = await GetAllTests(
+        page,
+        limit,
+        search,
+        startDate,
+        endDate
+      );
+      setTests(response.data.results);
+      setPagination(response.data.pagination);
+    } catch (error) {
+      if (isAxiosError(error)) {
+        if (error.response?.status) {
+          toast.error(error.response?.data?.message);
+        } else {
+          toast.error("Unexpected error occurred");
+        }
+      }
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const handleDomainClose = () => {
-    setDomainAnchorEl(null);
+  const handlePreviousPage = () => {
+    if (pagination?.hasPrev && !isLoading) {
+      const newPage = currentPage - 1;
+      setCurrentPage(newPage);
+      fetchTests(newPage, pageLimit);
+    }
   };
 
-  const handleDomainCheckboxChange = (domain: string) => {
-    if (domain === "All domains") {
-      if (selectedDomains.includes("All domains")) {
-        setSelectedDomains([]);
-        setSelectedDomain("All domains");
-      } else {
-        setSelectedDomains(domainItems);
-        setSelectedDomain("All domains");
-      }
-    } else {
-      let newSelectedDomains: string[];
+  const handleNextPage = () => {
+    if (pagination?.hasNext && !isLoading) {
+      const newPage = currentPage + 1;
+      setCurrentPage(newPage);
+      fetchTests(newPage, pageLimit);
+    }
+  };
 
-      if (selectedDomains.includes(domain)) {
-        newSelectedDomains = selectedDomains.filter(
-          (d) => d !== domain && d !== "All domains"
-        );
-      } else {
-        newSelectedDomains = [
-          ...selectedDomains.filter((d) => d !== "All domains"),
-          domain,
-        ];
-      }
-
-      const individualDomains = domainItems.filter(
-        (item) => item !== "All domains"
-      );
-      const allIndividualSelected = individualDomains.every((item) =>
-        newSelectedDomains.includes(item)
-      );
-
-      if (
-        allIndividualSelected &&
-        newSelectedDomains.length === individualDomains.length
-      ) {
-        newSelectedDomains = ["All domains", ...newSelectedDomains];
-      }
-
-      setSelectedDomains(newSelectedDomains);
-
-      if (newSelectedDomains.length === 0) {
-        setSelectedDomain("All domains");
-      } else if (newSelectedDomains.includes("All domains")) {
-        setSelectedDomain("All domains");
-      } else if (newSelectedDomains.length === 1) {
-        setSelectedDomain(newSelectedDomains[0]);
-      } else {
-        setSelectedDomain(`${newSelectedDomains.length} domains selected`);
-      }
+  const handlePageClick = (pageNumber: number) => {
+    if (pageNumber !== currentPage && !isLoading) {
+      setCurrentPage(pageNumber);
+      fetchTests(pageNumber, pageLimit);
     }
   };
 
@@ -166,6 +262,8 @@ const InboxTesting = () => {
             variant="outlined"
             size="small"
             className={styles.searchTestInput}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
             slotProps={{
               input: {
                 startAdornment: (
@@ -214,57 +312,30 @@ const InboxTesting = () => {
             </MenuItem>
           ))}
         </Menu>
-        <Box className={styles.verticalDivider} />
 
-        <Box className={styles.domainBox}>
-          <Typography className={styles.headerTitle}>Domain</Typography>
-          <Box className={styles.domainSelectBox} onClick={handleDomainClick}>
-            <Typography className={styles.headerSelectedText}>
-              {selectedDomain}
-            </Typography>
-            <Box className={styles.arrow} />
-          </Box>
-        </Box>
-
-        <Menu
-          anchorEl={domainAnchorEl}
-          open={domainOpen}
-          onClose={handleDomainClose}
-          disableAutoFocus
-          disableEnforceFocus
-          disableRestoreFocus
-          className={styles.domainDropdownMenu}
-        >
-          <div className={styles.noOption} />
-
-          {domainItems.map((item, index) => (
-            <MenuItem
-              key={index}
-              onClick={(e) => {
-                e.preventDefault();
-                handleDomainCheckboxChange(item);
-              }}
-              className={styles.checkboxMenuItem}
-            >
-              <Box
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleDomainCheckboxChange(item);
-                }}
-                className={`${styles.customCheckbox} ${
-                  selectedDomains.includes(item)
-                    ? styles.customCheckboxChecked
-                    : styles.customCheckboxUnchecked
-                }`}
-              >
-                {selectedDomains.includes(item) && (
-                  <Box className={styles.checkmark} />
-                )}
+        {selectedPeriod === "Custom" && (
+          <>
+            <Box className={styles.verticalDivider} />
+            <Box className={styles.domainBox}>
+              <Typography className={styles.headerTitle}>
+                Custom Time
+              </Typography>
+              <Box className={styles.customBox}>
+                <Box className={styles.timeBox}>
+                  <Typography className={styles.headerSelectedText}>
+                    Start Date
+                  </Typography>
+                </Box>
+                <Typography>-</Typography>
+                <Box className={styles.timeBox}>
+                  <Typography className={styles.headerSelectedText}>
+                    End Date
+                  </Typography>
+                </Box>
               </Box>
-              <Typography className={styles.checkboxLabel}>{item}</Typography>
-            </MenuItem>
-          ))}
-        </Menu>
+            </Box>
+          </>
+        )}
       </Box>
       <TableContainer className={styles.campaignTableContainer}>
         <Table>
@@ -291,48 +362,77 @@ const InboxTesting = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {[...Array(25)].map((_, index) => (
-              <TableRow key={index} className={styles.campaignTableRow}>
+            {isLoading ? (
+              <TableRow>
                 <TableCell
-                  component="th"
-                  scope="row"
-                  className={styles.campaignCellWithPadding}
+                  colSpan={6}
+                  align="center"
+                  style={{ padding: "40px" }}
                 >
-                  <Box className={styles.campaignInfoColumn}>
-                    <Typography className={styles.campaignSubjectLine}>
-                      Hier steht die Subjectline lorem ipsum
-                    </Typography>
-                    <Typography className={styles.campaignDateTime}>
-                      March, 13th, 2024 4:57pm
-                    </Typography>
-                    <Typography className={styles.campaignDomain}>
-                      Talesandtails.de
-                    </Typography>
-                  </Box>
-                </TableCell>
-                <TableCell align="left">
-                  <ProgressBar inbox={88} spam={6} blocked={6} />
-                </TableCell>
-                <TableCell className={styles.inboxPercentage} align="left">
-                  88%
-                </TableCell>
-                <TableCell className={styles.spamPercentage} align="left">
-                  6%
-                </TableCell>
-                <TableCell className={styles.blockedPercentage} align="left">
-                  6%
-                </TableCell>
-                <TableCell>
-                  <IconButton
-                    size="small"
-                    onClick={(e) => handleActionMenuClick(e)}
-                    className={styles.actionMenuButton}
-                  >
-                    <MoreVertIcon />
-                  </IconButton>
+                  <CircularProgress size={40} />
                 </TableCell>
               </TableRow>
-            ))}
+            ) : tests && tests.length > 0 ? (
+              tests.map((test, index) => (
+                <TableRow key={index} className={styles.campaignTableRow}>
+                  <TableCell
+                    component="th"
+                    scope="row"
+                    className={styles.campaignCellWithPadding}
+                  >
+                    <Box className={styles.campaignInfoColumn}>
+                      <Typography
+                        className={styles.campaignSubjectLine}
+                        onClick={() =>
+                          navigate(`/inbox-testing/details/${test.test_id}`)
+                        }
+                      >
+                        {test.subject}
+                      </Typography>
+                      <Typography className={styles.campaignDateTime}>
+                        {test.created
+                          ? new Date(test.created).toLocaleString()
+                          : "Date not available"}
+                      </Typography>
+                      <Typography className={styles.campaignDomain}>
+                        {test.domain}
+                      </Typography>
+                    </Box>
+                  </TableCell>
+                  <TableCell align="left">
+                    <ProgressBar
+                      inbox={test.inbox}
+                      spam={test.spam}
+                      blocked={test.blocked}
+                    />
+                  </TableCell>
+                  <TableCell className={styles.inboxPercentage} align="left">
+                    {test.inbox}%
+                  </TableCell>
+                  <TableCell className={styles.spamPercentage} align="left">
+                    {test.spam}%
+                  </TableCell>
+                  <TableCell className={styles.blockedPercentage} align="left">
+                    {test.blocked}%
+                  </TableCell>
+                  <TableCell>
+                    <IconButton
+                      size="small"
+                      onClick={(e) => handleActionMenuClick(e, test)}
+                      className={styles.actionMenuButton}
+                    >
+                      <MoreVertIcon />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={6} align="center">
+                  <Typography>No tests available</Typography>
+                </TableCell>
+              </TableRow>
+            )}
           </TableBody>
           <Menu
             anchorEl={actionMenuAnchorEl}
@@ -363,12 +463,67 @@ const InboxTesting = () => {
           </Menu>
         </Table>
       </TableContainer>
+
       <Box className={styles.tablePagination}>
-        <Typography
-          className={styles.paginationText}
-          variant="body2"
-        >{`1-25 of 50`}</Typography>
-        <p className={styles.rightText}>ssssss</p>
+        <Typography className={styles.paginationText} variant="body2">
+          {pagination
+            ? pagination.total === 0
+              ? "0-0 of 0"
+              : `${
+                  (pagination.currentPage - 1) * pagination.perPage + 1
+                }-${Math.min(
+                  pagination.currentPage * pagination.perPage,
+                  pagination.total
+                )} of ${pagination.total}`
+            : "0-0 of 0"}
+        </Typography>
+
+        <Box className={styles.paginationControls}>
+          <Button
+            className={styles.paginationButton}
+            disabled={!pagination?.hasPrev || isLoading}
+            onClick={handlePreviousPage}
+            startIcon={<ChevronLeftIcon />}
+          >
+            Prev
+          </Button>
+
+          <Box className={styles.pageNumbers}>
+            {pagination && pagination.currentPage > 1 && (
+              <Typography
+                className={styles.pageNumber}
+                onClick={() => handlePageClick(pagination.currentPage - 1)}
+              >
+                {pagination.currentPage - 1}
+              </Typography>
+            )}
+
+            <Typography
+              className={`${styles.pageNumber} ${styles.currentPage}`}
+              onClick={() => handlePageClick(pagination?.currentPage || 1)}
+            >
+              {pagination?.currentPage || 1}
+            </Typography>
+
+            {pagination && pagination.currentPage < pagination.totalPages && (
+              <Typography
+                className={styles.pageNumber}
+                onClick={() => handlePageClick(pagination.currentPage + 1)}
+              >
+                {pagination.currentPage + 1}
+              </Typography>
+            )}
+          </Box>
+
+          <Button
+            className={styles.paginationButton}
+            disabled={!pagination?.hasNext || isLoading}
+            onClick={handleNextPage}
+            endIcon={<ChevronRightIcon />}
+          >
+            Next
+          </Button>
+        </Box>
       </Box>
     </Box>
   );

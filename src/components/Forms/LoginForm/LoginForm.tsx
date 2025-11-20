@@ -52,7 +52,7 @@ const LoginForm = () => {
       })
       .catch((error: AxiosError) => {
         if (isAxiosError(error)) {
-          if (error.response?.status === 401) {
+          if (error.response?.status) {
             // @ts-ignore
             toast.error(error.response?.data?.message);
           } else {

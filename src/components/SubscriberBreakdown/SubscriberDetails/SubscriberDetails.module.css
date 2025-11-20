@@ -120,10 +120,6 @@
   border: 0 !important;
 }
 
-.searchIconButton {
-  color: #050e21 !important;
-}
-
 .tablePagination {
   display: flex !important;
   justify-content: space-between !important;
@@ -135,157 +131,57 @@
   font-weight: 300 !important;
   font-size: 15px !important;
   opacity: 0.7 !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
 }
 
-.rightText {
-  opacity: 0.7 !important;
+.paginationControls {
+  display: flex !important;
+  align-items: center !important;
+  gap: 16px !important;
+}
+
+.paginationButton {
+  background: transparent !important;
+  border: none !important;
+  color: #050e21 !important;
+  font-size: 15px !important;
+  font-weight: 300 !important;
+  text-transform: none !important;
+  min-width: auto !important;
+  box-shadow: none !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+}
+
+.paginationButton:disabled {
+  color: #ccc !important;
+}
+
+.pageNumbers {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.pageNumber {
+  font-size: 15px !important;
+  font-weight: 300 !important;
+  color: #050e21 !important;
+  padding: 4px 10px !important;
+  border-radius: 50% !important;
+  cursor: pointer;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.currentPage {
+  background-color: rgba(5, 14, 33, 0.2) !important;
+  color: #050e21 !important;
+  font-weight: 500 !important;
 }
 
 .divider {
   margin: 20px 60px 20px 0px !important;
   border-color: #707070 !important;
   opacity: 0.4 !important;
-}
-
-/* ===== list binding section ===== */
-
-.bindingBox {
-  padding-left: 16px !important;
-}
-
-.bindingTitle {
-  font-weight: 700 !important;
-  font-size: 25px !important;
-  color: #050e21 !important;
-  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
-}
-
-.instructionText {
-  font-weight: 300 !important;
-  font-size: 15px !important;
-  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
-  margin-top: 8px !important;
-}
-
-.domainText {
-  font-weight: 300 !important;
-  font-size: 15px !important;
-  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
-  opacity: 0.8 !important;
-  margin-top: 16px !important;
-  margin-bottom: 8px !important;
-}
-
-.domainBox {
-  display: flex !important;
-  gap: 32px !important;
-}
-
-.domainMenuBox {
-  background-color: #f5f5f5 !important;
-  width: 342px !important;
-  height: 38px !important;
-  border-radius: 50px !important;
-  border: none !important;
-  padding: 12px 20px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  cursor: pointer !important;
-}
-
-.domainMenuBox:hover {
-  background-color: #eeeeee !important;
-}
-
-.selectedDomain {
-  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
-  font-size: 15px !important;
-  font-weight: 400 !important;
-  color: #211e1be5 !important;
-}
-
-.arrow {
-  width: 0 !important;
-  height: 0 !important;
-  border-left: 6px solid transparent !important;
-  border-right: 6px solid transparent !important;
-  border-top: 6px solid #666 !important;
-  transform: rotate(270deg) !important;
-}
-
-.dropdownMenu :global(.MuiPaper-root) {
-  min-width: 342px !important;
-  border-radius: 0 0 18px 18px !important;
-  border: 1px solid #050e21 !important;
-  border-top: none !important;
-}
-
-.menuItem {
-  font-size: 15px !important;
-  font-weight: 400 !important;
-  color: #211e1be5 !important;
-}
-
-.menuItem:hover {
-  background-color: #f5f5f5 !important;
-}
-
-.addDomainButton {
-  width: 177px !important;
-  height: 47px !important;
-  background-color: #050e21 !important;
-  color: #ffffff !important;
-  font-size: 15px !important;
-  font-weight: 700 !important;
-  border-radius: 50px !important;
-  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
-}
-
-.topSpacing {
-  margin-top: 24px !important;
-}
-
-.bindedListTitle {
-  margin-top: 24px !important;
-  font-weight: 700 !important;
-  font-size: 18px !important;
-  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
-}
-
-.domainListBox {
-  width: 1155px !important;
-  margin-top: 32px !important;
-  margin-bottom: 112px !important;
-}
-
-.domainTableContainer {
-  border-radius: 15px !important;
-}
-
-.domainTableHead {
-  background-color: #050e21 !important;
-}
-
-.domainHeaderCell {
-  padding-left: 24px !important;
-}
-
-.domainTableRow {
-  background-color: #f5f5f5 !important;
-}
-
-.domainTableRow:last-child td,
-.domainTableRow:last-child th {
-  border: 0 !important;
-}
-
-.removeText {
-  color: #fc0003 !important;
-  margin-right: 24px !important;
-  font-weight: 400 !important;
-  font-size: 18px !important;
-  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
-  cursor: pointer !important;
-  padding: 8px !important;
 }

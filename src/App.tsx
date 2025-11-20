@@ -9,6 +9,12 @@ import DashboardPage from "./pages/Dashboard/DashboardPage";
 import TestgroupPage from "./pages/TestgroupPage/TestgroupPage";
 import InboxTestingPage from "./pages/InboxTesting/InboxTesting";
 import SubscriberBreakdownPage from "./pages/SubscriberBreakdown/SubscriberBreakdown";
+import InboxTestingDetailsPage from "./pages/InboxTesting/InboxTestingDetails/InboxTestingDetailsPage";
+import ProfileLayout from "./components/Layout/ProfileLayout/ProfileLayout";
+import IntegrationsPage from "./pages/ProfileDetails/Integrations/IntegrationsPage";
+import DomainAndIpPage from "./pages/ProfileDetails/DomainAndIp/DomainAndIpPage";
+import AddIntegrationPage from "./pages/ProfileDetails/AddIntegration/AddIntegrationPage";
+import KlaviyoPage from "./pages/ProfileDetails/AddIntegration/KlaviyoPage";
 
 function App() {
   configureAxiosRequestInterceptors();
@@ -28,6 +34,19 @@ function App() {
               path="/subscriber-breakdown"
               element={<SubscriberBreakdownPage />}
             />
+            <Route
+              path="/inbox-testing/details/:testId"
+              element={<InboxTestingDetailsPage />}
+            />
+            <Route element={<ProfileLayout />}>
+              <Route path="/integrations" element={<IntegrationsPage />} />
+              <Route path="/add-integration" element={<AddIntegrationPage />} />
+              <Route
+                path="/add-integration/klaviyo"
+                element={<KlaviyoPage />}
+              />
+              <Route path="/domain-ip" element={<DomainAndIpPage />} />
+            </Route>
           </Route>
         </Routes>
       </BrowserRouter>

@@ -1,0 +1,23 @@
+.rootBox {
+  background-color: #f5f5f5;
+  display: flex !important;
+  flex-direction: column;
+  min-height: 736px !important;
+  border-radius: 0 0 16px 16px;
+  margin-top: -40px;
+  gap: 30px !important;
+  padding: 20px 30px !important;
+}
+
+.testBox {
+  display: flex;
+  gap: 100px;
+}
+
+.chartTitle {
+  font-size: 21px !important;
+  font-weight: 400 !important;
+  color: #050e21 !important;
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif !important;
+  text-align: left;
+}

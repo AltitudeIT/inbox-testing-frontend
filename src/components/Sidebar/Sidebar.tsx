@@ -1,11 +1,17 @@
 import { useEffect, useState } from "react";
 import styles from "./Sidebar.module.css";
-import { NavLink, useLocation } from "react-router";
+import { NavLink, useLocation, useNavigate } from "react-router";
+import { isAxiosError } from "axios";
+import { toast } from "react-toastify";
+import { GetCurrentUser } from "../../services/User/UserService";
+import type { UserProfileApiResponse } from "../../models/UserModels";
 
 const Sidebar = () => {
   const [selectedMenuItem, setSelectedMenuItem] = useState("");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [currentUser, setCurrentUser] = useState<UserProfileApiResponse>();
   const location = useLocation();
+  const navigate = useNavigate();
 
   function getCurrentPageFromPath(pathname: string): string {
     if (pathname.includes("/dashboard")) return "dashboard";
@@ -13,6 +19,7 @@ const Sidebar = () => {
     if (pathname.includes("/test-group")) return "test-group";
     if (pathname.includes("/subscriber-breakdown"))
       return "subscriber-breakdown";
+
     return "";
   }
 
@@ -21,8 +28,13 @@ const Sidebar = () => {
     setSelectedMenuItem(currentPage);
   }, [location.pathname]);
 
+  useEffect(() => {
+    getCurrentUser();
+  }, []);
+
   const handleOnMenuItemPress = (clickedItem: string) => {
     setSelectedMenuItem(clickedItem);
+    setIsMenuOpen(false);
     if (clickedItem === "logout") {
       handleLogout();
     }
@@ -36,28 +48,43 @@ const Sidebar = () => {
   const getLinkDestination = (itemName: string) => {
     switch (itemName) {
       case "inbox-testing":
-        return `inbox-testing`;
+        return "inbox-testing";
       case "test-group":
-        return `test-group`;
+        return "test-group";
       case "subscriber-breakdown":
-        return `subscriber-breakdown`;
-
+        return "subscriber-breakdown";
+      case "integrations":
+        return "integrations";
+      case "domain-ip":
+        return "domain-ip";
       default:
         return itemName;
     }
   };
 
-  const currentUser = {
-    name: "Mailody",
-    email: "thomas@mailody.de",
-    avatar: "",
+  const getCurrentUser = async () => {
+    try {
+      const response = await GetCurrentUser();
+      setCurrentUser(response.data);
+    } catch (error) {
+      if (isAxiosError(error)) {
+        if (error.response?.status) {
+          toast.error(error.response?.data?.message);
+        } else {
+          toast.error("Unexpected error occurred");
+        }
+      }
+    }
   };
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const handleLogout = () => {};
+  const handleLogout = () => {
+    sessionStorage.removeItem("token");
+    navigate("/");
+  };
 
   return (
     <aside className={styles.rootDiv}>
@@ -146,14 +173,26 @@ const Sidebar = () => {
           >
             <img
               className={styles.avatar}
-              src={currentUser.avatar || "/default-avatar.png"}
+              src={
+                selectedMenuItem === "profile"
+                  ? "/default-avatar-dark.png"
+                  : "/default-avatar.png"
+              }
             />
             <div className={styles.profileInfo}>
-              <p className={styles.profileName}>{currentUser.name}</p>
-              <p className={styles.profileEmail}>{currentUser.email}</p>
+              <p className={styles.profileName}>
+                {`${currentUser?.first_name} ${currentUser?.last_name}`}
+              </p>
+              <p className={styles.profileEmail}>{currentUser?.email}</p>
             </div>
 
-            <img src="/arrows-logo.png" />
+            <img
+              src={
+                selectedMenuItem === "profile"
+                  ? "/arrows-logo-dark.png"
+                  : "/arrows-logo.png"
+              }
+            />
           </div>
 
           {isMenuOpen && (
@@ -163,47 +202,22 @@ const Sidebar = () => {
                   <img src="/profilemenu-logo.png" />
                 </div>
                 <div className={styles.profileHeaderInfo}>
-                  <p className={styles.profileHeaderName}>{currentUser.name}</p>
+                  <p className={styles.profileHeaderName}>
+                    {`${currentUser?.first_name} ${currentUser?.last_name}`}
+                  </p>
                   <p className={styles.profileHeaderEmail}>
-                    {currentUser.email}
+                    {currentUser?.email}
                   </p>
                 </div>
               </div>
               <hr />
               <NavLink
-                to={getLinkDestination("profile")}
+                to={getLinkDestination("integrations")}
                 className={styles.profileMenuItem}
-                onClick={() => handleOnMenuItemPress("profile")}
-              >
-                <img src="/personal-logo.png" />
-                <span>Personal</span>
-              </NavLink>
-
-              <NavLink
-                to={getLinkDestination("settings")}
-                className={styles.profileMenuItem}
-                onClick={() => handleOnMenuItemPress("settings")}
-              >
-                <img src="/organisation-logo.png" />
-                <span>Organisation</span>
-              </NavLink>
-
-              <NavLink
-                to={getLinkDestination("settings")}
-                className={styles.profileMenuItem}
-                onClick={() => handleOnMenuItemPress("settings")}
+                onClick={() => handleOnMenuItemPress("integrations")}
               >
                 <img src="/integration-logo.png" />
                 <span>Integrations</span>
-              </NavLink>
-
-              <NavLink
-                to={getLinkDestination("settings")}
-                className={styles.profileMenuItem}
-                onClick={() => handleOnMenuItemPress("settings")}
-              >
-                <img src="/billing-logo.png" />
-                <span>Billing</span>
               </NavLink>
               <hr />
 
