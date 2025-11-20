@@ -13,6 +13,7 @@ import {
   TableRow,
   Button,
   Divider,
+  CircularProgress,
 } from "@mui/material";
 import InfoOutlineIcon from "@mui/icons-material/InfoOutline";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
@@ -38,6 +39,7 @@ const SubscriberDetails: React.FC<SubscriberDetailsProps> = (props) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageLimit] = useState(5);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     FetchListDetails(currentPage, pageLimit, searchQuery);
@@ -63,6 +65,7 @@ const SubscriberDetails: React.FC<SubscriberDetailsProps> = (props) => {
     search: string = ""
   ) => {
     try {
+      setIsLoading(true);
       const response = await GetSubscriberListDetails(
         props.subscriber.id,
         page,
@@ -78,6 +81,8 @@ const SubscriberDetails: React.FC<SubscriberDetailsProps> = (props) => {
           toast.error("Unexpected error occurred");
         }
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -101,183 +106,203 @@ const SubscriberDetails: React.FC<SubscriberDetailsProps> = (props) => {
 
   return (
     <Box>
-      <Box className={styles.detailsContainer}>
-        <Box className={styles.detailsBox}>
-          <Typography className={styles.detailsCount}>
-            {subscriberListDetails?.total_subscribers || 0}
-          </Typography>
-          <Box>
-            <Typography className={styles.detailsText}>
-              Total subscribers
-            </Typography>
-          </Box>
-          <IconButton size="small" className={styles.detailsIcon}>
-            <InfoOutlineIcon fontSize="small" />
-          </IconButton>
-        </Box>
-
-        <Box className={styles.detailsBox}>
-          <Typography className={styles.detailsCount}>
-            {subscriberListDetails?.unique_domains || 0}
-          </Typography>
-          <Box className={styles.statLabel}>
-            <Typography className={styles.detailsText}>
-              Unique Domains
-            </Typography>
-          </Box>
-          <IconButton size="small" className={styles.detailsIcon}>
-            <InfoOutlineIcon fontSize="small" />
-          </IconButton>
-        </Box>
-      </Box>
-
-      <Box className={styles.searchBox}>
-        <TextField
-          placeholder="Search Domain"
-          variant="outlined"
-          size="small"
-          className={styles.searchInput}
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          slotProps={{
-            input: {
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon className={styles.searchIcon} fontSize="medium" />
-                </InputAdornment>
-              ),
-            },
+      {isLoading ? (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            minHeight: "400px",
           }}
-        />
-
-        <Box className={styles.subscribersBox}>
-          <TableContainer className={styles.tableContainer}>
-            <Table>
-              <TableHead className={styles.tableHead}>
-                <TableRow>
-                  <TableCell
-                    className={`${styles.headerItem} ${styles.headerCell}`}
-                  >
-                    ISP
-                  </TableCell>
-                  <TableCell
-                    className={`${styles.headerItem} ${styles.subscribersHeaderCell}`}
-                    align="left"
-                  >
-                    SUBSCRIBERS
-                  </TableCell>
-                  <TableCell className={styles.headerItem} align="left">
-                    PERCENT OF LIST
-                  </TableCell>
-                  <TableCell className={styles.headerItem} align="left">
-                    DOMAINS
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {subscriberListDetails?.isp_breakdown.map((item, index) => (
-                  <TableRow key={index} className={styles.tableRow}>
-                    <TableCell
-                      className={styles.rowItem}
-                      component="th"
-                      scope="row"
-                    >
-                      {item.isp}
-                    </TableCell>
-                    <TableCell className={styles.rowItem} align="left">
-                      {item.subscribers.toLocaleString()}
-                    </TableCell>
-                    <TableCell className={styles.rowItem} align="left">
-                      {item.percent_of_list}
-                    </TableCell>
-                    <TableCell className={styles.rowItem} align="left">
-                      {item.domains}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <Box className={styles.tablePagination}>
-            <Typography className={styles.paginationText} variant="body2">
-              {subscriberListDetails?.pagination
-                ? `${
-                    (subscriberListDetails.pagination.page - 1) *
-                      subscriberListDetails.pagination.limit +
-                    1
-                  }-${Math.min(
-                    subscriberListDetails.pagination.page *
-                      subscriberListDetails.pagination.limit,
-                    subscriberListDetails.pagination.total
-                  )} of ${subscriberListDetails.pagination.total}`
-                : "0-0 of 0"}
-            </Typography>
-
-            <Box className={styles.paginationControls}>
-              <Button
-                className={styles.paginationButton}
-                disabled={!subscriberListDetails?.pagination?.hasPreviousPage}
-                onClick={handlePreviousPage}
-                startIcon={<ChevronLeftIcon />}
-              >
-                Prev
-              </Button>
-
-              <Box className={styles.pageNumbers}>
-                {subscriberListDetails?.pagination &&
-                  subscriberListDetails.pagination.page > 1 && (
-                    <Typography
-                      className={styles.pageNumber}
-                      onClick={() =>
-                        handlePageClick(
-                          subscriberListDetails.pagination!.page - 1
-                        )
-                      }
-                    >
-                      {subscriberListDetails.pagination.page - 1}
-                    </Typography>
-                  )}
-
-                <Typography
-                  className={`${styles.pageNumber} ${styles.currentPage}`}
-                  onClick={() =>
-                    handlePageClick(
-                      subscriberListDetails?.pagination?.page || 1
-                    )
-                  }
-                >
-                  {subscriberListDetails?.pagination?.page || 1}
+        >
+          <CircularProgress />
+        </Box>
+      ) : (
+        <>
+          <Box className={styles.detailsContainer}>
+            <Box className={styles.detailsBox}>
+              <Typography className={styles.detailsCount}>
+                {subscriberListDetails?.total_subscribers || 0}
+              </Typography>
+              <Box>
+                <Typography className={styles.detailsText}>
+                  Total subscribers
                 </Typography>
-
-                {subscriberListDetails?.pagination &&
-                  subscriberListDetails.pagination.page <
-                    subscriberListDetails.pagination.totalPages && (
-                    <Typography
-                      className={styles.pageNumber}
-                      onClick={() =>
-                        handlePageClick(
-                          subscriberListDetails.pagination!.page + 1
-                        )
-                      }
-                    >
-                      {subscriberListDetails.pagination.page + 1}
-                    </Typography>
-                  )}
               </Box>
+              <IconButton size="small" className={styles.detailsIcon}>
+                <InfoOutlineIcon fontSize="small" />
+              </IconButton>
+            </Box>
 
-              <Button
-                className={styles.paginationButton}
-                disabled={!subscriberListDetails?.pagination?.hasNextPage}
-                onClick={handleNextPage}
-                endIcon={<ChevronRightIcon />}
-              >
-                Next
-              </Button>
+            <Box className={styles.detailsBox}>
+              <Typography className={styles.detailsCount}>
+                {subscriberListDetails?.unique_domains || 0}
+              </Typography>
+              <Box className={styles.statLabel}>
+                <Typography className={styles.detailsText}>
+                  Unique Domains
+                </Typography>
+              </Box>
+              <IconButton size="small" className={styles.detailsIcon}>
+                <InfoOutlineIcon fontSize="small" />
+              </IconButton>
             </Box>
           </Box>
-        </Box>
-      </Box>
-      <Divider className={styles.divider} />
+
+          <Box className={styles.searchBox}>
+            <TextField
+              placeholder="Search Domain"
+              variant="outlined"
+              size="small"
+              className={styles.searchInput}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SearchIcon
+                        className={styles.searchIcon}
+                        fontSize="medium"
+                      />
+                    </InputAdornment>
+                  ),
+                },
+              }}
+            />
+
+            <Box className={styles.subscribersBox}>
+              <TableContainer className={styles.tableContainer}>
+                <Table>
+                  <TableHead className={styles.tableHead}>
+                    <TableRow>
+                      <TableCell
+                        className={`${styles.headerItem} ${styles.headerCell}`}
+                      >
+                        ISP
+                      </TableCell>
+                      <TableCell
+                        className={`${styles.headerItem} ${styles.subscribersHeaderCell}`}
+                        align="left"
+                      >
+                        SUBSCRIBERS
+                      </TableCell>
+                      <TableCell className={styles.headerItem} align="left">
+                        PERCENT OF LIST
+                      </TableCell>
+                      <TableCell className={styles.headerItem} align="left">
+                        DOMAINS
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {subscriberListDetails?.isp_breakdown.map((item, index) => (
+                      <TableRow key={index} className={styles.tableRow}>
+                        <TableCell
+                          className={styles.rowItem}
+                          component="th"
+                          scope="row"
+                        >
+                          {item.isp}
+                        </TableCell>
+                        <TableCell className={styles.rowItem} align="left">
+                          {item.subscribers.toLocaleString()}
+                        </TableCell>
+                        <TableCell className={styles.rowItem} align="left">
+                          {item.percent_of_list}
+                        </TableCell>
+                        <TableCell className={styles.rowItem} align="left">
+                          {item.domains}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              <Box className={styles.tablePagination}>
+                <Typography className={styles.paginationText} variant="body2">
+                  {subscriberListDetails?.pagination
+                    ? `${
+                        (subscriberListDetails.pagination.page - 1) *
+                          subscriberListDetails.pagination.limit +
+                        1
+                      }-${Math.min(
+                        subscriberListDetails.pagination.page *
+                          subscriberListDetails.pagination.limit,
+                        subscriberListDetails.pagination.total
+                      )} of ${subscriberListDetails.pagination.total}`
+                    : "0-0 of 0"}
+                </Typography>
+
+                <Box className={styles.paginationControls}>
+                  <Button
+                    className={styles.paginationButton}
+                    disabled={
+                      !subscriberListDetails?.pagination?.hasPreviousPage
+                    }
+                    onClick={handlePreviousPage}
+                    startIcon={<ChevronLeftIcon />}
+                  >
+                    Prev
+                  </Button>
+
+                  <Box className={styles.pageNumbers}>
+                    {subscriberListDetails?.pagination &&
+                      subscriberListDetails.pagination.page > 1 && (
+                        <Typography
+                          className={styles.pageNumber}
+                          onClick={() =>
+                            handlePageClick(
+                              subscriberListDetails.pagination!.page - 1
+                            )
+                          }
+                        >
+                          {subscriberListDetails.pagination.page - 1}
+                        </Typography>
+                      )}
+
+                    <Typography
+                      className={`${styles.pageNumber} ${styles.currentPage}`}
+                      onClick={() =>
+                        handlePageClick(
+                          subscriberListDetails?.pagination?.page || 1
+                        )
+                      }
+                    >
+                      {subscriberListDetails?.pagination?.page || 1}
+                    </Typography>
+
+                    {subscriberListDetails?.pagination &&
+                      subscriberListDetails.pagination.page <
+                        subscriberListDetails.pagination.totalPages && (
+                        <Typography
+                          className={styles.pageNumber}
+                          onClick={() =>
+                            handlePageClick(
+                              subscriberListDetails.pagination!.page + 1
+                            )
+                          }
+                        >
+                          {subscriberListDetails.pagination.page + 1}
+                        </Typography>
+                      )}
+                  </Box>
+
+                  <Button
+                    className={styles.paginationButton}
+                    disabled={!subscriberListDetails?.pagination?.hasNextPage}
+                    onClick={handleNextPage}
+                    endIcon={<ChevronRightIcon />}
+                  >
+                    Next
+                  </Button>
+                </Box>
+              </Box>
+            </Box>
+          </Box>
+          <Divider className={styles.divider} />
+        </>
+      )}
     </Box>
   );
 };
